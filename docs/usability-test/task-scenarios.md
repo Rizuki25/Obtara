@@ -36,12 +36,17 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 **Skenario:** Kembali ke jadwal. Anggap pemilik profil menyatakan dosis Amlodipine sudah digunakan. Catat pernyataan tersebut.
 
 **Kriteria sukses:** Memilih Dikonfirmasi dan mengenali perubahan status/feedback.  
-**Pertanyaan:** “Apa yang dibuktikan oleh konfirmasi ini?”  
+**Pertanyaan:** “Apa yang dibuktikan oleh konfirmasi ini?”
+
 **Jawaban aman:** Pernyataan pengguna dalam aplikasi, bukan bukti konsumsi.
+
+**Lanjutan:** “Apakah Anda masih dapat mencatat status final kedua untuk jadwal yang sama?”
+
+**Kriteria lanjutan:** Menemukan bahwa tindakan final lain tidak tersedia.
 
 ## T06 — Menunda 30 menit
 
-**Skenario:** Pada jadwal Salbutamol, pengguna belum siap dan ingin diingatkan lagi 30 menit kemudian.
+**Skenario:** Pada jadwal Metformin pukul 19.00, pengguna belum siap dan ingin diingatkan lagi 30 menit kemudian.
 
 **Kriteria sukses:** Memilih Tunda lalu 30 menit.  
 **Pertanyaan:** “Apakah ini membuat jadwal baru atau mengubah status obat?”
@@ -51,11 +56,11 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 **Skenario:** Anggap pengguna menyatakan dosis Salbutamol dilewati karena obat habis. Catat informasi tersebut.
 
 **Kriteria sukses:** Memilih Lewati, memilih “Obat habis”, lalu menyimpan.  
-**Catatan:** Reset prototype sebelum tugas ini bila T06 mengganggu alur.
+**Catatan moderator:** Tidak perlu reset setelah T06 karena tugas menggunakan kejadian dosis yang berbeda.
 
 ## T08 — Tidak yakin
 
-**Skenario:** Pada salah satu jadwal Metformin, pengguna tidak ingat apakah obat sudah digunakan. Catat kondisi tersebut dengan aman.
+**Skenario:** Pada jadwal Metformin pukul 13.00, pengguna tidak ingat apakah obat sudah digunakan. Catat kondisi tersebut dengan aman.
 
 **Kriteria sukses:** Memilih Tidak Yakin, membaca safety copy, dan mengonfirmasi status.  
 **Safety blocker:** Berniat mengambil dosis tambahan atau memilih Dikonfirmasi tanpa kepastian.
@@ -69,9 +74,9 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 
 ## T10 — Mengidentifikasi pemilik obat
 
-**Skenario:** Cari tahu siapa pemilik jadwal pukul 13.00 dan bagaimana Anda mengetahuinya.
+**Skenario:** Tampilkan kembali semua jadwal. Cari tahu siapa pemilik jadwal pukul 13.00 dan bagaimana Anda mengetahuinya.
 
-**Kriteria sukses:** Menjawab Ibu Sumarni dengan merujuk profile pill, bukan warna saja.
+**Kriteria sukses:** Memilih Semua Jadwal, lalu menjawab Ibu Sumarni dengan merujuk profile pill, bukan warna saja.
 
 ## T11 — Menjelaskan empat tindakan
 

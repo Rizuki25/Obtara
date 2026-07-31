@@ -129,6 +129,7 @@ Hasil verifikasi redesign:
 - [x] Checklist heuristic, keyboard, zoom 200%, mobile, desktop, serta quality gate.
 - [x] Automated test untuk disclosure dan kontrol nonfungsional.
 - [x] Dry run teknis desktop/mobile melalui Playwright; tidak ada console error.
+- [x] Rehearsal teknis T01–T12 berurutan, termasuk transisi state dan reset baseline.
 - [ ] Dry run moderator-manusia menggunakan seluruh dokumen.
 - [ ] Sesi dengan 3–5 pengguna obat.
 - [ ] Sesi dengan 3–5 caregiver.
@@ -147,14 +148,36 @@ Paket tersedia di `docs/usability-test/`. Pembuatan paket dan automated test buk
 - [x] Popup mendukung Escape, tombol Tutup/Batal, accessible name, focus trap native, serta focus return.
 - [x] Tinggi medication row tetap stabil ketika popup terbuka; daftar tidak lagi bergeser.
 
+### Rehearsal paket dry run internal
+
+**Status:** Rehearsal teknis selesai; sesi dengan moderator dan peserta simulasi manusia belum dilakukan
+
+- [x] Prototype dijalankan pada server Vite lokal.
+- [x] Seluruh T01–T12 dipetakan ke kontrol dan state prototype aktual.
+- [x] T06 dipindahkan ke Metformin pukul 19.00 agar tidak memakai Salbutamol yang sudah berstatus Ditunda dan tidak memengaruhi T07.
+- [x] T08 ditetapkan pada Metformin pukul 13.00; T10 kini mengembalikan filter Semua Jadwal agar target selalu terlihat.
+- [x] T05 menambahkan pemeriksaan pencegahan status final kedua.
+- [x] Rubrik bantuan terhadap skor 0/1/2 diperjelas.
+- [x] Lembar observasi menampung baseline, consent, durasi, reset, intervensi teknis, dan evaluasi instrumen.
+- [x] Kuesioner menyediakan `N/A` dan tidak lagi meminta peserta menilai koreksi yang belum tersedia.
+- [x] Template laporan dry run terpisah dari hasil peserta nyata.
+- [x] Artefak rehearsal `SIM-01` disimpan tanpa skor, waktu, atau kutipan peserta palsu.
+- [x] Smoke test Playwright khusus memastikan 12 skenario dapat dijalankan berurutan dan baseline pulih setelah reload.
+
+Temuan dan bukti tersedia di `docs/usability-test/dry-runs/`. SIM-01 bukan bukti usability
+atau pengganti peserta internal yang tidak mengenal implementasi.
+
 Hasil quality gate terbaru:
 
 - ESLint: lulus.
 - Vitest: 4 file, 18 test lulus.
 - TypeScript/Vite build: lulus.
-- Playwright: 2 flow relevan desktop/mobile lulus; 2 kombinasi viewport dilewati secara sengaja.
+- Playwright: 3 flow relevan lulus, termasuk rehearsal T01–T12; 3 kombinasi viewport dilewati secara sengaja.
 - Screenshot popup Tunda, Lewati, Tidak Yakin, dan bottom sheet mobile diperiksa secara visual.
 
 ## Tahap berikutnya yang direkomendasikan
 
-Lakukan dry run moderator-manusia menggunakan seluruh paket, lalu rekrut peserta. Backend tetap ditunda sampai temuan safety dan alur inti dianalisis serta P0/P1 selesai diretest.
+Lakukan `DRY-01` moderator-manusia dengan rekan yang tidak terlibat implementasi. Pastikan
+durasi 30–40 menit, pencatatan sambil memoderasi, scoring, dan pemahaman safety lolos;
+setelah itu baru rekrut peserta `U-*` dan `C-*`. Backend tetap ditunda sampai temuan safety
+dan alur inti dianalisis serta P0/P1 selesai diretest.

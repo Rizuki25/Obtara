@@ -72,6 +72,16 @@ Build/commit: __________
 
 ## Hasil dry run
 
+- [ ] Dry run menggunakan rekan yang tidak terlibat langsung dalam implementasi.
+- [ ] Participant ID dry run menggunakan `DRY-*`, bukan `U-*` atau `C-*`.
+- [ ] Consent, observation sheet, questionnaire, dan laporan dry run memiliki salinan terpisah.
+- [ ] Waktu mulai, selesai, dan durasi total tercatat.
+- [ ] Semua reset/intervensi teknis tercatat.
+- [ ] T01–T12 dapat dijalankan berurutan tanpa state yang tidak disengaja.
+- [ ] Popup Tunda, Lewati, dan Tidak Yakin semuanya teruji.
+- [ ] Moderator dapat mengisi lembar observasi sambil membacakan skenario.
+- [ ] Rubrik skor 0/1/2 dapat diterapkan tanpa perdebatan.
+- [ ] Rehearsal teknis otomatis lulus; hasilnya tidak dilaporkan sebagai peserta manusia.
 - Dry run dilakukan oleh: __________
 - Dokumen yang membingungkan: __________
 - Perubahan sebelum peserta: __________

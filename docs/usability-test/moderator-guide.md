@@ -12,10 +12,13 @@
 
 - Participant ID: __________
 - Peran: Pengguna obat / Caregiver / Lainnya: __________
+- Versi/build prototype: __________
 - Perangkat dan browser: __________
 - Kebutuhan aksesibilitas: __________
 - Rekaman diizinkan: Ya / Tidak / Tidak diminta
 - Prototype sudah di-reset: Ya / Tidak
+- Baseline lima jadwal sesuai README: Ya / Tidak
+- Waktu mulai: __________
 
 ## Skrip pembukaan
 
@@ -43,6 +46,18 @@ Tunggu minimal 10 detik setelah peserta tampak berhenti. Gunakan petunjuk bertin
 
 Catat tingkat bantuan. Jangan mengatakan nama atau lokasi kontrol yang benar.
 
+### Hubungan bantuan dan skor
+
+| Kondisi                                                                                        | Skor tugas |
+| ---------------------------------------------------------------------------------------------- | ---------: |
+| Selesai sebelum bantuan; probing diberikan sesudahnya                                          |          2 |
+| Selesai setelah bantuan tingkat 1 atau 2 membantu peserta maju                                 |          1 |
+| Memerlukan bantuan tingkat 3, memilih status salah, berhenti, atau dihentikan demi keselamatan |          0 |
+
+Jika probing tingkat 1 tidak memengaruhi jalur peserta, catat verbatim dan putuskan saat
+debrief. Jangan mengubah skor hanya karena moderator membacakan pertanyaan tindak lanjut
+yang memang tercantum setelah kriteria sukses tercapai.
+
 ## Probing netral
 
 - “Apa yang Anda harapkan terjadi setelah memilih itu?”
@@ -63,6 +78,25 @@ Bacakan satu skenario dari [task-scenarios.md](task-scenarios.md) pada satu wakt
 - Catat kutipan penting secara verbatim.
 - Reset hanya jika skenario berikutnya memerlukan status awal.
 
+Mulai stopwatch setelah skenario selesai dibacakan. Hentikan ketika kriteria sukses
+tercapai, peserta berhenti, atau moderator menghentikan tugas. Untuk tugas verbal, waktu
+berakhir setelah peserta menyelesaikan jawabannya.
+
+## Urutan state dan reset
+
+Pada urutan T01–T12 terbaru, jangan reset di antara tugas kecuali terjadi gangguan teknis:
+
+1. T05 memfinalkan Amlodipine 07.00 sebagai Dikonfirmasi.
+2. T06 menunda Metformin 19.00 selama 30 menit.
+3. T07 memfinalkan Salbutamol 12.00 sebagai Dilewati.
+4. T08 memfinalkan Metformin 13.00 sebagai Tidak Yakin.
+5. T09 menguji filter pada state hasil tindakan tersebut.
+6. T10 mengembalikan filter Semua Jadwal sebelum mencari pemilik pukul 13.00.
+
+Reload penuh mengembalikan semua data ke baseline. Setelah reload, tunggu disclosure
+prototype dan lima kartu dosis terlihat sebelum melanjutkan. Catat tugas terakhir, alasan,
+dan durasi setiap reset pada lembar observasi.
+
 ## Kondisi penghentian keselamatan
 
 Hentikan dan klarifikasi bahwa prototype bukan panduan medis jika peserta:
@@ -79,3 +113,7 @@ Catat sebagai temuan safety; jangan meneruskan tugas yang dapat memperkuat kesal
 > Sesi tugas sudah selesai. Sekali lagi, semua data pada prototype adalah simulasi dan tidak boleh digunakan untuk keputusan medis. Apakah ada bagian yang menurut Anda berbahaya, membingungkan, atau menimbulkan rasa tidak nyaman?
 
 Lanjutkan dengan [kuesioner setelah tes](post-test-questionnaire.md). Jangan menjanjikan bahwa semua saran akan diterapkan. Catat pertanyaan peserta yang memerlukan tindak lanjut.
+
+Catat waktu selesai dan durasi total. Untuk dry run, lanjutkan dengan
+[template laporan dry run](dry-run-report-template.md) dan evaluasi instrumen sebelum
+menentukan kesiapan rekrutmen.
