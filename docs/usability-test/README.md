@@ -5,23 +5,26 @@ Versi prototype: Tahap 1 — dashboard Hari Ini dengan data simulasi
 
 ## Tujuan
 
-Paket ini membantu tim menilai apakah pengguna obat dan caregiver dapat:
+Paket ini membantu tim menilai apakah seseorang dapat memakai OBTARA untuk rutinitas obatnya sendiri:
 
 - Menemukan jadwal yang membutuhkan tindakan.
 - Mengenali pemilik, waktu, nama, dosis, lokasi, dan status obat.
 - Memahami perbedaan Dikonfirmasi, Ditunda, Dilewati, Tidak Yakin, dan Belum Dikonfirmasi.
 - Menyelesaikan tindakan dosis tanpa membuat catatan ganda.
 - Memahami bahwa foto pada prototype adalah demo, bukan identifikasi obat.
+- Memahami bahwa profil aktif adalah “Saya” dan dukungan keluarga tidak diwajibkan.
 
 Pengujian ini menilai **antarmuka**, bukan pengetahuan medis peserta dan bukan kepatuhan pengobatan mereka.
 
 ## Target peserta
 
-Rekrut secara bertahap:
+Untuk prototype personal-first saat ini, rekrut:
 
 - 3–5 pengguna obat rutin.
-- 3–5 caregiver keluarga.
 - Sedapat mungkin mencakup peserta lanjut usia, pengalaman teknologi rendah, kebutuhan zoom/teks besar, atau pengguna keyboard.
+
+Caregiver diuji pada studi terpisah setelah modul dukungan keluarga tersedia. Jangan meminta
+peserta personal-first berperan sebagai caregiver pada prototype yang belum menyediakan alurnya.
 
 Jangan merekrut peserta untuk memasukkan nama obat, diagnosis, jadwal, atau data kesehatan nyata ke prototype.
 
@@ -41,13 +44,14 @@ Jangan merekrut peserta untuk memasukkan nama obat, diagnosis, jadwal, atau data
 - Jalankan prototype melalui `npm run dev`.
 - Reset dengan reload penuh sebelum peserta berikutnya karena data hanya tersimpan pada React state.
 - Gunakan perangkat peserta bila memungkinkan; jangan meminta login atau data pribadi.
-- Siapkan stopwatch, lembar observasi, dan participant ID pseudonim, misalnya `U-01` atau `C-01`.
+- Siapkan stopwatch, lembar observasi, dan participant ID pseudonim, misalnya `U-01`.
 - Jika merekam, isi penanggung jawab, lokasi penyimpanan, akses, dan tanggal penghapusan pada dokumen persetujuan.
 - Pastikan indikator “Mode prototype · Data simulasi” terlihat.
 
-Baseline setelah reset terdiri dari lima jadwal: Amlodipine 07.00 Belum Dikonfirmasi,
-Allopurinol 08.00 Dikonfirmasi, Salbutamol 12.00 Ditunda, Metformin 13.00 Jatuh
-Tempo, dan Metformin 19.00 Terjadwal. Jika baseline berbeda, jangan mulai sesi.
+Baseline setelah reset terdiri dari satu profil `Rizqie (Saya)` dan lima jadwal:
+Amlodipine 07.00 Belum Dikonfirmasi, Allopurinol 08.00 Dikonfirmasi,
+Salbutamol 12.00 Ditunda, Metformin 13.00 Jatuh Tempo, dan Metformin 19.00
+Terjadwal. Jika profil atau baseline berbeda, jangan mulai sesi.
 
 ## Dry run internal
 

@@ -2,7 +2,10 @@ import { Camera, Cloud, FlaskConical, Smartphone, Wifi } from 'lucide-react'
 
 export function CapabilityBar() {
   return (
-    <div className="capability-bar" aria-label="Status simulasi kemampuan browser">
+    <div
+      className="capability-bar"
+      aria-label="Status simulasi kemampuan browser"
+    >
       <div className="capability-inner">
         <span className="prototype-mode">
           <FlaskConical size={14} aria-hidden="true" />

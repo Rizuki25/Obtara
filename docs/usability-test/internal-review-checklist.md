@@ -8,7 +8,10 @@ Build/commit: __________
 
 - [ ] “Mode prototype · Data simulasi” terlihat sebelum interaksi utama.
 - [ ] Push, kamera, dan sync dilabeli simulasi.
-- [ ] Family selector, Alert Caregiver, tema, ukuran teks, dan Tambah Obat dinonaktifkan.
+- [ ] Header menampilkan satu profil aktif “Saya” dan label mode pribadi.
+- [ ] Navigasi default hanya memuat Hari Ini, Obat Saya, Stok, Riwayat, dan Pengaturan.
+- [ ] Menu atau alert caregiver tidak tampil pada mode pribadi.
+- [ ] Tema, ukuran teks, dan Tambah Obat dinonaktifkan.
 - [ ] Kontrol nonaktif memiliki penjelasan “Belum tersedia di prototype”.
 - [ ] Foto/modal menyatakan foto demo bukan identifikasi obat.
 - [ ] Tidak ada data kesehatan nyata di mock data, URL, log, atau screenshot.
@@ -31,6 +34,7 @@ Build/commit: __________
 - [ ] Tidak Yakin tidak menyarankan dosis pengganti.
 - [ ] Foto demo tidak disebut foto obat asli.
 - [ ] Tidak ada instruksi diagnosis, resep, atau perubahan dosis.
+- [ ] Copy tidak menyiratkan bahwa caregiver wajib.
 
 ## Keyboard
 

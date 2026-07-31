@@ -18,9 +18,12 @@ describe('TodayPage', () => {
     renderPage()
 
     expect(
-      screen.getByRole('heading', { name: 'Jadwal Obat & Status Dosis' }),
+      screen.getByRole('heading', { name: 'Jadwal Obat Saya' }),
     ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Tambah Obat Rutin/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /Tambah Obat/i })).toBeDisabled()
+    expect(screen.getAllByText('Rizqie (Saya)')).toHaveLength(5)
+    expect(screen.queryByText('Ibu Sumarni')).not.toBeInTheDocument()
+    expect(screen.queryByText('Ayah Budi')).not.toBeInTheDocument()
     await user.click(
       screen.getByRole('button', {
         name: /Buka detail Amlodipine Besylate 10 mg, pukul 07/i,
@@ -33,7 +36,9 @@ describe('TodayPage', () => {
       within(dialog).getByRole('heading', { name: 'Amlodipine Besylate' }),
     ).toBeInTheDocument()
     expect(within(dialog).getAllByRole('img')).toHaveLength(2)
-    expect(within(dialog).getByText(/Lokasi Penyimpanan Fisik/i)).toBeInTheDocument()
+    expect(
+      within(dialog).getByText(/Lokasi Penyimpanan Fisik/i),
+    ).toBeInTheDocument()
   })
 
   it('mencatat konfirmasi hanya sekali dari baris obat', async () => {
@@ -46,7 +51,7 @@ describe('TodayPage', () => {
     expect(row).not.toBeNull()
     await user.click(
       within(row as HTMLElement).getByRole('button', {
-        name: 'Dikonfirmasi (Sudah Minum)',
+        name: 'Dikonfirmasi (Sudah Digunakan)',
       }),
     )
 
@@ -55,7 +60,7 @@ describe('TodayPage', () => {
     ).toBeInTheDocument()
     expect(
       within(row as HTMLElement).queryByRole('button', {
-        name: 'Dikonfirmasi (Sudah Minum)',
+        name: 'Dikonfirmasi (Sudah Digunakan)',
       }),
     ).not.toBeInTheDocument()
   })
@@ -71,11 +76,17 @@ describe('TodayPage', () => {
     await user.click(trigger)
     const dialog = screen.getByRole('dialog', { name: 'Ingatkan lagi' })
     expect(dialog).toBeInTheDocument()
-    expect(within(row).queryByText('Pilih waktu pengingat')).not.toBeInTheDocument()
+    expect(
+      within(row).queryByText('Pilih waktu pengingat'),
+    ).not.toBeInTheDocument()
     await user.click(within(dialog).getByRole('button', { name: /30 menit/i }))
 
-    expect(screen.queryByRole('dialog', { name: 'Ingatkan lagi' })).not.toBeInTheDocument()
-    expect(screen.getByText('Pengingat diatur lagi dalam 30 menit.')).toBeInTheDocument()
+    expect(
+      screen.queryByRole('dialog', { name: 'Ingatkan lagi' }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.getByText('Pengingat diatur lagi dalam 30 menit.'),
+    ).toBeInTheDocument()
   })
 
   it('memerlukan alasan sebelum menyimpan dosis dilewati dalam popup', async () => {
@@ -87,14 +98,23 @@ describe('TodayPage', () => {
 
     await user.click(within(row).getByRole('button', { name: 'Lewati' }))
     const dialog = screen.getByRole('dialog', { name: 'Lewati dosis' })
-    const submit = within(dialog).getByRole('button', { name: 'Simpan dilewati' })
+    const submit = within(dialog).getByRole('button', {
+      name: 'Simpan dilewati',
+    })
     expect(within(row).queryByLabelText('Pilih alasan')).not.toBeInTheDocument()
     expect(submit).toBeDisabled()
-    await user.selectOptions(within(dialog).getByLabelText('Pilih alasan'), 'Obat habis')
+    await user.selectOptions(
+      within(dialog).getByLabelText('Pilih alasan'),
+      'Obat habis',
+    )
     await user.click(submit)
 
-    expect(screen.queryByRole('dialog', { name: 'Lewati dosis' })).not.toBeInTheDocument()
-    expect(within(row).getByText(/Status tercatat: Dilewati/i)).toBeInTheDocument()
+    expect(
+      screen.queryByRole('dialog', { name: 'Lewati dosis' }),
+    ).not.toBeInTheDocument()
+    expect(
+      within(row).getByText(/Status tercatat: Dilewati/i),
+    ).toBeInTheDocument()
   })
 
   it('menampilkan safety copy dalam popup dan mengembalikan fokus saat batal', async () => {
@@ -108,11 +128,15 @@ describe('TodayPage', () => {
     const dialog = screen.getByRole('dialog', {
       name: 'Periksa sebelum tindakan berikutnya',
     })
-    expect(within(dialog).getByText(/mengganti jadwal yang terlewat/i)).toBeInTheDocument()
+    expect(
+      within(dialog).getByText(/mengganti jadwal yang terlewat/i),
+    ).toBeInTheDocument()
     await user.click(within(dialog).getByRole('button', { name: 'Kembali' }))
 
     expect(
-      screen.queryByRole('dialog', { name: 'Periksa sebelum tindakan berikutnya' }),
+      screen.queryByRole('dialog', {
+        name: 'Periksa sebelum tindakan berikutnya',
+      }),
     ).not.toBeInTheDocument()
     expect(trigger).toHaveFocus()
   })
@@ -131,15 +155,19 @@ describe('TodayPage', () => {
       within(dialog).getByRole('button', { name: 'Ya, tandai tidak yakin' }),
     )
 
-    expect(within(row).getByText(/Status tercatat: Tidak yakin/i)).toBeInTheDocument()
+    expect(
+      within(row).getByText(/Status tercatat: Tidak yakin/i),
+    ).toBeInTheDocument()
   })
 
   it('memfilter jadwal selesai', async () => {
     const user = userEvent.setup()
     renderPage()
 
-    await user.click(screen.getByRole('button', { name: 'Selesai / Dikonfirmasi' }))
-    expect(screen.getByRole('button', { name: 'Allopurinol' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Status Final' }))
+    expect(
+      screen.getByRole('button', { name: 'Allopurinol' }),
+    ).toBeInTheDocument()
     expect(
       screen.queryByRole('button', { name: 'Amlodipine Besylate' }),
     ).not.toBeInTheDocument()

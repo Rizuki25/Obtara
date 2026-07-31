@@ -1,5 +1,8 @@
 # Hasil Rehearsal Teknis SIM-01
 
+> Arsip historis: hasil ini berasal dari prototype multi-profil sebelum revisi
+> personal-first. Hasil SIM-02 menjadi baseline teknis terbaru.
+
 Status: **Selesai untuk bukti teknis; dry run moderator-manusia belum dilakukan**  
 Jenis sesi: Desk-check dan Playwright smoke test  
 Tanggal: 31 Juli 2026  

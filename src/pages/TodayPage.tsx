@@ -13,7 +13,10 @@ export function TodayPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [filter, setFilter] = useState<DoseFilter>('all')
   const triggerRef = useRef<HTMLButtonElement | null>(null)
-  const filteredDoses = useMemo(() => filterDoses(doses, filter), [doses, filter])
+  const filteredDoses = useMemo(
+    () => filterDoses(doses, filter),
+    [doses, filter],
+  )
   const groups = useMemo(() => groupDoses(filteredDoses), [filteredDoses])
   const summary = useMemo(() => summarizeDoses(doses), [doses])
   const selectedDose = doses.find((dose) => dose.id === selectedId) ?? null

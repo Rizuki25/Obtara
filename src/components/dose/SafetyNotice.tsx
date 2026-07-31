@@ -9,7 +9,10 @@ interface SafetyNoticeProps {
 
 export function SafetyNotice({ onCancel, onConfirm }: SafetyNoticeProps) {
   return (
-    <section className="safety-notice action-popup-safety" aria-labelledby="safety-copy-title">
+    <section
+      className="safety-notice action-popup-safety"
+      aria-labelledby="safety-copy-title"
+    >
       <h3 id="safety-copy-title">
         <ShieldAlert size={20} aria-hidden="true" />
         Aman saat ragu

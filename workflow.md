@@ -1,20 +1,21 @@
 # OBTARA Web — Workflow Specification
 
-| Atribut | Nilai |
-|---|---|
-| Versi | 0.2 — Web/PWA revision |
-| Status | Draft untuk validasi |
-| Tanggal | 31 Juli 2026 |
+| Atribut         | Nilai                                     |
+| --------------- | ----------------------------------------- |
+| Versi           | 0.3 — Personal-first revision             |
+| Status          | Draft untuk validasi                      |
+| Tanggal         | 31 Juli 2026                              |
 | Dokumen terkait | [Product Requirements Document](./prd.md) |
 
 ## 1. Tujuan dokumen
 
-Dokumen ini menjelaskan alur OBTARA ketika digunakan sebagai responsive web app React + Vite dengan PWA opsional. Workflow menjadi acuan product design, frontend, backend, QA, support, dan analitik.
+Dokumen ini menjelaskan alur OBTARA sebagai responsive web app personal-first dengan PWA opsional. Workflow menjadi acuan product design, frontend, backend, QA, support, dan analitik.
 
 Fokus utama versi web:
 
-- Pengguna obat dapat menggunakan browser ponsel tanpa instalasi.
-- Caregiver dapat menggunakan dashboard desktop/tablet.
+- Pengguna dapat mengatur obat untuk dirinya sendiri tanpa membuat keluarga atau caregiver.
+- Profil “Saya” menjadi default di seluruh alur inti.
+- Dukungan caregiver tersedia sebagai modul opsional setelah diaktifkan pemilik profil.
 - Service worker meningkatkan pengalaman offline dan push jika didukung.
 - Backend menjadi sumber kebenaran jadwal, reminder, alert, dan audit.
 - Browser capability dan permission selalu diperiksa sebelum mengaktifkan fitur tambahan.
@@ -23,35 +24,35 @@ Fokus utama versi web:
 
 ### 2.1 Aktor
 
-| Aktor | Deskripsi |
-|---|---|
-| Pengguna obat | Individu yang mempunyai jadwal obat |
-| Pemilik profil | Pihak dengan otoritas utama dan consent |
-| Pengelola profil | Pihak yang diberi hak mengatur obat, jadwal, stok, dan anggota |
-| Caregiver utama | Penerima eskalasi pertama |
-| Caregiver cadangan | Penerima eskalasi jika alert utama tidak diakui |
+| Aktor                       | Deskripsi                                                                    |
+| --------------------------- | ---------------------------------------------------------------------------- |
+| Pengguna pribadi            | Individu yang mempunyai jadwal obat dan memakai OBTARA untuk dirinya sendiri |
+| Pemilik profil              | Pengguna pribadi; pemegang otoritas utama dan consent secara default         |
+| Pengelola profil opsional   | Pihak yang diberi hak setelah modul dukungan keluarga diaktifkan             |
+| Caregiver utama opsional    | Penerima eskalasi pertama setelah diundang dan diberi izin                   |
+| Caregiver cadangan opsional | Penerima eskalasi lanjutan jika aturan opsional diaktifkan                   |
 
 ### 2.2 Komponen teknis
 
-| Komponen | Tanggung jawab |
-|---|---|
-| React UI | Render layar, input, validasi, dan interaksi |
-| Vite build | Dev server dan produksi asset frontend |
-| Browser | Menyediakan DOM, permission, camera, storage, dan network |
-| Service worker | App shell, cache aman, push handler, dan background capability |
-| IndexedDB | Event offline dan cache lokal yang terkontrol |
-| Backend API | Data profil, obat, jadwal, stok, membership, dan audit |
-| Scheduler | Membuat dan mengevaluasi reminder/alert berdasarkan timezone |
-| Push provider | Mengantar Web Push ke subscription caregiver/pengguna |
-| Email/SMS provider | Kanal fallback sesuai consent |
-| Object storage | Foto privat dengan signed URL |
+| Komponen           | Tanggung jawab                                                 |
+| ------------------ | -------------------------------------------------------------- |
+| React UI           | Render layar, input, validasi, dan interaksi                   |
+| Vite build         | Dev server dan produksi asset frontend                         |
+| Browser            | Menyediakan DOM, permission, camera, storage, dan network      |
+| Service worker     | App shell, cache aman, push handler, dan background capability |
+| IndexedDB          | Event offline dan cache lokal yang terkontrol                  |
+| Backend API        | Data profil, obat, jadwal, stok, membership, dan audit         |
+| Scheduler          | Membuat dan mengevaluasi reminder/alert berdasarkan timezone   |
+| Push provider      | Mengantar Web Push ke pengguna dan caregiver opsional          |
+| Email/SMS provider | Kanal fallback sesuai consent                                  |
+| Object storage     | Foto privat dengan signed URL                                  |
 
 ## 3. Arsitektur alur tingkat tinggi
 
 ```mermaid
 flowchart LR
     U["Browser pengguna obat"] --> UI["React UI"]
-    C["Browser caregiver desktop/tablet"] --> UI
+    C["Browser caregiver opsional"] -. "setelah undangan diterima" .-> UI
     UI --> SW["Service worker"]
     SW --> IDB["IndexedDB: event pending"]
     UI --> API["Backend API"]
@@ -65,11 +66,27 @@ flowchart LR
 
 ### Aturan sumber kebenaran
 
-- Jadwal aktif dan permission caregiver berasal dari backend.
+- Jadwal aktif berasal dari backend; permission caregiver hanya ada jika dukungan keluarga diaktifkan.
 - Service worker tidak menjadi sumber kebenaran jadwal.
 - IndexedDB hanya menyimpan event lokal yang belum tersinkron dan cache yang diizinkan.
 - UI menampilkan umur data dan status sinkronisasi.
 - Push yang gagal tidak mengubah status dosis.
+
+### 3.1 Alur produk yang terlihat pengguna
+
+Alur inti sengaja dibatasi agar dapat dipahami tanpa pengetahuan mengenai caregiver,
+scheduler, atau sinkronisasi:
+
+1. **Mulai untuk saya:** buat profil pribadi dan atur preferensi.
+2. **Tambah obat:** masukkan identitas, foto opsional, jadwal, dan stok.
+3. **Lihat Hari Ini:** temukan jadwal pribadi berdasarkan waktu.
+4. **Catat status:** pilih Dikonfirmasi, Tunda, Lewati, atau Tidak Yakin.
+5. **Tinjau:** lihat Obat Saya, stok, dan riwayat.
+6. **Aktifkan bantuan bila perlu:** undang caregiver dari Pengaturan; langkah ini opsional dan berada di luar alur inti.
+
+Navigasi default hanya berisi Hari Ini, Obat Saya, Stok, Riwayat, dan Pengaturan.
+Kompleksitas backend tetap ada, tetapi tidak ditampilkan sebagai keputusan yang harus
+dipahami pengguna pada penggunaan sehari-hari.
 
 ## 4. Model status global
 
@@ -157,19 +174,20 @@ sequenceDiagram
 
 ### Alur utama
 
-1. Pengguna memilih login/daftar atau menerima undangan caregiver.
+1. Pengguna memilih login/daftar.
 2. Backend memvalidasi identitas dan membuat sesi aman.
-3. Pengguna membuat atau memilih profil.
+3. Aplikasi menawarkan “Atur obat untuk saya” sebagai pilihan default dan membuat profil “Saya”.
 4. Pengguna mengatur timezone, ukuran teks, kontras, dan suara/getaran bila tersedia.
 5. Aplikasi menjelaskan beda antara reminder, konfirmasi, dan bukti konsumsi.
 6. Aplikasi meminta permission notification hanya setelah manfaatnya dijelaskan.
 7. Jika installability tersedia, tampilkan CTA install sebagai langkah opsional.
-8. Pengguna diarahkan menambahkan obat pertama.
+8. Pengguna diarahkan menambahkan obat pertama miliknya sendiri.
+9. Undangan caregiver, bila ada, diproses melalui alur terpisah dan tidak mengubah onboarding pribadi menjadi wajib multi-profil.
 
 ```mermaid
 flowchart TD
     A["Buka OBTARA"] --> B["Login atau daftar"]
-    B --> C["Buat/pilih profil"]
+    B --> C["Buat profil Saya"]
     C --> D["Atur timezone dan aksesibilitas"]
     D --> E{"Push permission?"}
     E -- "Izinkan" --> F["Daftarkan subscription"]
@@ -178,7 +196,7 @@ flowchart TD
     G --> H
     H -- "Ya" --> I["Tawarkan install opsional"]
     H -- "Tidak" --> J["Lanjut di browser"]
-    I --> K["Tambah obat"]
+    I --> K["Tambah obat saya"]
     J --> K
 ```
 
@@ -189,13 +207,15 @@ flowchart TD
 - Tampilkan pengaturan permission dan fallback kanal di Settings.
 - Permission bukan bukti bahwa notifikasi akan selalu tampil; tampilkan status subscription terakhir.
 - Install PWA tidak boleh menjadi syarat untuk membuat profil.
+- Pengguna tidak melihat family selector atau setup caregiver pada onboarding pribadi.
+- Dukungan keluarga ditawarkan dari Pengaturan setelah pengguna memahami alur inti, bukan sebagai interupsi first-run.
 
 ## 7. WF-W03 — Menambahkan obat melalui browser
 
 ### Alur utama
 
 1. Pengguna membuka `/medications/new`.
-2. Pilih profil pemilik obat.
+2. Profil pemilik otomatis “Saya”; pemilih profil tidak muncul pada mode pribadi.
 3. Masukkan nama, kekuatan, bentuk, dan jumlah penggunaan.
 4. Pilih “Upload foto” atau “Ambil dengan kamera”.
 5. Browser meminta permission kamera hanya setelah pengguna memilih opsi kamera.
@@ -236,7 +256,7 @@ flowchart TD
 
 ## 8. WF-W04 — Kabinet visual dan responsive layout
 
-### Mobile browser
+### Penggunaan pribadi pada mobile
 
 1. Landing setelah login adalah `/today`.
 2. Kartu dosis ditampilkan satu kolom.
@@ -245,19 +265,22 @@ flowchart TD
 5. CTA utama berada di area yang mudah dijangkau ibu jari.
 6. Navigasi utama menggunakan bottom navigation atau menu ringkas.
 
-### Desktop/tablet caregiver
+### Penggunaan pribadi pada desktop/tablet
 
-1. Overview menampilkan beberapa profil sebagai kartu atau tabel.
-2. Kolom kiri berisi daftar profil dan filter.
-3. Panel utama menampilkan alert dan status hari ini.
-4. Panel samping menampilkan detail dosis/profil tanpa kehilangan konteks.
+1. Sidebar menampilkan Hari Ini, Obat Saya, Stok, Riwayat, dan Pengaturan.
+2. Header menunjukkan satu profil aktif “Saya” dan label mode pribadi.
+3. Panel utama menampilkan progres catatan serta jadwal hari ini.
+4. Detail obat dibuka tanpa kehilangan konteks daftar.
 5. Keyboard navigation dan focus ring selalu tersedia.
+
+Dashboard beberapa profil hanya tersedia pada modul dukungan keluarga setelah undangan dan
+izin aktif; dashboard tersebut bukan variasi default dari halaman pribadi.
 
 ```mermaid
 flowchart LR
     M["Mobile <640px"] --> M1["Single column + bottom nav"]
     T["Tablet 640–1023px"] --> T1["Two columns when space allows"]
-    D["Desktop ≥1024px"] --> D1["Sidebar + dashboard + detail panel"]
+    D["Desktop ≥1024px"] --> D1["Sidebar pribadi + jadwal + detail panel"]
     M1 --> S["Same domain data and actions"]
     T1 --> S
     D1 --> S
@@ -310,7 +333,7 @@ sequenceDiagram
 - **Sudah digunakan:** simpan `Confirmed`, kurangi stok satu kali.
 - **Ingatkan lagi:** tetap pada event yang sama, buat reminder ulang.
 - **Lewati dosis:** simpan alasan, jangan kurangi stok.
-- **Saya tidak yakin:** tahan tindakan tambahan dan tawarkan bantuan caregiver.
+- **Saya tidak yakin:** tahan tindakan tambahan dan tawarkan pemeriksaan instruksi atau bantuan orang tepercaya.
 
 ### Pencegahan dosis ganda
 
@@ -335,9 +358,12 @@ flowchart TD
 
 Jika waktu telah jauh lewat atau pengguna memilih “Saya tidak yakin”:
 
-> Jangan mengambil dosis tambahan untuk mengganti jadwal yang terlewat kecuali sesuai petunjuk tenaga kesehatan. Periksa instruksi obat atau hubungi tenaga kesehatan/caregiver.
+> Jangan mengambil dosis tambahan untuk mengganti jadwal yang terlewat kecuali sesuai petunjuk tenaga kesehatan. Periksa instruksi obat atau hubungi tenaga kesehatan atau orang yang Anda percaya.
 
-## 10. WF-W06 — Eskalasi caregiver dari web
+## 10. WF-W06 — Eskalasi caregiver opsional dari web
+
+Workflow ini tidak aktif pada mode pribadi default. Pengguna harus lebih dulu mengaktifkan
+dukungan keluarga, mengundang caregiver, dan menyetujui aturan alert.
 
 ### Prasyarat
 
@@ -404,7 +430,10 @@ sequenceDiagram
 - Acknowledgement satu caregiver terlihat oleh caregiver lain.
 - Status “belum tersinkron” tidak boleh langsung diperlakukan sebagai dosis terlewat.
 
-## 11. WF-W07 — Caregiver dashboard
+## 11. WF-W07 — Caregiver dashboard opsional
+
+Dashboard ini merupakan ekspansi setelah core pribadi stabil dan tidak muncul pada navigasi
+pengguna yang belum mengaktifkan dukungan keluarga.
 
 ### Loading dashboard
 
@@ -457,7 +486,7 @@ flowchart TD
 ### Alur refill
 
 1. Pengguna membuka alert stok rendah.
-2. Pilih “Sudah membeli/menebus”, “Ingatkan lagi”, “Minta bantuan caregiver”, atau “Koreksi stok”.
+2. Pilih “Sudah membeli/menebus”, “Ingatkan lagi”, “Minta bantuan” bila dukungan keluarga aktif, atau “Koreksi stok”.
 3. Jika refill, masukkan jumlah, unit, dan tanggal.
 4. Backend membuat ledger `add`.
 5. Sistem menghitung ulang proyeksi.
@@ -471,7 +500,10 @@ flowchart TD
 - Perubahan jadwal mengubah proyeksi, bukan saldo fisik.
 - Obat bila diperlukan menampilkan estimasi terbatas jika pola penggunaan belum cukup.
 
-## 13. WF-W09 — Undangan dan izin caregiver
+## 13. WF-W09 — Undangan dan izin caregiver opsional
+
+Alur ini dimulai dari Pengaturan hanya jika pemilik profil memilih mengaktifkan dukungan
+keluarga. Tidak ada undangan otomatis dan tidak ada data yang dibagikan secara default.
 
 ### Alur utama
 
@@ -510,16 +542,16 @@ sequenceDiagram
 
 ### Matriks izin
 
-| Kemampuan | Pemilik | Pengelola | Caregiver | Pemantau |
-|---|---:|---:|---:|---:|
-| Melihat status hari ini | Ya | Ya | Sesuai izin | Sesuai izin |
-| Melihat nama/detail obat | Ya | Sesuai delegasi | Opsional | Opsional |
-| Mengubah obat/jadwal | Ya | Opsional | Tidak secara default | Tidak |
-| Mengubah stok | Ya | Opsional | Opsional | Tidak |
-| Menerima alert | Opsional | Opsional | Ya | Opsional |
-| Mengakui/menyelesaikan alert | Ya | Ya | Ya | Tidak |
-| Mengundang anggota | Ya | Opsional | Tidak | Tidak |
-| Mencabut akses | Ya | Opsional | Keluar sendiri | Keluar sendiri |
+| Kemampuan                    |  Pemilik |       Pengelola |            Caregiver |       Pemantau |
+| ---------------------------- | -------: | --------------: | -------------------: | -------------: |
+| Melihat status hari ini      |       Ya |              Ya |          Sesuai izin |    Sesuai izin |
+| Melihat nama/detail obat     |       Ya | Sesuai delegasi |             Opsional |       Opsional |
+| Mengubah obat/jadwal         |       Ya |        Opsional | Tidak secara default |          Tidak |
+| Mengubah stok                |       Ya |        Opsional |             Opsional |          Tidak |
+| Menerima alert               | Opsional |        Opsional |                   Ya |       Opsional |
+| Mengakui/menyelesaikan alert |       Ya |              Ya |                   Ya |          Tidak |
+| Mengundang anggota           |       Ya |        Opsional |                Tidak |          Tidak |
+| Mencabut akses               |       Ya |        Opsional |       Keluar sendiri | Keluar sendiri |
 
 ### Pencabutan
 
@@ -633,52 +665,52 @@ Setelah halaman dibuka:
 
 ## 17. Edge cases web
 
-| Kasus | Perilaku |
-|---|---|
-| Pengguna menolak push | Core flow tetap aktif; tampilkan fallback kanal dan in-app reminder |
-| Service worker gagal terdaftar | Set capability `BrowserOnly`, jangan paksa install |
-| Push subscription expired | Hapus subscription, tampilkan status perlu diaktifkan kembali |
-| Tab tidak terbuka | Backend tetap membuat alert; delivery bergantung kanal aktif |
-| Browser sleep/OS membatasi worker | Tandai delivery tidak terjamin dan gunakan fallback bila tersedia |
-| Ponsel mati saat jadwal | Jangan menyatakan dosis pasti terlewat; status menunggu konfirmasi |
-| Browser private mode | Deteksi storage terbatas dan jelaskan risiko offline |
-| Kamera ditolak | Gunakan upload file atau lewati foto |
-| File foto terlalu besar | Kompres atau minta file lain tanpa menghapus form |
-| Network putus saat upload | Tampilkan retry dan simpan draft metadata |
-| Refresh di route internal | Hosting mengembalikan SPA entry point |
-| Asset/service worker stale | Tampilkan update prompt setelah versi baru siap |
-| Dua tab mengubah dosis | Gunakan version check dan idempotency |
-| Zona waktu berubah | Minta pilihan mempertahankan waktu lokal atau waktu asal |
-| Caregiver hilang akses | Route dan API menolak request berikutnya; cache dibersihkan saat tersedia |
-| Push gagal tetapi email berhasil | Tampilkan kanal berhasil dan kanal gagal di audit |
-| Semua kanal gagal | Alert tetap terlihat di dashboard saat caregiver membuka web |
-| Stok nol tetapi dosis dikonfirmasi | Minta konfirmasi dan tawarkan koreksi stok |
-| Pengguna menghapus akun | Cabut sessions, memberships, subscriptions, dan jalankan kebijakan retensi |
+| Kasus                              | Perilaku                                                                   |
+| ---------------------------------- | -------------------------------------------------------------------------- |
+| Pengguna menolak push              | Core flow tetap aktif; tampilkan fallback kanal dan in-app reminder        |
+| Service worker gagal terdaftar     | Set capability `BrowserOnly`, jangan paksa install                         |
+| Push subscription expired          | Hapus subscription, tampilkan status perlu diaktifkan kembali              |
+| Tab tidak terbuka                  | Backend tetap membuat alert; delivery bergantung kanal aktif               |
+| Browser sleep/OS membatasi worker  | Tandai delivery tidak terjamin dan gunakan fallback bila tersedia          |
+| Ponsel mati saat jadwal            | Jangan menyatakan dosis pasti terlewat; status menunggu konfirmasi         |
+| Browser private mode               | Deteksi storage terbatas dan jelaskan risiko offline                       |
+| Kamera ditolak                     | Gunakan upload file atau lewati foto                                       |
+| File foto terlalu besar            | Kompres atau minta file lain tanpa menghapus form                          |
+| Network putus saat upload          | Tampilkan retry dan simpan draft metadata                                  |
+| Refresh di route internal          | Hosting mengembalikan SPA entry point                                      |
+| Asset/service worker stale         | Tampilkan update prompt setelah versi baru siap                            |
+| Dua tab mengubah dosis             | Gunakan version check dan idempotency                                      |
+| Zona waktu berubah                 | Minta pilihan mempertahankan waktu lokal atau waktu asal                   |
+| Caregiver hilang akses             | Route dan API menolak request berikutnya; cache dibersihkan saat tersedia  |
+| Push gagal tetapi email berhasil   | Tampilkan kanal berhasil dan kanal gagal di audit                          |
+| Semua kanal gagal                  | Alert tetap terlihat di dashboard saat caregiver membuka web               |
+| Stok nol tetapi dosis dikonfirmasi | Minta konfirmasi dan tawarkan koreksi stok                                 |
+| Pengguna menghapus akun            | Cabut sessions, memberships, subscriptions, dan jalankan kebijakan retensi |
 
 ## 18. Event analitik minimum
 
 Event analitik menggunakan identifier pseudonim dan tidak memuat nama obat, foto, atau catatan bebas.
 
-| Event | Properti aman |
-|---|---|
-| `web_capability_checked` | browser family, capability bucket |
-| `service_worker_registered` | hasil registrasi |
-| `install_prompt_seen` | tersedia/tidak tersedia |
-| `install_prompt_accepted` | hasil |
-| `notification_permission_changed` | granted/denied/default |
-| `push_subscription_changed` | created/expired/removed |
-| `onboarding_completed` | tipe profil, accessibility mode |
-| `medication_created` | ada foto, tipe jadwal, stok aktif |
-| `photo_upload_completed` | sumber kamera/file, ukuran bucket |
-| `dose_reminder_scheduled` | kanal bucket |
-| `dose_notification_delivered` | kanal, success/failure |
-| `dose_action_recorded` | tipe tindakan, tepat waktu/terlambat, online/offline |
-| `caregiver_alert_sent` | tahap eskalasi, kanal bucket |
-| `caregiver_alert_acknowledged` | waktu menuju acknowledgement |
-| `stock_threshold_reached` | unit, hari estimasi dalam bucket |
-| `refill_recorded` | sumber tindakan pengguna/caregiver |
-| `sync_conflict_detected` | tipe konflik, jumlah device |
-| `spa_route_load_failed` | route bucket, error class |
+| Event                             | Properti aman                                        |
+| --------------------------------- | ---------------------------------------------------- |
+| `web_capability_checked`          | browser family, capability bucket                    |
+| `service_worker_registered`       | hasil registrasi                                     |
+| `install_prompt_seen`             | tersedia/tidak tersedia                              |
+| `install_prompt_accepted`         | hasil                                                |
+| `notification_permission_changed` | granted/denied/default                               |
+| `push_subscription_changed`       | created/expired/removed                              |
+| `onboarding_completed`            | tipe profil, accessibility mode                      |
+| `medication_created`              | ada foto, tipe jadwal, stok aktif                    |
+| `photo_upload_completed`          | sumber kamera/file, ukuran bucket                    |
+| `dose_reminder_scheduled`         | kanal bucket                                         |
+| `dose_notification_delivered`     | kanal, success/failure                               |
+| `dose_action_recorded`            | tipe tindakan, tepat waktu/terlambat, online/offline |
+| `caregiver_alert_sent`            | tahap eskalasi, kanal bucket                         |
+| `caregiver_alert_acknowledged`    | waktu menuju acknowledgement                         |
+| `stock_threshold_reached`         | unit, hari estimasi dalam bucket                     |
+| `refill_recorded`                 | sumber tindakan pengguna/caregiver                   |
+| `sync_conflict_detected`          | tipe konflik, jumlah device                          |
+| `spa_route_load_failed`           | route bucket, error class                            |
 
 ## 19. Checklist QA workflow
 
@@ -748,13 +780,14 @@ Event analitik menggunakan identifier pseudonim dan tidak memuat nama obat, foto
 
 OBTARA Web mengikuti siklus:
 
-1. **Masuk:** buka dari browser atau instal sebagai PWA bila tersedia.
-2. **Tata:** masukkan obat, foto, jadwal, dan stok.
+1. **Masuk untuk saya:** buka dari browser, buat profil pribadi, atau instal sebagai PWA bila tersedia.
+2. **Tata:** masukkan obat, foto, jadwal, dan stok milik sendiri.
 3. **Ingatkan:** backend menjadwalkan reminder dan browser menampilkan kanal yang tersedia.
 4. **Konfirmasi:** pengguna memberi status yang jujur dan aman.
-5. **Jaga:** sistem mengeskalasi event belum dikonfirmasi sesuai consent.
-6. **Sediakan:** stok dihitung dan refill diingatkan.
-7. **Sinkronkan:** event antar-browser dan device direkonsiliasi.
-8. **Pelajari:** riwayat membantu pengguna dan caregiver melihat pola.
+5. **Sediakan:** stok dihitung dan refill diingatkan.
+6. **Sinkronkan:** event antar-browser dan device direkonsiliasi.
+7. **Pelajari:** riwayat membantu pengguna melihat pola pribadinya.
+8. **Bagikan bila dipilih:** caregiver dapat diundang dan menerima alert hanya setelah dukungan keluarga serta consent diaktifkan.
 
-Kompleksitas browser capability, scheduler, retry, dan audit berada di belakang layar; pengguna tetap melihat alur yang ringkas.
+Kompleksitas browser capability, scheduler, retry, audit, dan caregiver berada di belakang
+layar; pengguna pribadi tetap melihat alur yang ringkas dan tidak diwajibkan berbagi data.

@@ -10,14 +10,14 @@ Penanggung jawab: __________
 
 ## Cakupan
 
-| Metrik                       | Hasil |
-| ---------------------------- | ----- |
-| Jumlah peserta pengguna obat |       |
-| Jumlah peserta caregiver     |       |
-| Mobile / Desktop / Tablet    |       |
-| Keyboard / Touch / Mouse     |       |
-| Sesi direkam                 |       |
-| P0/P1 ditemukan              |       |
+| Metrik                                 | Hasil |
+| -------------------------------------- | ----- |
+| Jumlah peserta pengguna pribadi        |       |
+| Peserta memahami caregiver tidak wajib |       |
+| Mobile / Desktop / Tablet              |       |
+| Keyboard / Touch / Mouse               |       |
+| Sesi direkam                           |       |
+| P0/P1 ditemukan                        |       |
 
 ## Ringkasan eksekutif
 
@@ -72,6 +72,7 @@ jumlah peserta dengan skor 2 / jumlah peserta yang menjalankan tugas × 100%
 | Konfirmasi ≠ bukti konsumsi              |                    |                 |           |
 | Foto demo ≠ identifikasi obat            |                    |                 |           |
 | Tidak Yakin ≠ mengambil dosis tambahan   |                    |                 |           |
+| Mode pribadi ≠ wajib memakai caregiver   |                    |                 |           |
 
 ## Hasil kuesioner
 

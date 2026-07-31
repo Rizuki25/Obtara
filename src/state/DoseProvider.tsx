@@ -21,4 +21,3 @@ export function DoseProvider({ children }: { children: ReactNode }) {
     </DoseContext.Provider>
   )
 }
-

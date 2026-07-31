@@ -15,7 +15,9 @@ export function MedicationVisual({
 
   if (image) {
     return (
-      <figure className={`medication-visual medication-photo ${className}`.trim()}>
+      <figure
+        className={`medication-visual medication-photo ${className}`.trim()}
+      >
         <img src={image.src} alt={image.alt} />
         <figcaption className="visually-hidden">{image.credit}</figcaption>
       </figure>

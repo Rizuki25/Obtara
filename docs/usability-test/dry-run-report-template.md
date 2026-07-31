@@ -4,7 +4,7 @@ Status: Draft / Selesai / Perlu dry run ulang
 Tanggal: __________  
 Participant ID: `DRY-__`  
 Moderator: __________  
-Peran simulasi: Pengguna obat / Caregiver / Lainnya  
+Peran simulasi: Pengguna obat untuk diri sendiri / Lainnya
 Keterlibatan peserta dalam implementasi: Tidak / Ya, jelaskan __________  
 Perangkat/browser: __________  
 Versi/build: __________
@@ -40,6 +40,7 @@ Versi/build: __________
 | Urutan tugas mempertahankan state yang dibutuhkan?             |            |                    |
 | Reload mengembalikan baseline dengan cepat?                    |            |                    |
 | Disclosure data simulasi dipahami?                             |            |                    |
+| Mode pribadi dan caregiver opsional dipahami?                  |            |                    |
 | Popup Tunda, Lewati, dan Tidak Yakin dapat diuji?              |            |                    |
 | Skor 0/1/2 mudah diterapkan?                                   |            |                    |
 | Lembar observasi dapat diisi sambil memoderasi?                |            |                    |

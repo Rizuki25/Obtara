@@ -26,7 +26,9 @@ test.describe('rehearsal paket usability', () => {
     // T01–T02: peserta dapat menemukan status yang perlu tindakan dan batas maknanya.
     await expect(page.getByText('Jatuh Tempo Sekarang')).toBeVisible()
     await expect(
-      page.getByText(/berbeda dengan “pasti tidak diminum”/i),
+      page.getByText(
+        /OBTARA belum menerima catatan, bukan berarti obat pasti belum digunakan/i,
+      ),
     ).toBeVisible()
 
     // T03–T04: detail Amlodipine, label demo, dan lokasi fisik tersedia bersama.
@@ -44,11 +46,13 @@ test.describe('rehearsal paket usability', () => {
     // T05: status final tercatat satu kali dan semua tindakan final kedua hilang.
     const amlodipine = doseRow(page, 'Amlodipine Besylate')
     await amlodipine
-      .getByRole('button', { name: 'Dikonfirmasi (Sudah Minum)' })
+      .getByRole('button', { name: 'Dikonfirmasi (Sudah Digunakan)' })
       .click()
     await expect(amlodipineFinalState(amlodipine)).toBeVisible()
     await expect(
-      amlodipine.getByRole('button', { name: 'Dikonfirmasi (Sudah Minum)' }),
+      amlodipine.getByRole('button', {
+        name: 'Dikonfirmasi (Sudah Digunakan)',
+      }),
     ).toHaveCount(0)
 
     // T06: jadwal Metformin pukul 19.00 ditunda secara independen dari T07.
@@ -85,11 +89,9 @@ test.describe('rehearsal paket usability', () => {
     ).toBeVisible()
 
     // T09–T10: kedua filter bekerja, lalu jadwal 13.00 tetap dapat diidentifikasi.
-    await page
-      .getByRole('button', { name: 'Belum Diminum / Perlu Tindakan' })
-      .click()
+    await page.getByRole('button', { name: 'Perlu Tindakan' }).click()
     await expect(page.locator('.dose-card')).toHaveCount(1)
-    await page.getByRole('button', { name: 'Selesai / Dikonfirmasi' }).click()
+    await page.getByRole('button', { name: 'Status Final' }).click()
     await expect(page.locator('.dose-card')).toHaveCount(4)
     await page.getByRole('button', { name: 'Semua Jadwal (5)' }).click()
     await expect(page.locator('.dose-card')).toHaveCount(5)
@@ -97,14 +99,14 @@ test.describe('rehearsal paket usability', () => {
       page
         .locator('.dose-card')
         .filter({ hasText: '13.00 WIB' })
-        .getByText('Ibu Sumarni'),
+        .getByText('Rizqie (Saya)'),
     ).toBeVisible()
 
     // T11–T12: tindakan dan disclosure simulasi tersedia pada baseline setelah reset.
     await page.reload()
     const baselineMetformin = doseRow(page, 'Metformin HCl', 0)
     for (const name of [
-      'Dikonfirmasi (Sudah Minum)',
+      'Dikonfirmasi (Sudah Digunakan)',
       'Tunda',
       'Lewati',
       'Tidak Yakin',
@@ -117,14 +119,22 @@ test.describe('rehearsal paket usability', () => {
     await expect(page.getByText('Web Push (simulasi)')).toBeVisible()
     await expect(page.getByText('Kamera (simulasi)')).toBeVisible()
     await expect(
-      page.getByRole('button', { name: /Tambah Obat Rutin/i }),
+      page.getByRole('button', { name: /Tambah Obat/i }),
     ).toBeDisabled()
     await expect(
-      page.getByRole('button', { name: /Alert Caregiver/i }),
-    ).toBeDisabled()
-    await expect(
-      page.getByText('Belum Dikonfirmasi (Eskalasi Caregiver)'),
+      page.getByLabel(/Profil aktif: Rizqie, mode pribadi/i),
     ).toBeVisible()
+    await expect(
+      page.getByText('Belum Dikonfirmasi', { exact: true }),
+    ).toBeVisible()
+    await expect(
+      page
+        .getByLabel('Sidebar aplikasi')
+        .getByRole('button', { name: 'Obat Saya' }),
+    ).toBeDisabled()
+    await expect(page.getByRole('button', { name: /Caregiver/i })).toHaveCount(
+      0,
+    )
 
     expect(errors).toEqual([])
   })

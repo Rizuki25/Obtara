@@ -8,8 +8,8 @@ interface DoseFiltersProps {
 
 const filters: { key: DoseFilter; label: string }[] = [
   { key: 'all', label: 'Semua Jadwal' },
-  { key: 'needs-action', label: 'Belum Diminum / Perlu Tindakan' },
-  { key: 'resolved', label: 'Selesai / Dikonfirmasi' },
+  { key: 'needs-action', label: 'Perlu Tindakan' },
+  { key: 'resolved', label: 'Status Final' },
 ]
 
 export function DoseFilters({ active, counts, onChange }: DoseFiltersProps) {
@@ -23,7 +23,8 @@ export function DoseFilters({ active, counts, onChange }: DoseFiltersProps) {
           onClick={() => onChange(filter.key)}
           key={filter.key}
         >
-          {filter.label}{filter.key === 'all' ? ` (${counts[filter.key]})` : ''}
+          {filter.label}
+          {filter.key === 'all' ? ` (${counts[filter.key]})` : ''}
         </button>
       ))}
     </div>

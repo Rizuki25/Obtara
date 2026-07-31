@@ -6,19 +6,24 @@ import { Navigation } from './Navigation'
 export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="application-frame">
-      <a className="skip-link" href="#main-content">Langsung ke konten</a>
+      <a className="skip-link" href="#main-content">
+        Langsung ke konten
+      </a>
       <CapabilityBar />
       <AppHeader />
 
       <div className="app-shell">
         <aside className="sidebar" aria-label="Sidebar aplikasi">
-          <p className="sidebar-label">MENU UTAMA</p>
+          <p className="sidebar-label">MENU PRIBADI</p>
           <Navigation className="sidebar-nav" />
-          <section className="safety-card" aria-labelledby="safety-principle-title">
-            <h2 id="safety-principle-title">Prinsip Keselamatan</h2>
+          <section
+            className="safety-card"
+            aria-labelledby="safety-principle-title"
+          >
+            <h2 id="safety-principle-title">Catatan Aman</h2>
             <p>
-              Status “Belum Dikonfirmasi” berbeda dengan “pasti tidak diminum”.
-              Verifikasi selalu melalui komunikasi langsung jika ragu.
+              “Belum Dikonfirmasi” berarti OBTARA belum menerima catatan Anda.
+              Jika ragu, periksa instruksi obat atau minta bantuan.
             </p>
           </section>
         </aside>
@@ -29,7 +34,8 @@ export function AppShell({ children }: { children: ReactNode }) {
 
         <main className="app-main" id="main-content" tabIndex={-1}>
           <p className="prototype-disclosure">
-            Prototype pengujian · Semua nama, jadwal, foto, status, dan angka pada layar adalah data simulasi.
+            Prototype mode pribadi · Semua obat, jadwal, foto, status, dan angka
+            pada layar adalah data simulasi.
           </p>
           {children}
         </main>
@@ -38,8 +44,11 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
 
       <footer className="site-footer">
-        <p><strong>OBTARA Web Platform</strong><span>·</span>Obat tertata, keluarga terjaga.</p>
-        <p>Home medication safety and family care platform.</p>
+        <p>
+          <strong>OBTARA Web Platform</strong>
+          <span>·</span>Obat tertata, rutinitas terjaga.
+        </p>
+        <p>Rutinitas obat pribadi dengan dukungan keluarga yang opsional.</p>
       </footer>
     </div>
   )

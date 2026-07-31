@@ -9,7 +9,9 @@ export function Toast({ message, onDismiss }: ToastProps) {
   return (
     <div className="toast" role="status" aria-live="polite">
       <span>{message}</span>
-      <button type="button" onClick={onDismiss}>Tutup</button>
+      <button type="button" onClick={onDismiss}>
+        Tutup
+      </button>
     </div>
   )
 }

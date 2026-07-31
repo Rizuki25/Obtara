@@ -39,7 +39,11 @@ export function SkipReasonForm({ onCancel, onSubmit }: SkipReasonFormProps) {
           onChange={(event) => setReason(event.target.value as SkipReason)}
         >
           <option value="">Pilih salah satu</option>
-          {reasons.map((item) => <option value={item} key={item}>{item}</option>)}
+          {reasons.map((item) => (
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
         </select>
       </div>
       <div className="form-field">

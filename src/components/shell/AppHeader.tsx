@@ -1,14 +1,19 @@
-import { ChevronDown, Moon, ShieldAlert, Type } from 'lucide-react'
+import { Moon, Type, UserRound } from 'lucide-react'
 
 const unavailable = 'Belum tersedia di prototype'
 
 export function Brand() {
   return (
     <div className="brand-lockup" aria-label="OBTARA Web">
-      <span className="brand-icon" aria-hidden="true"><span /></span>
+      <span className="brand-icon" aria-hidden="true">
+        <span />
+      </span>
       <div>
-        <div className="brand-line"><strong>OBTARA</strong><span>WEB</span></div>
-        <p>Obat tertata, keluarga terjaga.</p>
+        <div className="brand-line">
+          <strong>OBTARA</strong>
+          <span>WEB</span>
+        </div>
+        <p>Obat tertata, rutinitas terjaga.</p>
       </div>
     </div>
   )
@@ -19,16 +24,17 @@ export function AppHeader() {
     <header className="app-header">
       <Brand />
       <div className="header-actions">
-        <button className="family-switcher" type="button" disabled title={unavailable}>
-          <span className="family-dot" aria-hidden="true" />
-          Semua Keluarga
-          <ChevronDown size={16} aria-hidden="true" />
-        </button>
-        <button className="caregiver-alert" type="button" disabled title={unavailable}>
-          <ShieldAlert size={18} aria-hidden="true" />
-          Alert Caregiver
-          <span>1</span>
-        </button>
+        <div
+          className="active-profile"
+          aria-label="Profil aktif: Rizqie, mode pribadi"
+        >
+          <UserRound size={18} aria-hidden="true" />
+          <span>
+            <small>Profil aktif</small>
+            <strong>Rizqie (Saya)</strong>
+          </span>
+          <span className="personal-mode-pill">Pribadi</span>
+        </div>
         <span className="header-divider" aria-hidden="true" />
         <button
           className="header-icon-button"

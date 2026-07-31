@@ -59,26 +59,56 @@ export function DoseDetailDialog({ dose, onClose }: DoseDetailDialogProps) {
             ))}
           </div>
 
-          <section className="medication-information" aria-label="Informasi obat">
+          <section
+            className="medication-information"
+            aria-label="Informasi obat"
+          >
             <div>
-              <MapPin className="info-icon info-icon-blue" size={22} aria-hidden="true" />
-              <p><strong>Lokasi Penyimpanan Fisik:</strong>{medication.location}</p>
+              <MapPin
+                className="info-icon info-icon-blue"
+                size={22}
+                aria-hidden="true"
+              />
+              <p>
+                <strong>Lokasi Penyimpanan Fisik:</strong>
+                {medication.location}
+              </p>
             </div>
             <div>
-              <Info className="info-icon info-icon-teal" size={22} aria-hidden="true" />
-              <p><strong>Dosis &amp; Aturan Minum:</strong>{medication.strength} ({medication.amountPerDose}) ({medication.instructions.toLowerCase()})</p>
+              <Info
+                className="info-icon info-icon-teal"
+                size={22}
+                aria-hidden="true"
+              />
+              <p>
+                <strong>Dosis &amp; Aturan Minum:</strong>
+                {medication.strength} ({medication.amountPerDose}) (
+                {medication.instructions.toLowerCase()})
+              </p>
             </div>
             <div>
-              <ShieldCheck className="info-icon info-icon-green" size={22} aria-hidden="true" />
-              <p><strong>Catatan Tambahan:</strong>{medication.note}</p>
+              <ShieldCheck
+                className="info-icon info-icon-green"
+                size={22}
+                aria-hidden="true"
+              />
+              <p>
+                <strong>Catatan Tambahan:</strong>
+                {medication.note}
+              </p>
             </div>
           </section>
 
           <aside className="photo-warning">
             <CircleAlert size={20} aria-hidden="true" />
             <p>
-              Foto pada prototype adalah contoh visual dan bukan foto obat yang sebenarnya.
-              <strong> Jangan gunakan foto demo ini untuk mengidentifikasi atau memilih obat.</strong>
+              Foto pada prototype adalah contoh visual dan bukan foto obat yang
+              sebenarnya.
+              <strong>
+                {' '}
+                Jangan gunakan foto demo ini untuk mengidentifikasi atau memilih
+                obat.
+              </strong>
             </p>
           </aside>
         </div>

@@ -83,7 +83,7 @@ Hasil terakhir:
 - [ ] Upload/camera serta private object storage.
 - [ ] Scheduler, Web Push, email fallback, dan service worker.
 - [ ] IndexedDB, antrean offline, dan sinkronisasi multi-device.
-- [ ] Care Circle, undangan, caregiver dashboard, dan eskalasi alert.
+- [ ] Dukungan keluarga opsional: Care Circle, undangan, caregiver dashboard, dan eskalasi alert.
 - [ ] Stock ledger, refill, dan koreksi stok produksi.
 - [ ] Riwayat serta laporan.
 - [ ] PWA install flow dan manifest production-ready.
@@ -92,6 +92,9 @@ Hasil terakhir:
 ## Redesign dashboard berdasarkan referensi visual
 
 **Status:** Selesai dan terverifikasi pada 31 Juli 2026
+
+> Catatan historis: struktur multi-profil pada bagian ini kemudian digantikan oleh revisi
+> personal-first. Referensi visual, row cards, modal, dan responsive shell tetap dipakai.
 
 - [x] Capability bar untuk status PWA, Web Push, kamera, dan auto-sync.
 - [x] Header desktop dengan brand, family selector, alert caregiver, dan utility controls.
@@ -113,13 +116,32 @@ Hasil verifikasi redesign:
 - Playwright desktop dan mobile: 2 flow relevan lulus, tanpa console error.
 - Screenshot desktop dashboard, desktop modal, dan mobile modal diperiksa secara visual.
 
+## Revisi personal-first
+
+**Status:** Selesai dan terverifikasi pada 31 Juli 2026
+
+- [x] PRD dan workflow dinaikkan ke versi 0.3 personal-first.
+- [x] Alur default disederhanakan menjadi: profil Saya → tambah obat → Hari Ini → tindakan status → stok/riwayat.
+- [x] Dukungan keluarga/caregiver dipindahkan menjadi ekspansi opsional setelah core pribadi stabil.
+- [x] Seluruh lima jadwal demo menggunakan profil `Rizqie (Saya)`.
+- [x] Header desktop menampilkan profil aktif dan label `Pribadi` tanpa family selector atau Alert Caregiver.
+- [x] Navigasi default menjadi Hari Ini, Obat Saya, Stok, Riwayat, dan Pengaturan.
+- [x] Heading berubah menjadi “Jadwal Obat Saya”; metrik “Kepatuhan” diganti “Progres Catatan”.
+- [x] Label “Belum Diminum” dihapus; filter menjadi Perlu Tindakan dan Status Final.
+- [x] Aksi “Sudah Minum” diganti “Sudah Digunakan” agar sesuai untuk tablet, inhaler, dan bentuk obat lain.
+- [x] Filter Perlu Tindakan tidak lagi memasukkan jadwal masa depan yang masih Terjadwal.
+- [x] Copy safety memakai bantuan “orang yang Anda percaya” tanpa mewajibkan caregiver.
+- [x] Tagline diperbarui menjadi “Obat tertata, rutinitas terjaga.”
+- [x] Instrumen usability diarahkan khusus ke penggunaan pribadi; studi caregiver ditunda sampai modul tersedia.
+- [x] Rehearsal teknis personal-first dicatat sebagai `SIM-02`.
+
 ## Tahap 2 — Persiapan usability test
 
 **Status:** Instrumen dan prototype siap untuk sesi; validasi peserta nyata belum dilakukan
 
 - [x] Disclosure persisten “Mode prototype · Data simulasi”.
 - [x] Web Push, kamera, dan sync dilabeli sebagai simulasi.
-- [x] Family selector, Alert Caregiver, tema, ukuran teks, dan Tambah Obat dinonaktifkan serta diberi keterangan belum tersedia.
+- [x] Profil aktif “Saya” terlihat; menu caregiver tidak tampil; tema, ukuran teks, dan Tambah Obat dinonaktifkan serta diberi keterangan belum tersedia.
 - [x] Panduan moderator dan aturan think-aloud.
 - [x] Informasi peserta, persetujuan, dan opsi rekaman.
 - [x] Dua belas skenario tugas beserta safety criteria.
@@ -132,7 +154,7 @@ Hasil verifikasi redesign:
 - [x] Rehearsal teknis T01–T12 berurutan, termasuk transisi state dan reset baseline.
 - [ ] Dry run moderator-manusia menggunakan seluruh dokumen.
 - [ ] Sesi dengan 3–5 pengguna obat.
-- [ ] Sesi dengan 3–5 caregiver.
+- [ ] Studi caregiver terpisah setelah modul dukungan keluarga tersedia.
 - [ ] Analisis dan deduplikasi temuan peserta.
 - [ ] Perbaikan serta retest seluruh P0/P1.
 - [ ] Keputusan final apakah alur siap dihubungkan ke backend.
@@ -161,10 +183,10 @@ Paket tersedia di `docs/usability-test/`. Pembuatan paket dan automated test buk
 - [x] Lembar observasi menampung baseline, consent, durasi, reset, intervensi teknis, dan evaluasi instrumen.
 - [x] Kuesioner menyediakan `N/A` dan tidak lagi meminta peserta menilai koreksi yang belum tersedia.
 - [x] Template laporan dry run terpisah dari hasil peserta nyata.
-- [x] Artefak rehearsal `SIM-01` disimpan tanpa skor, waktu, atau kutipan peserta palsu.
+- [x] Artefak historis `SIM-01` dan baseline personal-first `SIM-02` disimpan tanpa skor, waktu, atau kutipan peserta palsu.
 - [x] Smoke test Playwright khusus memastikan 12 skenario dapat dijalankan berurutan dan baseline pulih setelah reload.
 
-Temuan dan bukti tersedia di `docs/usability-test/dry-runs/`. SIM-01 bukan bukti usability
+Temuan dan bukti tersedia di `docs/usability-test/dry-runs/`. SIM-02 bukan bukti usability
 atau pengganti peserta internal yang tidak mengenal implementasi.
 
 Hasil quality gate terbaru:
@@ -173,11 +195,11 @@ Hasil quality gate terbaru:
 - Vitest: 4 file, 18 test lulus.
 - TypeScript/Vite build: lulus.
 - Playwright: 3 flow relevan lulus, termasuk rehearsal T01–T12; 3 kombinasi viewport dilewati secara sengaja.
-- Screenshot popup Tunda, Lewati, Tidak Yakin, dan bottom sheet mobile diperiksa secara visual.
+- Screenshot dashboard personal-first desktop/mobile, popup Tunda, Lewati, Tidak Yakin, dan bottom sheet mobile diperiksa secara visual.
 
 ## Tahap berikutnya yang direkomendasikan
 
-Lakukan `DRY-01` moderator-manusia dengan rekan yang tidak terlibat implementasi. Pastikan
-durasi 30–40 menit, pencatatan sambil memoderasi, scoring, dan pemahaman safety lolos;
-setelah itu baru rekrut peserta `U-*` dan `C-*`. Backend tetap ditunda sampai temuan safety
-dan alur inti dianalisis serta P0/P1 selesai diretest.
+Tahap implementasi berikutnya adalah prototype onboarding pribadi dan formulir Tambah Obat
+dengan state lokal, lalu hubungkan hasilnya ke Hari Ini. Dukungan keluarga tetap ditunda.
+Sebelum backend atau rekrutmen studi utama, lakukan `DRY-01` moderator-manusia dan pastikan
+durasi 30–40 menit, pencatatan, scoring, serta pemahaman safety lolos.

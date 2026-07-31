@@ -11,7 +11,7 @@ const timeFormatter = new Intl.DateTimeFormat('id-ID', {
 })
 
 function statusLabel(dose: DoseView) {
-  if (dose.status === 'unconfirmed') return 'Belum Dikonfirmasi (Eskalasi Caregiver)'
+  if (dose.status === 'unconfirmed') return 'Belum Dikonfirmasi'
   if (dose.status === 'snoozed') return 'Ditunda +30m'
   if (dose.status === 'due') return 'Jatuh Tempo Sekarang'
   return undefined
@@ -40,7 +40,9 @@ export function DoseCard({ dose, onOpen }: DoseCardProps) {
       <div className="dose-card-copy">
         <div className="dose-pill-row">
           <span className="time-pill">{time} WIB</span>
-          <span className="profile-pill" data-tint={dose.profileTint}>{dose.profileName}</span>
+          <span className="profile-pill" data-tint={dose.profileTint}>
+            {dose.profileName}
+          </span>
           <StatusBadge status={dose.status} label={statusLabel(dose)} />
         </div>
         <button
@@ -51,7 +53,9 @@ export function DoseCard({ dose, onOpen }: DoseCardProps) {
           {medication.name}
         </button>
         <div className="dose-specification">
-          <strong>{medication.strength} ({medication.amountPerDose})</strong>
+          <strong>
+            {medication.strength} ({medication.amountPerDose})
+          </strong>
           <span aria-hidden="true">·</span>
           <span className="instruction-tag">{medication.instructions}</span>
         </div>

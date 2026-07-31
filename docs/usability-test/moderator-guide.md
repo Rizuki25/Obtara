@@ -11,7 +11,7 @@
 ## Sebelum sesi
 
 - Participant ID: __________
-- Peran: Pengguna obat / Caregiver / Lainnya: __________
+- Peran: Pengguna obat untuk diri sendiri / Lainnya: __________
 - Versi/build prototype: __________
 - Perangkat dan browser: __________
 - Kebutuhan aksesibilitas: __________
@@ -26,9 +26,13 @@
 
 > Selama tes, mohon ceritakan apa yang Anda lihat, pikirkan, dan harapkan terjadi. Saya mungkin diam agar tidak memengaruhi pilihan Anda. Jika ada bagian yang membingungkan, itu adalah temuan penting bagi kami.
 
+> Prototype ini menggunakan satu profil “Saya”. Fitur pendamping atau caregiver tidak
+> diperlukan untuk menyelesaikan tugas dan belum menjadi bagian dari alur yang diuji.
+
 Konfirmasi:
 
 - Apakah peserta memahami bahwa data/foto adalah simulasi? Ya / Tidak
+- Apakah peserta memahami bahwa pengujian ini menggunakan mode pribadi? Ya / Tidak
 - Apakah peserta bersedia melanjutkan? Ya / Tidak
 - Apakah persetujuan rekaman sudah dicatat bila relevan? Ya / Tidak / N/A
 

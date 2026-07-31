@@ -44,11 +44,20 @@ export function selectDoseViews(
 
 export function filterDoses(doses: DoseView[], filter: DoseFilter) {
   if (filter === 'all') return doses
-  const resolvedStatuses = new Set<DoseStatus>(['confirmed', 'skipped', 'unsure'])
+  const resolvedStatuses = new Set<DoseStatus>([
+    'confirmed',
+    'skipped',
+    'unsure',
+  ])
+  const actionableStatuses = new Set<DoseStatus>([
+    'due',
+    'snoozed',
+    'unconfirmed',
+  ])
   return doses.filter((dose) =>
     filter === 'resolved'
       ? resolvedStatuses.has(dose.status)
-      : !resolvedStatuses.has(dose.status),
+      : actionableStatuses.has(dose.status),
   )
 }
 
@@ -69,8 +78,14 @@ export function groupDoses(doses: DoseView[]): DoseGroup[] {
 }
 
 export function summarizeDoses(doses: DoseView[]) {
-  const resolvedStatuses = new Set<DoseStatus>(['confirmed', 'skipped', 'unsure'])
-  const resolved = doses.filter((dose) => resolvedStatuses.has(dose.status)).length
+  const resolvedStatuses = new Set<DoseStatus>([
+    'confirmed',
+    'skipped',
+    'unsure',
+  ])
+  const resolved = doses.filter((dose) =>
+    resolvedStatuses.has(dose.status),
+  ).length
   const confirmed = doses.filter((dose) => dose.status === 'confirmed').length
   const delayed = doses.filter((dose) =>
     ['snoozed', 'skipped'].includes(dose.status),

@@ -34,7 +34,9 @@ interface DoseActionsProps {
 export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
   const { dispatch } = useDoses()
   const [popup, setPopup] = useState<ActionPopup>(null)
-  const [popupTrigger, setPopupTrigger] = useState<HTMLButtonElement | null>(null)
+  const [popupTrigger, setPopupTrigger] = useState<HTMLButtonElement | null>(
+    null,
+  )
   const isRow = variant === 'row'
 
   if (isFinalStatus(dose.status)) {
@@ -53,7 +55,9 @@ export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
 
     return (
       <section className="final-panel" aria-labelledby="final-status-title">
-        <h3 id="final-status-title">Sudah tercatat: {getStatusLabel(dose.status)}</h3>
+        <h3 id="final-status-title">
+          Sudah tercatat: {getStatusLabel(dose.status)}
+        </h3>
         <p>
           {dose.actionedAt
             ? `Dicatat pukul ${actionTimeFormatter.format(new Date(dose.actionedAt))}. `
@@ -109,7 +113,7 @@ export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
           onClick={() => dispatch({ type: 'confirm', id: dose.id })}
         >
           <CheckCircle2 size={18} aria-hidden="true" />
-          Dikonfirmasi (Sudah Minum)
+          Dikonfirmasi (Sudah Digunakan)
         </Button>
 
         <Button
@@ -163,7 +167,9 @@ export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
               </button>
             ))}
           </div>
-          <Button full onClick={closePopup}>Batal</Button>
+          <Button full onClick={closePopup}>
+            Batal
+          </Button>
         </div>
       </DoseActionDialog>
 

@@ -1,5 +1,8 @@
 # Lembar Observasi Rehearsal Teknis SIM-01
 
+> Arsip historis: rehearsal ini memakai prototype multi-profil sebelum revisi
+> personal-first. Gunakan SIM-02 dan instrumen terbaru untuk baseline saat ini.
+
 > Ini adalah desk-check dan smoke test otomatis oleh agen yang telah membaca implementasi.
 > Tidak ada peserta manusia. Skor, waktu, kemudahan, dan kutipan di bawah tidak boleh
 > digabungkan dengan hasil `U-*`, `C-*`, atau `DRY-*`.

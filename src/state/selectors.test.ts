@@ -27,7 +27,7 @@ const occurrences: Record<string, DoseOccurrence> = {
   night: {
     id: 'night',
     medicationId: 'med-1',
-    profileName: 'Ibu Uji',
+    profileName: 'Pengguna Uji',
     profileTint: 'purple',
     scheduledAt: '2026-07-31T20:00:00',
     status: 'scheduled',
@@ -35,25 +35,38 @@ const occurrences: Record<string, DoseOccurrence> = {
   morning: {
     id: 'morning',
     medicationId: 'med-1',
-    profileName: 'Ibu Uji',
+    profileName: 'Pengguna Uji',
     profileTint: 'purple',
     scheduledAt: '2026-07-31T08:00:00',
     status: 'confirmed',
+  },
+  noon: {
+    id: 'noon',
+    medicationId: 'med-1',
+    profileName: 'Pengguna Uji',
+    profileTint: 'teal',
+    scheduledAt: '2026-07-31T13:00:00',
+    status: 'due',
   },
 }
 
 describe('dose selectors', () => {
   it('mengurutkan dosis dan menggabungkan detail obat', () => {
     const doses = selectDoseViews(occurrences, [medication])
-    expect(doses.map((dose) => dose.id)).toEqual(['morning', 'night'])
+    expect(doses.map((dose) => dose.id)).toEqual(['morning', 'noon', 'night'])
     expect(doses[0].medication.name).toBe('Obat Uji')
   })
 
   it('mengelompokkan dosis berdasarkan bagian hari', () => {
     const groups = groupDoses(selectDoseViews(occurrences, [medication]))
-    expect(groups.map((group) => group.label)).toEqual(['Pagi', 'Malam'])
+    expect(groups.map((group) => group.label)).toEqual([
+      'Pagi',
+      'Siang',
+      'Malam',
+    ])
     expect(groups.map((group) => group.range)).toEqual([
       '05:00 - 11:00',
+      '11:00 - 15:00',
       '18:00 - 23:00',
     ])
   })
@@ -61,11 +74,11 @@ describe('dose selectors', () => {
   it('menghitung metrik dashboard', () => {
     const summary = summarizeDoses(selectDoseViews(occurrences, [medication]))
     expect(summary).toEqual({
-      total: 2,
+      total: 3,
       resolved: 1,
       confirmed: 1,
       delayed: 0,
-      remaining: 1,
+      remaining: 2,
     })
   })
 
@@ -75,7 +88,7 @@ describe('dose selectors', () => {
       'morning',
     ])
     expect(filterDoses(doses, 'needs-action').map((dose) => dose.id)).toEqual([
-      'night',
+      'noon',
     ])
   })
 })

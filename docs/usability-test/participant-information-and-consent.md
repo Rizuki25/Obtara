@@ -7,7 +7,10 @@ Kontak: __________
 
 ## Tentang studi
 
-OBTARA adalah prototype pengelolaan jadwal obat keluarga. Sesi ini menilai apakah antarmuka mudah dipahami. Ini bukan layanan medis, bukan alat diagnosis, dan bukan bukti bahwa obat telah digunakan.
+OBTARA adalah prototype pengelolaan rutinitas obat pribadi. Sesi ini menilai apakah
+antarmuka mudah dipahami untuk penggunaan diri sendiri. Dukungan keluarga bersifat
+opsional dan belum diaktifkan pada prototype ini. OBTARA bukan layanan medis, bukan alat
+diagnosis, dan bukan bukti bahwa obat telah digunakan.
 
 ## Data dalam prototype
 

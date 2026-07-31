@@ -17,7 +17,7 @@ meminta peserta menebak.
 | Saya memahami arti Belum Dikonfirmasi.                                                         |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Saya tahu bahwa foto pada prototype hanya contoh demo.                                         |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Saya memahami bahwa status final mencegah pencatatan status final kedua pada jadwal yang sama. |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
-| Informasi pribadi yang mungkin dibagikan kepada caregiver terasa jelas.                        |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
+| Saya memahami bahwa OBTARA dapat digunakan untuk diri sendiri tanpa caregiver.                 |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Ukuran teks, kontras, dan target sentuh nyaman.                                                |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Secara keseluruhan prototype ini mudah digunakan.                                              |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 

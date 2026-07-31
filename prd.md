@@ -1,53 +1,54 @@
 # OBTARA Web — Product Requirements Document
 
-> **Tagline:** Obat tertata, keluarga terjaga.
+> **Tagline:** Obat tertata, rutinitas terjaga.
 
-| Atribut | Nilai |
-|---|---|
-| Versi | 0.2 — Web/PWA revision |
-| Status | Draft untuk validasi |
-| Tanggal | 31 Juli 2026 |
-| Platform | Responsive web app berbasis React + Vite, dengan PWA sebagai progressive enhancement |
-| Pasar awal | Indonesia |
-| Pemilik produk | TBD |
+| Atribut        | Nilai                                                                                |
+| -------------- | ------------------------------------------------------------------------------------ |
+| Versi          | 0.3 — Personal-first revision                                                        |
+| Status         | Draft untuk validasi                                                                 |
+| Tanggal        | 31 Juli 2026                                                                         |
+| Platform       | Responsive web app berbasis React + Vite, dengan PWA sebagai progressive enhancement |
+| Pasar awal     | Indonesia                                                                            |
+| Pemilik produk | TBD                                                                                  |
 
 ## 1. Keputusan platform
 
-OBTARA dapat dipindahkan dari Flutter mobile ke React + Vite web. Bentuk produk yang direkomendasikan adalah **responsive web app** yang dapat dibuka dari browser ponsel, tablet, dan desktop, dengan opsi instalasi PWA.
+OBTARA dapat dipindahkan dari Flutter mobile ke React + Vite web. Bentuk produk yang direkomendasikan adalah **responsive web app personal-first** yang dapat dibuka dari browser ponsel, tablet, dan desktop, dengan opsi instalasi PWA.
 
 Perpindahan ini memberi dua keuntungan utama:
 
-- Pengguna obat tetap dapat memakai tampilan mobile dari browser.
-- Caregiver mendapatkan dashboard yang lebih nyaman di layar tablet atau desktop.
+- Setiap orang dapat mengatur rutinitas obatnya sendiri tanpa caregiver.
+- Dukungan keluarga dapat diaktifkan kemudian sebagai pilihan, bukan syarat penggunaan.
+- Caregiver yang diundang dapat memakai dashboard yang lebih nyaman di layar tablet atau desktop setelah modul dukungan keluarga tersedia.
 
 Namun, web memiliki batasan yang harus diperlakukan sebagai bagian dari desain:
 
 - Pengingat browser memerlukan HTTPS, izin notifikasi, dan service worker.
 - Pengguna yang menolak izin atau memakai browser yang tidak mendukung fitur tertentu tetap harus dapat memakai alur utama.
-- Alert caregiver tidak boleh bergantung pada tab yang sedang terbuka. Backend harus menjadwalkan alert dan mengirimkannya melalui Web Push serta kanal fallback yang disetujui.
+- Reminder pribadi tidak boleh bergantung pada tab yang sedang terbuka. Jika dukungan keluarga diaktifkan, alert caregiver juga harus dijadwalkan backend dan dikirim melalui kanal yang disetujui.
 - OBTARA tidak boleh menjanjikan bahwa setiap browser akan memberikan notifikasi dengan reliabilitas seperti aplikasi native.
 
 ### 1.1 Rekomendasi arsitektur teknis
 
-| Lapisan | Keputusan awal |
-|---|---|
-| UI | React dengan function components dan TypeScript |
-| Build/dev | Vite |
-| Routing | React Router atau router setara |
-| Server state | Query/cache layer seperti TanStack Query atau solusi setara |
-| UI state | Context atau state store ringan sesuai kebutuhan |
-| Offline | Service worker, Cache Storage, dan IndexedDB untuk antrean event |
-| PWA | Web App Manifest dan service worker melalui tooling PWA yang kompatibel dengan Vite |
-| Push | Web Push/VAPID atau provider push yang mendukung browser |
-| Backend | API terpisah untuk autentikasi, data, scheduler, alert, dan audit |
-| Media | Object storage privat dengan URL berumur terbatas |
-| Hosting | HTTPS, CDN/static hosting untuk frontend, backend terpisah |
+| Lapisan      | Keputusan awal                                                                      |
+| ------------ | ----------------------------------------------------------------------------------- |
+| UI           | React dengan function components dan TypeScript                                     |
+| Build/dev    | Vite                                                                                |
+| Routing      | React Router atau router setara                                                     |
+| Server state | Query/cache layer seperti TanStack Query atau solusi setara                         |
+| UI state     | Context atau state store ringan sesuai kebutuhan                                    |
+| Offline      | Service worker, Cache Storage, dan IndexedDB untuk antrean event                    |
+| PWA          | Web App Manifest dan service worker melalui tooling PWA yang kompatibel dengan Vite |
+| Push         | Web Push/VAPID atau provider push yang mendukung browser                            |
+| Backend      | API terpisah untuk autentikasi, data, scheduler, alert, dan audit                   |
+| Media        | Object storage privat dengan URL berumur terbatas                                   |
+| Hosting      | HTTPS, CDN/static hosting untuk frontend, backend terpisah                          |
 
 React merupakan lapisan UI dan Vite merupakan build tool; keduanya tidak menggantikan backend, database, scheduler, atau push provider. Jika kelak OBTARA membutuhkan SEO, SSR, atau halaman publik yang kompleks, keputusan penggunaan framework React full-stack dapat dievaluasi tanpa mengubah domain data dan workflow produk.
 
 ## 2. Ringkasan produk
 
-OBTARA adalah platform web untuk manajemen obat dan koordinasi perawatan keluarga. Produk ini menggabungkan kabinet obat visual, pengingat jadwal, konfirmasi penggunaan, eskalasi kepada caregiver, dan pemantauan stok/refill.
+OBTARA adalah platform web untuk membantu seseorang mengatur rutinitas obatnya sendiri. Produk inti menggabungkan kabinet obat visual, jadwal, pengingat, pencatatan status penggunaan, dan pemantauan stok/refill. Dukungan keluarga/caregiver merupakan modul opsional yang dapat diaktifkan setelah pengguna memilih membagikan akses.
 
 OBTARA tidak hanya mengingatkan waktu. Produk ini membantu menjawab:
 
@@ -55,6 +56,21 @@ OBTARA tidak hanya mengingatkan waktu. Produk ini membantu menjawab:
 2. Kapan obat tersebut dijadwalkan?
 3. Apakah status dosis sudah diketahui?
 4. Apakah persediaannya cukup sampai waktu refill berikutnya?
+5. Jika saya menginginkannya, siapa yang boleh membantu melihat atau menindaklanjuti status saya?
+
+### 2.1 Model penggunaan personal-first
+
+Alur default hanya memuat kebutuhan pribadi:
+
+1. Daftar atau masuk.
+2. Buat profil “Saya”.
+3. Tambahkan obat, foto, jadwal, dan stok.
+4. Gunakan Hari Ini untuk mencatat Dikonfirmasi, Tunda, Lewati, atau Tidak Yakin.
+5. Tinjau Obat Saya, stok, dan riwayat.
+
+Setelah alur tersebut berfungsi, pengguna boleh mengaktifkan “Dukungan keluarga” dari
+Pengaturan. Aktivasi ini membuat alur undangan, izin, dan alert tersedia. Tanpa aktivasi,
+tidak ada family selector, menu caregiver, atau pembagian data pada navigasi utama.
 
 ## 3. Latar belakang dan masalah
 
@@ -62,7 +78,8 @@ Pengguna yang mengonsumsi beberapa obat dan keluarganya dapat mengalami:
 
 - Obat yang tampak serupa sehingga mudah tertukar.
 - Pengingat yang hanya menampilkan jam, tanpa menunjukkan obat fisik.
-- Status dosis yang tidak diketahui caregiver.
+- Pengguna tidak memiliki catatan pribadi yang jelas mengenai status jadwalnya.
+- Bila pengguna memilih bantuan keluarga, status yang belum diketahui sulit ditindaklanjuti dengan aman.
 - Alert yang terlambat atau terlalu banyak.
 - Persediaan yang habis tanpa disadari.
 - Data obat, jadwal, stok, dan komunikasi keluarga yang tersebar.
@@ -72,15 +89,15 @@ Pengguna yang mengonsumsi beberapa obat dan keluarganya dapat mengalami:
 
 ### 4.1 Visi
 
-Menjadi kabinet obat digital keluarga yang membantu penggunaan obat berlangsung lebih teratur, mudah dikenali, dan terkoordinasi di berbagai perangkat.
+Menjadi kabinet obat digital pribadi yang membantu rutinitas obat lebih tertata, mudah dikenali, dan dapat diperluas dengan dukungan keluarga bila pengguna menginginkannya.
 
 ### 4.2 Positioning
 
-**Kategori:** Home medication safety and family care platform.
+**Kategori:** Personal medication routine and optional family support platform.
 
 **Pernyataan positioning:**
 
-> Bagi pengguna obat rutin dan keluarganya, OBTARA adalah pendamping pengelolaan obat yang menampilkan obat secara visual, memantau status dosis, menghubungkan caregiver saat bantuan dibutuhkan, dan memperkirakan kapan stok akan habis.
+> Bagi orang yang menggunakan obat rutin, OBTARA adalah pendamping pribadi yang menampilkan obat secara visual, membantu mencatat status jadwal, dan memperkirakan kapan stok akan habis. Pengguna dapat mengundang pendamping hanya bila bantuan tersebut dibutuhkan.
 
 ### 4.3 Janji utama
 
@@ -96,10 +113,11 @@ Menjadi kabinet obat digital keluarga yang membantu penggunaan obat berlangsung 
 
 - Mengurangi kebingungan saat memilih obat melalui foto obat dan kemasan asli.
 - Membantu pengguna menyelesaikan rutinitas obat dengan interaksi sesederhana mungkin.
+- Memungkinkan seseorang memperoleh manfaat inti tanpa membuat profil keluarga atau mengundang caregiver.
 - Memberikan status yang jelas tanpa menyimpulkan bahwa obat pasti tertelan.
-- Memberikan caregiver informasi yang dapat ditindaklanjuti, dengan persetujuan.
+- Menyediakan dukungan caregiver sebagai pilihan eksplisit setelah alur pribadi stabil.
 - Mengurangi kejadian stok obat habis tanpa disadari.
-- Menyediakan pengalaman mobile untuk pengguna dan dashboard layar besar untuk caregiver.
+- Menyediakan pengalaman pribadi yang nyaman pada mobile maupun desktop.
 - Tetap berguna ketika koneksi terputus atau kemampuan browser terbatas.
 
 ### 5.2 Bukan sasaran produk
@@ -114,12 +132,13 @@ OBTARA tidak:
 - Memberikan keputusan interaksi obat tanpa sumber klinis tervalidasi.
 - Menjadi marketplace atau layanan pengantaran obat pada MVP.
 - Mengandalkan browser tertentu untuk menjadi satu-satunya jalur alert caregiver.
+- Mewajibkan pengguna mempunyai caregiver atau membagikan data agar dapat memakai fitur inti.
 
 ## 6. Pengguna sasaran
 
-### 6.1 Pengguna obat
+### 6.1 Pengguna utama — penggunaan pribadi
 
-Individu yang mengonsumsi obat rutin, termasuk lansia, pasien penyakit kronis, atau pasien pascaperawatan. Umumnya memakai ponsel, tetapi tidak selalu mau atau mampu memasang aplikasi.
+Individu yang mengonsumsi obat rutin, termasuk lansia, pasien penyakit kronis, atau pasien pascaperawatan. Pengguna mengelola profil “Saya” secara default, umumnya melalui ponsel, tanpa perlu memasang aplikasi atau mengundang orang lain.
 
 Kebutuhan:
 
@@ -127,10 +146,11 @@ Kebutuhan:
 - Mendapat pengingat yang tidak membingungkan.
 - Mengonfirmasi, menunda, melewati, atau menandai “tidak yakin”.
 - Melihat stok dan waktu perkiraan habis.
+- Memahami bahwa seluruh data tetap pribadi sampai mereka memilih membagikannya.
 
-### 6.2 Caregiver
+### 6.2 Pendamping/caregiver opsional
 
-Anak, pasangan, saudara, pendamping, atau perawat informal. Umumnya membutuhkan dashboard yang dapat dibuka dari desktop atau tablet.
+Anak, pasangan, saudara, pendamping, atau perawat informal yang hanya memperoleh akses setelah diundang dan diberi izin oleh pemilik profil. Peran ini bukan prasyarat penggunaan OBTARA.
 
 Kebutuhan:
 
@@ -139,9 +159,9 @@ Kebutuhan:
 - Mengakui dan menyelesaikan alert.
 - Membantu mengatur jadwal atau stok jika diberi izin.
 
-### 6.3 Pengelola profil
+### 6.3 Pengelola profil opsional
 
-Pihak yang diberi kewenangan mengatur obat, jadwal, stok, dan izin Care Circle. Pengelola dapat sama dengan pengguna obat atau anggota keluarga lain.
+Pada mode pribadi, pengguna adalah pemilik sekaligus pengelola profilnya sendiri. Delegasi pengelolaan kepada orang lain hanya tersedia pada modul dukungan keluarga.
 
 ## 7. Jobs to be done
 
@@ -150,31 +170,34 @@ Pihak yang diberi kewenangan mengatur obat, jadwal, stok, dan izin Care Circle. 
 - Ketika saya melewati dosis, saya ingin mencatat alasannya tanpa merasa dihakimi.
 - Ketika orang tua saya belum mengonfirmasi dosis, saya ingin menerima alert yang bisa saya tindak lanjuti.
 - Ketika stok mulai sedikit, saya ingin mengetahui perkiraan tanggal habis.
+- Ketika baru memakai OBTARA, saya ingin langsung membuat profil untuk diri sendiri tanpa harus memahami fitur keluarga.
+- Ketika tidak membutuhkan bantuan, saya ingin seluruh fitur inti tetap dapat digunakan tanpa caregiver.
 - Ketika berkonsultasi dengan dokter, saya ingin menunjukkan ringkasan obat yang rapi.
 - Ketika memakai perangkat berbeda, saya ingin status dan riwayat tetap tersinkron.
 
 ## 8. Prinsip pengalaman pengguna
 
-1. **Responsive-first:** alur utama nyaman pada lebar layar ponsel, tablet, dan desktop.
-2. **Visual-first:** foto obat dan kemasan tampil bersama nama serta dosis.
-3. **Satu tindakan utama:** setiap layar memiliki satu aksi paling jelas.
-4. **Tidak menghakimi:** gunakan “belum dikonfirmasi”, bukan “gagal”.
-5. **Aman saat ragu:** sediakan pilihan “Saya tidak yakin”.
-6. **Progressive enhancement:** fitur PWA, kamera, dan push memperkaya pengalaman tetapi tidak memblokir penggunaan dasar.
-7. **Privacy by default:** informasi sensitif tidak tampil di notifikasi tanpa izin.
-8. **Aksesibel:** informasi tidak bergantung pada warna, hover, atau pointer saja.
-9. **Transparan:** pengguna tahu siapa yang menerima data dan alert.
-10. **Dapat dikoreksi:** stok, status, dan jadwal dapat diperbaiki dengan jejak perubahan.
+1. **Personal-first:** profil “Saya” dan rutinitas pribadi menjadi default; kolaborasi selalu opsional.
+2. **Responsive-first:** alur utama nyaman pada lebar layar ponsel, tablet, dan desktop.
+3. **Visual-first:** foto obat dan kemasan tampil bersama nama serta dosis.
+4. **Satu tindakan utama:** setiap layar memiliki satu aksi paling jelas.
+5. **Tidak menghakimi:** gunakan “belum dikonfirmasi”, bukan “gagal” atau “belum diminum”.
+6. **Aman saat ragu:** sediakan pilihan “Saya tidak yakin”.
+7. **Progressive enhancement:** fitur PWA, kamera, dan push memperkaya pengalaman tetapi tidak memblokir penggunaan dasar.
+8. **Privacy by default:** informasi sensitif tidak tampil di notifikasi tanpa izin dan tidak dibagikan secara default.
+9. **Aksesibel:** informasi tidak bergantung pada warna, hover, atau pointer saja.
+10. **Transparan:** pengguna tahu kapan data hanya miliknya dan siapa yang menerima data setelah fitur berbagi diaktifkan.
+11. **Dapat dikoreksi:** stok, status, dan jadwal dapat diperbaiki dengan jejak perubahan.
 
 ## 9. Ruang lingkup
 
-### 9.1 MVP web/PWA
+### 9.1 MVP inti — penggunaan pribadi
 
 - Registrasi, login, dan pengelolaan sesi browser.
 - Responsive shell untuk mobile, tablet, dan desktop.
 - Web App Manifest dan service worker.
 - Install prompt PWA yang tidak memblokir browser biasa.
-- Profil pengguna dan beberapa profil dalam satu keluarga.
+- Satu profil pribadi “Saya” sebagai default.
 - Penambahan obat secara manual.
 - Upload foto obat depan/belakang dan foto kemasan.
 - Capture dari kamera perangkat bila browser mendukung.
@@ -184,17 +207,27 @@ Pihak yang diberi kewenangan mengatur obat, jadwal, stok, dan izin Care Circle. 
 - Fallback email untuk alert yang membutuhkan tindakan.
 - Status dosis: dikonfirmasi, tunda, dilewati, tidak yakin, dan belum dikonfirmasi.
 - Pencegahan konfirmasi dosis ganda.
-- Care Circle dan undangan caregiver.
-- Caregiver dashboard desktop/responsive.
-- Eskalasi alert bertingkat berbasis backend.
 - Stok otomatis berkurang dari dosis yang dikonfirmasi.
 - Ambang stok minimum dan perkiraan tanggal habis.
 - Riwayat dosis dan ringkasan dasar.
 - Offline app shell dan antrean event dasar melalui IndexedDB.
 - Pengaturan aksesibilitas.
-- Kontrol privasi, persetujuan, audit log, dan penghapusan akun.
+- Kontrol privasi, audit log, ekspor data, dan penghapusan akun.
 
-### 9.2 Setelah MVP
+### 9.2 Ekspansi opsional — dukungan keluarga
+
+Ekspansi ini dimulai setelah alur pribadi selesai divalidasi. Pengguna yang tidak
+mengaktifkannya tetap memperoleh seluruh manfaat inti.
+
+- Profil tambahan dalam satu akun.
+- Care Circle dan undangan caregiver.
+- Izin granular untuk status, detail obat, stok, dan pengelolaan.
+- Caregiver dashboard desktop/responsive.
+- Eskalasi alert bertingkat berbasis backend.
+- Ringkasan beberapa profil dan status sinkronisasi terakhir.
+- Pencabutan akses, consent, dan audit akses caregiver.
+
+### 9.3 Setelah MVP pribadi
 
 - Pemindaian label atau resep dengan OCR dan verifikasi manual.
 - Jadwal tapering, siklus kompleks, dan obat bila diperlukan.
@@ -207,7 +240,7 @@ Pihak yang diberi kewenangan mengatur obat, jadwal, stok, dan izin Care Circle. 
 - Kanal SMS/WhatsApp melalui provider resmi dan consent.
 - Dukungan admin/operasional untuk menangani undangan dan akun.
 
-### 9.3 Eksplorasi jangka panjang
+### 9.4 Eksplorasi jangka panjang
 
 - Pencocokan visual obat dengan kamera sebagai alat bantu, bukan identifikasi final.
 - QR/NFC pada kabinet fisik.
@@ -238,38 +271,37 @@ Pihak yang diberi kewenangan mengatur obat, jadwal, stok, dan izin Care Circle. 
 - Pengguna dapat membuka route langsung setelah login.
 - Service worker tidak menyimpan data kesehatan privat dalam cache publik.
 
-### FR-WEB-02 — Akun, profil, dan Care Circle
+### FR-WEB-02 — Akun dan profil pribadi
 
 #### Persyaratan
 
 - Pengguna dapat membuat akun dengan email atau nomor telepon.
 - Sesi disimpan menggunakan mekanisme cookie/token yang aman dan memiliki expiry.
-- Satu akun dapat mengelola beberapa profil.
+- Onboarding default membuat satu profil “Saya”.
 - Profil memiliki nama panggilan, zona waktu, dan preferensi aksesibilitas.
-- Pengelola dapat mengundang caregiver melalui tautan atau kode sekali pakai.
-- Izin setiap caregiver dapat dipilih dan dicabut.
-- Semua perubahan izin dicatat dalam audit log.
+- Pengguna tidak diminta membuat keluarga atau mengundang caregiver untuk menyelesaikan onboarding.
+- Data profil pribadi tidak dibagikan secara default.
 
 #### Kriteria penerimaan
 
-- Caregiver harus menerima undangan sebelum data profil terlihat.
-- Token undangan memiliki masa berlaku dan tidak dapat digunakan dua kali.
 - Logout membersihkan sesi browser dan data sementara sensitif.
+- Setelah login pertama, pengguna langsung diarahkan ke setup obat miliknya sendiri.
 
 ### FR-WEB-03 — Responsive shell dan navigasi
 
 #### Breakpoint perilaku
 
-| Lebar layar | Perilaku awal |
-|---|---|
-| <640 px | Navigasi bawah atau menu ringkas, satu kolom, kartu besar |
-| 640–1023 px | Dua kolom bila ruang cukup, toolbar adaptif |
-| ≥1024 px | Sidebar, tabel/dashboard, panel detail, dan keyboard shortcut opsional |
+| Lebar layar | Perilaku awal                                                          |
+| ----------- | ---------------------------------------------------------------------- |
+| <640 px     | Navigasi bawah atau menu ringkas, satu kolom, kartu besar              |
+| 640–1023 px | Dua kolom bila ruang cukup, toolbar adaptif                            |
+| ≥1024 px    | Sidebar, tabel/dashboard, panel detail, dan keyboard shortcut opsional |
 
 #### Persyaratan
 
 - Layar Hari Ini menjadi landing page setelah login.
-- Caregiver dapat berpindah profil tanpa kehilangan filter penting.
+- Header menampilkan profil aktif “Saya”; pemilih keluarga tidak muncul pada mode pribadi.
+- Navigasi inti terdiri dari Hari Ini, Obat Saya, Stok, Riwayat, dan Pengaturan.
 - Tidak ada fungsi inti yang hanya dapat dijalankan melalui hover.
 - Modal dan drawer dapat ditutup dengan Escape serta tombol yang terlihat.
 - Layout tetap usable pada zoom browser 200%.
@@ -353,16 +385,16 @@ Pihak yang diberi kewenangan mengatur obat, jadwal, stok, dan izin Care Circle. 
 
 #### Status kejadian dosis
 
-| Status | Arti |
-|---|---|
-| Terjadwal | Waktu belum tiba |
-| Jatuh tempo | Berada dalam jendela konfirmasi |
-| Ditunda | Pengguna meminta pengingat ulang |
-| Dikonfirmasi | Pengguna menyatakan obat sudah digunakan |
-| Dilewati | Pengguna menyatakan dosis tidak digunakan |
-| Tidak yakin | Pengguna membutuhkan pemeriksaan sebelum tindakan berikutnya |
-| Belum dikonfirmasi | Jendela berakhir tanpa status final |
-| Dibatalkan | Jadwal dibatalkan karena obat dijeda/diubah |
+| Status             | Arti                                                         |
+| ------------------ | ------------------------------------------------------------ |
+| Terjadwal          | Waktu belum tiba                                             |
+| Jatuh tempo        | Berada dalam jendela konfirmasi                              |
+| Ditunda            | Pengguna meminta pengingat ulang                             |
+| Dikonfirmasi       | Pengguna menyatakan obat sudah digunakan                     |
+| Dilewati           | Pengguna menyatakan dosis tidak digunakan                    |
+| Tidak yakin        | Pengguna membutuhkan pemeriksaan sebelum tindakan berikutnya |
+| Belum dikonfirmasi | Jendela berakhir tanpa status final                          |
+| Dibatalkan         | Jadwal dibatalkan karena obat dijeda/diubah                  |
 
 #### Persyaratan
 
@@ -393,7 +425,7 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 - T0: reminder kepada pengguna.
 - T+10 menit: reminder kedua.
 - T+30 menit: reminder terakhir kepada pengguna.
-- Setelah batas caregiver: evaluasi eskalasi.
+- Jika dukungan keluarga aktif dan batasnya tercapai: evaluasi eskalasi.
 
 #### Kriteria penerimaan
 
@@ -402,7 +434,10 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 - Pengguna melihat status subscription dan cara mengaktifkannya kembali.
 - Notifikasi duplikat untuk event yang sama dicegah.
 
-### FR-WEB-09 — Caregiver alert dan eskalasi
+### FR-WEB-09 — Dukungan keluarga opsional: alert dan eskalasi
+
+FR ini bukan bagian dari MVP inti penggunaan pribadi. Fitur hanya muncul setelah pengguna
+secara eksplisit mengaktifkan dukungan keluarga dan menyelesaikan consent.
 
 #### Persyaratan
 
@@ -418,11 +453,11 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 
 #### Fallback kanal
 
-| Kondisi | Jalur |
-|---|---|
-| Push aktif | Web Push ke subscription caregiver |
-| Push tidak aktif | Email atau kanal resmi yang diaktifkan |
-| Email gagal | Status gagal terlihat di dashboard dan retry sesuai kebijakan |
+| Kondisi           | Jalur                                                          |
+| ----------------- | -------------------------------------------------------------- |
+| Push aktif        | Web Push ke subscription caregiver                             |
+| Push tidak aktif  | Email atau kanal resmi yang diaktifkan                         |
+| Email gagal       | Status gagal terlihat di dashboard dan retry sesuai kebijakan  |
 | Semua kanal gagal | Alert tetap terlihat pada dashboard saat caregiver membuka web |
 
 ### FR-WEB-10 — Stok dan refill
@@ -440,15 +475,16 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 - Alert stok dapat ditujukan ke pengguna dan caregiver sesuai izin.
 - Stok negatif memerlukan konfirmasi eksplisit.
 
-### FR-WEB-11 — Riwayat, laporan, dan dashboard caregiver
+### FR-WEB-11 — Riwayat pribadi dan laporan
 
 - Riwayat dapat difilter berdasarkan profil, obat, tanggal, status, dan device.
-- Dashboard caregiver dapat membandingkan beberapa profil.
-- Card status menunjukkan umur data terakhir tersinkron.
 - Ringkasan membedakan tepat waktu, terlambat, dilewati, tidak yakin, dan belum dikonfirmasi.
-- Caregiver dapat melihat alert yang belum diakui, sedang ditangani, dan selesai.
-- Ringkasan harian/mingguan dapat dikirim melalui kanal yang disetujui.
+- Pengguna pribadi dapat melihat umur data terakhir tersinkron.
+- Ringkasan harian/mingguan dapat ditampilkan kepada pengguna.
 - Doctor Visit Mode dan ekspor laporan menjadi prioritas setelah MVP.
+
+Pada ekspansi dukungan keluarga, dashboard caregiver dapat membandingkan profil yang memang
+dibagikan, melihat alert sesuai izin, dan menerima ringkasan melalui kanal yang disetujui.
 
 ### FR-WEB-12 — Offline dan sinkronisasi
 
@@ -463,7 +499,7 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 
 ### FR-WEB-13 — Aksesibilitas
 
-- Mendukung keyboard penuh untuk dashboard caregiver.
+- Mendukung keyboard penuh pada seluruh alur pribadi dan dashboard caregiver opsional.
 - Fokus terlihat dan urut.
 - Semua modal/drawer dapat ditutup dengan Escape dan kontrol terlihat.
 - Target sentuh minimal 48 × 48 px.
@@ -497,7 +533,7 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 
 ## 11. Arsitektur informasi dan route
 
-### 11.1 Route pengguna obat
+### 11.1 Route inti penggunaan pribadi
 
 - `/login`
 - `/onboarding`
@@ -507,11 +543,12 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 - `/medications/:id`
 - `/stock`
 - `/history`
-- `/care-circle`
 - `/settings`
 
-### 11.2 Route caregiver
+### 11.2 Route dukungan keluarga opsional
 
+- `/support`
+- `/care-circle`
 - `/caregiver/overview`
 - `/caregiver/alerts`
 - `/caregiver/profiles/:profileId`
@@ -523,12 +560,13 @@ Nilai berikut adalah default workflow dan dapat diubah; bukan petunjuk medis:
 Mobile:
 
 - Hari Ini
-- Kabinet
+- Obat Saya
+- Stok
 - Riwayat
-- Care Circle
-- Profil
+- Pengaturan
 
-Desktop caregiver:
+Desktop pribadi menggunakan daftar yang sama dalam sidebar. Setelah modul dukungan keluarga
+diaktifkan, caregiver mendapatkan navigasi terpisah:
 
 - Overview
 - Alerts
@@ -539,47 +577,48 @@ Desktop caregiver:
 
 ## 12. Entitas data inti
 
-| Entitas | Fungsi |
-|---|---|
-| Account | Identitas login dan keamanan |
-| Session | Sesi browser dan perangkat |
-| Profile | Individu pemilik obat |
-| CareCircleMembership | Hubungan, peran, dan izin |
-| Medication | Identitas dan detail obat |
-| MedicationImage | Foto obat, kemasan, dan label |
-| MedicationSchedule | Aturan pembentukan jadwal |
-| DoseOccurrence | Satu kejadian dosis pada waktu tertentu |
-| DoseEvent | Event tindakan terhadap kejadian |
-| PushSubscription | Endpoint browser dan metadata device |
-| ReminderJob | Job reminder yang dibuat scheduler |
-| AlertRule | Aturan eskalasi caregiver |
-| CaregiverAlert | Alert dan status tindak lanjut |
-| StockLedgerEntry | Transaksi stok yang dapat diaudit |
-| RefillRecord | Penambahan stok |
-| Consent | Persetujuan pembagian data dan alert |
-| AuditEvent | Jejak perubahan sensitif |
+| Entitas              | Fungsi                                                          |
+| -------------------- | --------------------------------------------------------------- |
+| Account              | Identitas login dan keamanan                                    |
+| Session              | Sesi browser dan perangkat                                      |
+| Profile              | Individu pemilik obat                                           |
+| CareCircleMembership | Hubungan, peran, dan izin pada modul dukungan keluarga opsional |
+| Medication           | Identitas dan detail obat                                       |
+| MedicationImage      | Foto obat, kemasan, dan label                                   |
+| MedicationSchedule   | Aturan pembentukan jadwal                                       |
+| DoseOccurrence       | Satu kejadian dosis pada waktu tertentu                         |
+| DoseEvent            | Event tindakan terhadap kejadian                                |
+| PushSubscription     | Endpoint browser dan metadata device                            |
+| ReminderJob          | Job reminder yang dibuat scheduler                              |
+| AlertRule            | Aturan eskalasi caregiver                                       |
+| CaregiverAlert       | Alert dan status tindak lanjut                                  |
+| StockLedgerEntry     | Transaksi stok yang dapat diaudit                               |
+| RefillRecord         | Penambahan stok                                                 |
+| Consent              | Persetujuan pembagian data dan alert                            |
+| AuditEvent           | Jejak perubahan sensitif                                        |
 
 ## 13. User stories prioritas
 
-| ID | Prioritas | User story |
-|---|---|---|
-| US-W01 | Must | Sebagai pengguna, saya ingin membuka OBTARA dari browser ponsel tanpa instalasi. |
-| US-W02 | Must | Sebagai pengguna, saya ingin melihat foto obat pada jadwal agar tidak mengambil obat yang salah. |
-| US-W03 | Must | Sebagai pengguna, saya ingin mengonfirmasi dosis dengan satu tindakan yang jelas. |
-| US-W04 | Must | Sebagai pengguna, saya ingin menunda atau melewati dosis dengan alasan. |
-| US-W05 | Must | Sebagai pengguna, saya ingin memilih “tidak yakin” agar tidak mengambil dosis kedua secara tidak sengaja. |
-| US-W06 | Must | Sebagai caregiver, saya ingin menerima alert meski tab dashboard tidak sedang terbuka, jika push saya aktif. |
-| US-W07 | Must | Sebagai caregiver, saya ingin melihat dashboard beberapa profil di layar desktop. |
-| US-W08 | Must | Sebagai pengguna, saya ingin stok berkurang otomatis setelah konfirmasi. |
-| US-W09 | Must | Sebagai pengguna, saya ingin mendapat peringatan sebelum stok habis. |
-| US-W10 | Must | Sebagai pemilik profil, saya ingin mengatur detail data yang boleh dilihat caregiver. |
-| US-W11 | Must | Sebagai pengguna, saya ingin status offline tidak dianggap sebagai status dosis yang salah. |
-| US-W12 | Should | Sebagai pengguna, saya ingin mengambil foto obat melalui kamera browser. |
-| US-W13 | Should | Sebagai caregiver, saya ingin melihat ringkasan beberapa profil dan waktu sinkronisasi terakhir. |
-| US-W14 | Should | Sebagai pengguna, saya ingin melihat riwayat tepat waktu, terlambat, dan dilewati. |
-| US-W15 | Should | Sebagai pengguna, saya ingin aplikasi dapat dipasang sebagai PWA jika perangkat mendukung. |
-| US-W16 | Could | Sebagai pengguna, saya ingin memindai label agar input obat lebih cepat. |
-| US-W17 | Could | Sebagai pengguna, saya ingin mengekspor ringkasan untuk konsultasi dokter. |
+| ID     | Prioritas | User story                                                                                                                           |
+| ------ | --------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| US-W01 | Must      | Sebagai pengguna, saya ingin membuka OBTARA dari browser ponsel tanpa instalasi.                                                     |
+| US-W02 | Must      | Sebagai pengguna, saya ingin melihat foto obat pada jadwal agar tidak mengambil obat yang salah.                                     |
+| US-W03 | Must      | Sebagai pengguna, saya ingin mengonfirmasi dosis dengan satu tindakan yang jelas.                                                    |
+| US-W04 | Must      | Sebagai pengguna, saya ingin menunda atau melewati dosis dengan alasan.                                                              |
+| US-W05 | Must      | Sebagai pengguna, saya ingin memilih “tidak yakin” agar tidak mengambil dosis kedua secara tidak sengaja.                            |
+| US-W06 | Must      | Sebagai pengguna baru, saya ingin membuat profil untuk diri sendiri tanpa menyiapkan keluarga atau caregiver.                        |
+| US-W07 | Must      | Sebagai pengguna pribadi, saya ingin memakai Hari Ini, Obat Saya, Stok, dan Riwayat tanpa membagikan data.                           |
+| US-W08 | Must      | Sebagai pengguna, saya ingin stok berkurang otomatis setelah konfirmasi.                                                             |
+| US-W09 | Must      | Sebagai pengguna, saya ingin mendapat peringatan sebelum stok habis.                                                                 |
+| US-W10 | Must      | Sebagai pemilik profil, saya ingin data tetap pribadi secara default.                                                                |
+| US-W11 | Must      | Sebagai pengguna, saya ingin status offline tidak dianggap sebagai status dosis yang salah.                                          |
+| US-W12 | Should    | Sebagai pengguna, saya ingin mengambil foto obat melalui kamera browser.                                                             |
+| US-W13 | Should    | Sebagai pengguna, saya ingin mengundang caregiver dan memilih detail yang boleh dilihat setelah saya mengaktifkan dukungan keluarga. |
+| US-W14 | Should    | Sebagai pengguna, saya ingin melihat riwayat tepat waktu, terlambat, dan dilewati.                                                   |
+| US-W15 | Should    | Sebagai pengguna, saya ingin aplikasi dapat dipasang sebagai PWA jika perangkat mendukung.                                           |
+| US-W16 | Could     | Sebagai pengguna, saya ingin memindai label agar input obat lebih cepat.                                                             |
+| US-W17 | Could     | Sebagai pengguna, saya ingin mengekspor ringkasan untuk konsultasi dokter.                                                           |
+| US-W18 | Could     | Sebagai caregiver yang diundang, saya ingin melihat ringkasan profil yang dibagikan dan waktu sinkronisasi terakhir.                 |
 
 ## 14. Kebutuhan nonfungsional
 
@@ -647,20 +686,20 @@ Desktop caregiver:
 
 ## 16. Risiko dan mitigasi
 
-| Risiko | Dampak | Mitigasi |
-|---|---|---|
-| Notifikasi browser tidak konsisten | Dosis atau alert terlambat diketahui | Backend scheduler, Web Push, fallback email/kanal resmi, status permission yang jelas |
-| Browser tidak mendukung fitur tertentu | Pengguna kehilangan alur | Progressive enhancement dan fallback browser |
-| Pengguna tidak memasang PWA | Reminder mobile lebih terbatas | Core flow tetap berfungsi di browser, ajakan instalasi tidak memaksa |
-| Pengguna mengandalkan warna/foto saja | Salah mengenali obat | Selalu tampilkan nama, dosis, kemasan, dan copy keselamatan |
-| Konfirmasi ganda dari dua tab | Stok salah atau kemungkinan dosis ganda | Idempotency key, versioning, dan optimistic UI yang dapat direkonsiliasi |
-| Alert palsu akibat offline | Beban caregiver dan hilang kepercayaan | Tampilkan umur data dan label belum tersinkron |
-| Terlalu banyak alert | Alert fatigue | Eskalasi bertingkat, quiet hours, ringkasan, dan evaluasi guardrail |
-| Foto besar/berisi EXIF | Lambat atau bocor lokasi | Kompresi, stripping EXIF, signed URL, dan batas ukuran |
-| Data privat masuk cache/CDN | Pelanggaran data | Cache hanya app shell publik, media privat, header keamanan |
-| Stok sistem berbeda dari fisik | Prediksi refill salah | Ledger, rekonsiliasi manual, alasan koreksi |
-| Dashboard caregiver terlalu kompleks | Pengguna tidak bertindak | Tampilkan alert aktif terlebih dahulu dan gunakan progressive disclosure |
-| Aplikasi dianggap nasihat medis | Risiko keselamatan/regulasi | Batas produk jelas, copy aman, dan review klinis/hukum |
+| Risiko                                 | Dampak                                  | Mitigasi                                                                              |
+| -------------------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------- |
+| Notifikasi browser tidak konsisten     | Dosis atau alert terlambat diketahui    | Backend scheduler, Web Push, fallback email/kanal resmi, status permission yang jelas |
+| Browser tidak mendukung fitur tertentu | Pengguna kehilangan alur                | Progressive enhancement dan fallback browser                                          |
+| Pengguna tidak memasang PWA            | Reminder mobile lebih terbatas          | Core flow tetap berfungsi di browser, ajakan instalasi tidak memaksa                  |
+| Pengguna mengandalkan warna/foto saja  | Salah mengenali obat                    | Selalu tampilkan nama, dosis, kemasan, dan copy keselamatan                           |
+| Konfirmasi ganda dari dua tab          | Stok salah atau kemungkinan dosis ganda | Idempotency key, versioning, dan optimistic UI yang dapat direkonsiliasi              |
+| Alert palsu akibat offline             | Beban caregiver dan hilang kepercayaan  | Tampilkan umur data dan label belum tersinkron                                        |
+| Terlalu banyak alert                   | Alert fatigue                           | Eskalasi bertingkat, quiet hours, ringkasan, dan evaluasi guardrail                   |
+| Foto besar/berisi EXIF                 | Lambat atau bocor lokasi                | Kompresi, stripping EXIF, signed URL, dan batas ukuran                                |
+| Data privat masuk cache/CDN            | Pelanggaran data                        | Cache hanya app shell publik, media privat, header keamanan                           |
+| Stok sistem berbeda dari fisik         | Prediksi refill salah                   | Ledger, rekonsiliasi manual, alasan koreksi                                           |
+| Dashboard caregiver terlalu kompleks   | Pengguna tidak bertindak                | Tampilkan alert aktif terlebih dahulu dan gunakan progressive disclosure              |
+| Aplikasi dianggap nasihat medis        | Risiko keselamatan/regulasi             | Batas produk jelas, copy aman, dan review klinis/hukum                                |
 
 ## 17. Ketergantungan
 
@@ -680,42 +719,50 @@ Desktop caregiver:
 ### Tahap 0 — Discovery web
 
 - Wawancara pengguna obat yang tidak ingin memasang aplikasi.
-- Uji apakah caregiver lebih nyaman memakai desktop.
+- Uji apakah pengguna memahami bahwa profil pribadi tidak membutuhkan caregiver.
 - Uji pemahaman permission push dan fallback.
-- Uji konsep kabinet visual pada lebar layar ponsel dan desktop.
+- Uji konsep Obat Saya dan Hari Ini pada lebar layar ponsel dan desktop.
 
-### Tahap 1 — Prototype usability
+### Tahap 1 — Prototype pribadi
 
-- Prototype route `/today`, detail obat, tambah foto, konfirmasi, dan caregiver dashboard.
+- Prototype route `/today`, detail obat, tambah foto, dan tindakan status untuk profil “Saya”.
 - Uji dengan ponsel browser dan desktop.
 - Uji keyboard, touch, zoom, dan screen reader dasar.
 
-### Tahap 2 — Pilot tertutup
+### Tahap 2 — Ekspansi dukungan keluarga
+
+- Validasi undangan, consent, permission, dan pencabutan akses secara terpisah.
+- Bangun caregiver dashboard hanya setelah alur pribadi stabil.
+- Uji dengan pasangan pengguna–caregiver tanpa menjadikan caregiver sebagai syarat penggunaan.
+
+### Tahap 3 — Pilot tertutup
 
 - 20–50 keluarga.
 - Browser matrix terbatas tetapi beragam.
 - Fokus pada push delivery, fallback, offline, sinkronisasi, dan stok.
 
-### Tahap 3 — Beta
+### Tahap 4 — Beta
 
 - Tambah browser/device target.
 - Uji install PWA dan update service worker.
 - Uji revoke access, data deletion, dan deep link refresh.
 
-### Tahap 4 — Rilis publik
+### Tahap 5 — Rilis publik
 
 - Rollout bertahap.
 - Monitoring push failure dan false alert harian.
 - Kanal dukungan pengguna.
 - Prosedur rollback asset/service worker.
 
-## 19. Definition of done MVP web
+## 19. Definition of done MVP pribadi
 
 MVP dianggap siap bila:
 
 - Semua user story prioritas Must lulus acceptance test.
 - Core flow dapat diselesaikan dari mobile browser tanpa instalasi.
-- Caregiver dashboard usable pada desktop dan tablet.
+- Pengguna dapat onboarding sebagai “Saya” tanpa membuat keluarga atau mengundang caregiver.
+- Navigasi default hanya menampilkan kebutuhan pribadi.
+- Data tidak dibagikan secara default.
 - PWA dapat dipasang pada browser yang mendukung tanpa membuat profil duplikat.
 - Reminder tidak menjanjikan delivery jika permission belum aktif.
 - Backend scheduler dan push retry telah diuji.
@@ -729,11 +776,15 @@ MVP dianggap siap bila:
 - Penghapusan akun dan pencabutan akses terverifikasi.
 - Copy keselamatan, privasi, dan batasan browser telah direview.
 
+Dashboard caregiver, undangan, dan eskalasi mempunyai definition of done terpisah pada
+ekspansi dukungan keluarga dan tidak menghalangi peluncuran mode pribadi.
+
 ## 20. Pertanyaan terbuka
 
 - Backend dan push provider mana yang digunakan?
 - Apakah kanal fallback MVP hanya email atau juga SMS/WhatsApp resmi?
 - Apakah OBTARA memerlukan akun caregiver untuk menerima email alert?
+- Kapan modul dukungan keluarga mulai ditawarkan agar tidak mengganggu onboarding pribadi?
 - Berapa lama event disimpan di IndexedDB sebelum dihapus?
 - Apakah camera capture masuk MVP atau setelah upload file stabil?
 - Apakah pengguna desktop juga dapat menjadi pengguna obat utama?
@@ -743,17 +794,19 @@ MVP dianggap siap bila:
 
 ## 21. Keputusan produk awal
 
-| Keputusan | Alasan |
-|---|---|
-| React + Vite untuk frontend | Cocok untuk SPA responsive dengan backend terpisah dan iterasi UI cepat |
-| Browser-first dengan PWA opsional | Tidak memaksa instalasi dan tetap memberi pengalaman installable bila tersedia |
-| Backend sebagai source of truth | Jadwal/alert tidak bergantung pada tab yang terbuka |
-| Web Push + fallback | Menangani izin browser dan keterbatasan platform secara jujur |
-| Dashboard caregiver desktop | Caregiver membutuhkan pemantauan beberapa profil dan tabel/ringkasan |
-| Kabinet visual sebagai entry point | Pembeda utama dan membantu pemilihan obat |
-| “Belum dikonfirmasi” menggantikan “tidak diminum” | Sistem hanya mengetahui status aplikasi, bukan konsumsi aktual |
-| Stok berkurang hanya dari konfirmasi | Menghindari asumsi konsumsi |
-| Riwayat lampau immutable | Menjaga audit dan kepercayaan data |
+| Keputusan                                         | Alasan                                                                                        |
+| ------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Personal-first sebagai pengalaman default         | Pengguna dapat memperoleh manfaat inti untuk dirinya sendiri tanpa memahami workflow keluarga |
+| Caregiver sebagai modul opsional                  | Berbagi data dan eskalasi hanya relevan bagi pengguna yang memilih bantuan                    |
+| React + Vite untuk frontend                       | Cocok untuk SPA responsive dengan backend terpisah dan iterasi UI cepat                       |
+| Browser-first dengan PWA opsional                 | Tidak memaksa instalasi dan tetap memberi pengalaman installable bila tersedia                |
+| Backend sebagai source of truth                   | Jadwal/alert tidak bergantung pada tab yang terbuka                                           |
+| Web Push + fallback                               | Menangani izin browser dan keterbatasan platform secara jujur                                 |
+| Dashboard caregiver dibangun setelah core pribadi | Mencegah kompleksitas multi-profil mendominasi onboarding dan navigasi pengguna mandiri       |
+| Kabinet visual sebagai entry point                | Pembeda utama dan membantu pemilihan obat                                                     |
+| “Belum dikonfirmasi” menggantikan “tidak diminum” | Sistem hanya mengetahui status aplikasi, bukan konsumsi aktual                                |
+| Stok berkurang hanya dari konfirmasi              | Menghindari asumsi konsumsi                                                                   |
+| Riwayat lampau immutable                          | Menjaga audit dan kepercayaan data                                                            |
 
 ## 22. Referensi teknis
 

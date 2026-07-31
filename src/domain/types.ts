@@ -11,12 +11,7 @@ export type FinalDoseStatus = 'confirmed' | 'skipped' | 'unsure'
 export type DoseFilter = 'all' | 'needs-action' | 'resolved'
 
 export type MedicationTint =
-  | 'sky'
-  | 'purple'
-  | 'pink'
-  | 'orange'
-  | 'teal'
-  | 'green'
+  'sky' | 'purple' | 'pink' | 'orange' | 'teal' | 'green'
 
 export type SkipReason =
   | 'Lupa'

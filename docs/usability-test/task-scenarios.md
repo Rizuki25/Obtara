@@ -4,7 +4,7 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 
 ## T01 — Menemukan jadwal yang perlu tindakan
 
-**Skenario:** Anda sedang memeriksa jadwal keluarga. Temukan satu jadwal yang saat ini memerlukan perhatian.
+**Skenario:** Anda sedang memeriksa jadwal obat pribadi. Temukan satu jadwal yang saat ini memerlukan perhatian.
 
 **Kriteria sukses:** Menemukan status Jatuh Tempo atau Belum Dikonfirmasi tanpa bantuan.  
 **Target waktu:** ≤10 detik.  
@@ -33,7 +33,7 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 
 ## T05 — Konfirmasi penggunaan
 
-**Skenario:** Kembali ke jadwal. Anggap pemilik profil menyatakan dosis Amlodipine sudah digunakan. Catat pernyataan tersebut.
+**Skenario:** Kembali ke jadwal. Anggap Anda menyatakan dosis Amlodipine sudah digunakan. Catat pernyataan tersebut.
 
 **Kriteria sukses:** Memilih Dikonfirmasi dan mengenali perubahan status/feedback.  
 **Pertanyaan:** “Apa yang dibuktikan oleh konfirmasi ini?”
@@ -46,21 +46,21 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 
 ## T06 — Menunda 30 menit
 
-**Skenario:** Pada jadwal Metformin pukul 19.00, pengguna belum siap dan ingin diingatkan lagi 30 menit kemudian.
+**Skenario:** Pada jadwal Metformin pukul 19.00, Anda belum siap dan ingin diingatkan lagi 30 menit kemudian.
 
 **Kriteria sukses:** Memilih Tunda lalu 30 menit.  
 **Pertanyaan:** “Apakah ini membuat jadwal baru atau mengubah status obat?”
 
 ## T07 — Melewati dosis dengan alasan
 
-**Skenario:** Anggap pengguna menyatakan dosis Salbutamol dilewati karena obat habis. Catat informasi tersebut.
+**Skenario:** Anggap Anda menyatakan dosis Salbutamol dilewati karena obat habis. Catat informasi tersebut.
 
 **Kriteria sukses:** Memilih Lewati, memilih “Obat habis”, lalu menyimpan.  
 **Catatan moderator:** Tidak perlu reset setelah T06 karena tugas menggunakan kejadian dosis yang berbeda.
 
 ## T08 — Tidak yakin
 
-**Skenario:** Pada jadwal Metformin pukul 13.00, pengguna tidak ingat apakah obat sudah digunakan. Catat kondisi tersebut dengan aman.
+**Skenario:** Pada jadwal Metformin pukul 13.00, Anda tidak ingat apakah obat sudah digunakan. Catat kondisi tersebut dengan aman.
 
 **Kriteria sukses:** Memilih Tidak Yakin, membaca safety copy, dan mengonfirmasi status.  
 **Safety blocker:** Berniat mengambil dosis tambahan atau memilih Dikonfirmasi tanpa kepastian.
@@ -69,14 +69,15 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 
 **Skenario:** Tampilkan hanya jadwal yang masih perlu tindakan.
 
-**Kriteria sukses:** Memilih filter “Belum Diminum / Perlu Tindakan” dan memahami daftar berubah.  
-**Lanjutan:** Minta tampilkan hanya yang selesai/dikonfirmasi.
+**Kriteria sukses:** Memilih filter “Perlu Tindakan” dan memahami daftar berubah.
+
+**Lanjutan:** Minta tampilkan hanya jadwal dengan “Status Final”.
 
 ## T10 — Mengidentifikasi pemilik obat
 
 **Skenario:** Tampilkan kembali semua jadwal. Cari tahu siapa pemilik jadwal pukul 13.00 dan bagaimana Anda mengetahuinya.
 
-**Kriteria sukses:** Memilih Semua Jadwal, lalu menjawab Ibu Sumarni dengan merujuk profile pill, bukan warna saja.
+**Kriteria sukses:** Memilih Semua Jadwal, lalu menjawab “Rizqie (Saya)” dengan merujuk profile pill, bukan warna saja.
 
 ## T11 — Menjelaskan empat tindakan
 
@@ -93,4 +94,4 @@ Berikan satu tugas pada satu waktu. Bacakan bagian **Skenario**, jangan bacakan 
 
 **Skenario:** Sebutkan fitur mana pada layar yang menurut Anda benar-benar bekerja dan mana yang masih simulasi.
 
-**Kriteria sukses:** Mengenali disclosure prototype, capability simulasi, dan kontrol nonaktif. Tidak menganggap Web Push/kamera/sync telah aktif nyata.
+**Kriteria sukses:** Mengenali disclosure prototype mode pribadi, capability simulasi, dan kontrol nonaktif. Tidak menganggap Web Push/kamera/sync telah aktif nyata atau caregiver wajib digunakan.
