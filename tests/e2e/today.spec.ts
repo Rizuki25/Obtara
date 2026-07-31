@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test.describe('desktop', () => {
   test.skip(({ isMobile }) => Boolean(isMobile), 'Khusus viewport desktop')
 
-  test('menampilkan dashboard referensi dan modal foto obat', async ({ page }) => {
+  test('menampilkan popup tindakan tanpa mengubah tinggi medication row', async ({ page }) => {
     const errors: string[] = []
     page.on('console', (message) => {
       if (message.type() === 'error') errors.push(message.text())
@@ -16,27 +16,45 @@ test.describe('desktop', () => {
     ).toBeVisible()
     await expect(page.getByLabel('Status simulasi kemampuan browser')).toBeVisible()
     await expect(page.getByText('Mode prototype · Data simulasi')).toBeVisible()
-    await expect(page.getByText(/Semua nama, jadwal, foto, status, dan angka/i)).toBeVisible()
-    await expect(page.getByRole('button', { name: /Semua Keluarga/i })).toBeDisabled()
-    await expect(page.getByRole('button', { name: /Tambah Obat Rutin/i })).toBeDisabled()
     await expect(page.getByLabel('Sidebar aplikasi')).toBeVisible()
     await expect(page.locator('.bottom-nav')).toBeHidden()
 
-    await page.getByRole('button', {
-      name: /Buka detail Amlodipine Besylate 10 mg, pukul 07/i,
-    }).click()
-    await expect(page.getByRole('dialog')).toBeVisible()
-    await expect(
-      page.getByRole('heading', { name: 'Amlodipine Besylate' }),
-    ).toBeVisible()
-    await expect(page.getByRole('dialog').locator('.gallery-item')).toHaveCount(2)
-    await page.screenshot({ path: 'artifacts/obtara-desktop-modal.png', fullPage: true })
+    const metforminRow = page
+      .getByRole('button', { name: 'Metformin HCl' })
+      .first()
+      .locator('xpath=ancestor::article')
+    const heightBefore = (await metforminRow.boundingBox())?.height
 
-    await page.getByRole('button', { name: 'Tutup detail dosis' }).click()
-    const row = page.getByRole('button', { name: 'Amlodipine Besylate' }).locator('..')
-    await row.getByRole('button', { name: 'Dikonfirmasi (Sudah Minum)' }).click()
-    await expect(row.getByText(/Stok otomatis berkurang 1 unit/i)).toBeVisible()
-    await page.screenshot({ path: 'artifacts/obtara-desktop-dashboard.png', fullPage: true })
+    await metforminRow.getByRole('button', { name: 'Tunda' }).click()
+    const snoozeDialog = page.getByRole('dialog', { name: 'Ingatkan lagi' })
+    await expect(snoozeDialog).toBeVisible()
+    const heightWhileOpen = (await metforminRow.boundingBox())?.height
+    expect(heightWhileOpen).toBe(heightBefore)
+    await page.screenshot({ path: 'artifacts/obtara-desktop-snooze-popup.png', fullPage: true })
+    await snoozeDialog.getByRole('button', { name: /30 menit/i }).click()
+    await expect(snoozeDialog).toBeHidden()
+
+    const salbutamolRow = page
+      .getByRole('button', { name: 'Salbutamol Inhaler' })
+      .locator('xpath=ancestor::article')
+    await salbutamolRow.getByRole('button', { name: 'Lewati' }).click()
+    const skipDialog = page.getByRole('dialog', { name: 'Lewati dosis' })
+    await expect(skipDialog).toBeVisible()
+    await expect(
+      skipDialog.getByRole('button', { name: 'Simpan dilewati' }),
+    ).toBeDisabled()
+    await page.screenshot({ path: 'artifacts/obtara-desktop-skip-popup.png', fullPage: true })
+    await skipDialog.getByRole('button', { name: 'Batal' }).click()
+
+    await metforminRow.getByRole('button', { name: 'Tidak Yakin' }).click()
+    const unsureDialog = page.getByRole('dialog', {
+      name: 'Periksa sebelum tindakan berikutnya',
+    })
+    await expect(unsureDialog.getByText(/mengganti jadwal yang terlewat/i)).toBeVisible()
+    await page.screenshot({ path: 'artifacts/obtara-desktop-unsure-popup.png', fullPage: true })
+    await page.keyboard.press('Escape')
+    await expect(unsureDialog).toBeHidden()
+    await expect(metforminRow.getByRole('button', { name: 'Tidak Yakin' })).toBeFocused()
 
     expect(errors).toEqual([])
   })
@@ -45,7 +63,7 @@ test.describe('desktop', () => {
 test.describe('mobile', () => {
   test.skip(({ isMobile }) => !isMobile, 'Khusus viewport mobile')
 
-  test('menampilkan dashboard mobile dan modal sebagai bottom sheet', async ({ page }) => {
+  test('menampilkan action popup sebagai bottom sheet', async ({ page }) => {
     const errors: string[] = []
     page.on('console', (message) => {
       if (message.type() === 'error') errors.push(message.text())
@@ -54,17 +72,14 @@ test.describe('mobile', () => {
     await page.goto('/today')
     await expect(page.locator('.bottom-nav')).toBeVisible()
     await expect(page.getByText('Mode prototype · Data simulasi')).toBeVisible()
-    await expect(page.getByText(/Semua nama, jadwal, foto, status, dan angka/i)).toBeVisible()
-    await expect(page.getByRole('button', { name: /Tambah Obat Rutin/i })).toBeDisabled()
-    await expect(page.getByLabel('Sidebar aplikasi')).toBeHidden()
-    await expect(
-      page.getByRole('heading', { name: 'Jadwal Obat & Status Dosis' }),
-    ).toBeVisible()
 
-    await page.getByRole('button', {
-      name: /Buka detail Amlodipine Besylate/i,
-    }).click()
-    const dialog = page.getByRole('dialog')
+    const salbutamolRow = page
+      .getByRole('button', { name: 'Salbutamol Inhaler' })
+      .locator('xpath=ancestor::article')
+    const heightBefore = (await salbutamolRow.boundingBox())?.height
+    await salbutamolRow.getByRole('button', { name: 'Lewati' }).click()
+
+    const dialog = page.getByRole('dialog', { name: 'Lewati dosis' })
     await expect(dialog).toBeVisible()
     const box = await dialog.boundingBox()
     const viewport = page.viewportSize()
@@ -73,8 +88,12 @@ test.describe('mobile', () => {
     expect(Math.round((box?.y ?? 0) + (box?.height ?? 0))).toBeGreaterThanOrEqual(
       (viewport?.height ?? 1) - 2,
     )
-    await page.screenshot({ path: 'artifacts/obtara-mobile-modal.png', fullPage: true })
+    expect((await salbutamolRow.boundingBox())?.height).toBe(heightBefore)
+    await page.screenshot({ path: 'artifacts/obtara-mobile-action-popup.png', fullPage: true })
 
+    await dialog.getByRole('button', { name: 'Batal' }).click()
+    await expect(dialog).toBeHidden()
+    await expect(salbutamolRow.getByRole('button', { name: 'Lewati' })).toBeFocused()
     expect(errors).toEqual([])
   })
 })

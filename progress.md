@@ -138,12 +138,22 @@ Hasil verifikasi redesign:
 
 Paket tersedia di `docs/usability-test/`. Pembuatan paket dan automated test bukan bukti bahwa UX sudah tervalidasi.
 
+### Perbaikan UI sebelum sesi peserta
+
+- [x] Pilihan Tunda dipindahkan dari medication row ke action popup.
+- [x] Form Lewati dipindahkan ke action popup dengan validasi alasan wajib.
+- [x] Safety confirmation Tidak Yakin dipindahkan ke action popup khusus.
+- [x] Popup desktop tampil sebagai modal terpusat dan mobile sebagai bottom sheet.
+- [x] Popup mendukung Escape, tombol Tutup/Batal, accessible name, focus trap native, serta focus return.
+- [x] Tinggi medication row tetap stabil ketika popup terbuka; daftar tidak lagi bergeser.
+
 Hasil quality gate terbaru:
 
 - ESLint: lulus.
-- Vitest: 4 file, 16 test lulus.
+- Vitest: 4 file, 18 test lulus.
 - TypeScript/Vite build: lulus.
 - Playwright: 2 flow relevan desktop/mobile lulus; 2 kombinasi viewport dilewati secara sengaja.
+- Screenshot popup Tunda, Lewati, Tidak Yakin, dan bottom sheet mobile diperiksa secara visual.
 
 ## Tahap berikutnya yang direkomendasikan
 

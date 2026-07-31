@@ -57,9 +57,6 @@ export function DoseActionDialog({
         onClose()
       }}
       onClose={onClose}
-      onClick={(event) => {
-        if (event.target === event.currentTarget) onClose()
-      }}
     >
       <div className="action-dialog-surface">
         <span className="action-dialog-handle" aria-hidden="true" />

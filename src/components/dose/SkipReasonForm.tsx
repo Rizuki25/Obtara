@@ -21,7 +21,7 @@ export function SkipReasonForm({ onCancel, onSubmit }: SkipReasonFormProps) {
 
   return (
     <form
-      className="inline-panel"
+      className="action-popup-form"
       onSubmit={(event) => {
         event.preventDefault()
         if (reason) onSubmit(reason, note)

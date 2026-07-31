@@ -4,6 +4,8 @@ import {
   CheckCircle2,
   CircleHelp,
   CircleX,
+  Clock3,
+  ShieldAlert,
   ShieldCheck,
 } from 'lucide-react'
 import { safetyCopy } from '../../copy/safety'
@@ -12,6 +14,7 @@ import { useDoses } from '../../state/doseContext'
 import { isFinalStatus } from '../../state/doseReducer'
 import { Button } from '../ui/Button'
 import { getStatusLabel } from '../ui/statusLabels'
+import { DoseActionDialog } from './DoseActionDialog'
 import { SafetyNotice } from './SafetyNotice'
 import { SkipReasonForm } from './SkipReasonForm'
 
@@ -21,6 +24,8 @@ const actionTimeFormatter = new Intl.DateTimeFormat('id-ID', {
   hour12: false,
 })
 
+type ActionPopup = 'snooze' | 'skip' | 'unsure' | null
+
 interface DoseActionsProps {
   dose: DoseView
   variant?: 'dialog' | 'row'
@@ -28,7 +33,8 @@ interface DoseActionsProps {
 
 export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
   const { dispatch } = useDoses()
-  const [panel, setPanel] = useState<'none' | 'snooze' | 'skip' | 'unsure'>('none')
+  const [popup, setPopup] = useState<ActionPopup>(null)
+  const [popupTrigger, setPopupTrigger] = useState<HTMLButtonElement | null>(null)
   const isRow = variant === 'row'
 
   if (isFinalStatus(dose.status)) {
@@ -59,8 +65,29 @@ export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
     )
   }
 
+  const openPopup = (
+    nextPopup: Exclude<ActionPopup, null>,
+    trigger: HTMLButtonElement,
+  ) => {
+    setPopupTrigger(trigger)
+    setPopup(nextPopup)
+  }
+
+  const closePopup = () => setPopup(null)
+
   const skip = (reason: SkipReason, note?: string) => {
     dispatch({ type: 'skip', id: dose.id, reason, note })
+    closePopup()
+  }
+
+  const snooze = (minutes: number) => {
+    dispatch({ type: 'snooze', id: dose.id, minutes })
+    closePopup()
+  }
+
+  const markUnsure = () => {
+    dispatch({ type: 'markUnsure', id: dose.id })
+    closePopup()
   }
 
   return (
@@ -88,16 +115,16 @@ export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
         <Button
           variant={isRow ? 'utility' : 'secondary'}
           full={!isRow}
-          aria-expanded={panel === 'snooze'}
-          onClick={() => setPanel(panel === 'snooze' ? 'none' : 'snooze')}
+          aria-haspopup="dialog"
+          onClick={(event) => openPopup('snooze', event.currentTarget)}
         >
           <BellPlus size={17} aria-hidden="true" />
           Tunda
         </Button>
 
         <Button
-          aria-expanded={panel === 'skip'}
-          onClick={() => setPanel(panel === 'skip' ? 'none' : 'skip')}
+          aria-haspopup="dialog"
+          onClick={(event) => openPopup('skip', event.currentTarget)}
         >
           <CircleX size={17} aria-hidden="true" />
           Lewati
@@ -105,47 +132,63 @@ export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
 
         <Button
           className="button-unsure"
-          aria-expanded={panel === 'unsure'}
-          onClick={() => setPanel(panel === 'unsure' ? 'none' : 'unsure')}
+          aria-haspopup="dialog"
+          onClick={(event) => openPopup('unsure', event.currentTarget)}
         >
           <CircleHelp size={17} aria-hidden="true" />
           Tidak Yakin
         </Button>
       </div>
 
-      {panel === 'snooze' && (
-        <section className="inline-panel row-action-expansion" aria-label="Pilihan waktu pengingat">
-          <h4>Ingatkan dalam</h4>
+      <DoseActionDialog
+        open={popup === 'snooze'}
+        title="Ingatkan lagi"
+        description={`Pilih kapan OBTARA mengingatkan kembali jadwal ${dose.medication.name}. Status dosis belum menjadi final.`}
+        icon={<Clock3 size={22} />}
+        trigger={popupTrigger}
+        onClose={closePopup}
+      >
+        <div className="snooze-dialog-content">
+          <p className="action-dialog-section-label">Pilih waktu pengingat</p>
           <div className="snooze-options">
             {[10, 30, 60].map((minutes) => (
-              <Button
+              <button
+                type="button"
+                className="snooze-option"
+                onClick={() => snooze(minutes)}
                 key={minutes}
-                onClick={() => {
-                  dispatch({ type: 'snooze', id: dose.id, minutes })
-                  setPanel('none')
-                }}
               >
-                {minutes} menit
-              </Button>
+                <strong>{minutes} menit</strong>
+                <span>Ingatkan kembali dalam {minutes} menit</span>
+              </button>
             ))}
           </div>
-        </section>
-      )}
-
-      {panel === 'skip' && (
-        <div className="row-action-expansion">
-          <SkipReasonForm onCancel={() => setPanel('none')} onSubmit={skip} />
+          <Button full onClick={closePopup}>Batal</Button>
         </div>
-      )}
+      </DoseActionDialog>
 
-      {panel === 'unsure' && (
-        <div className="row-action-expansion">
-          <SafetyNotice
-            onCancel={() => setPanel('none')}
-            onConfirm={() => dispatch({ type: 'markUnsure', id: dose.id })}
-          />
-        </div>
-      )}
+      <DoseActionDialog
+        open={popup === 'skip'}
+        title="Lewati dosis"
+        description="Catat alasan agar riwayat tetap jelas. Dosis yang dilewati tidak mengurangi stok."
+        icon={<CircleX size={22} />}
+        trigger={popupTrigger}
+        onClose={closePopup}
+      >
+        <SkipReasonForm onCancel={closePopup} onSubmit={skip} />
+      </DoseActionDialog>
+
+      <DoseActionDialog
+        open={popup === 'unsure'}
+        title="Periksa sebelum tindakan berikutnya"
+        description="Gunakan status ini ketika Anda tidak dapat memastikan apakah dosis sudah digunakan."
+        icon={<ShieldAlert size={22} />}
+        tone="unsure"
+        trigger={popupTrigger}
+        onClose={closePopup}
+      >
+        <SafetyNotice onCancel={closePopup} onConfirm={markUnsure} />
+      </DoseActionDialog>
     </section>
   )
 }

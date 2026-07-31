@@ -9,11 +9,11 @@ interface SafetyNoticeProps {
 
 export function SafetyNotice({ onCancel, onConfirm }: SafetyNoticeProps) {
   return (
-    <section className="safety-notice" aria-labelledby="safety-title">
-      <h4 id="safety-title">
+    <section className="safety-notice action-popup-safety" aria-labelledby="safety-copy-title">
+      <h3 id="safety-copy-title">
         <ShieldAlert size={20} aria-hidden="true" />
-        Periksa sebelum tindakan berikutnya
-      </h4>
+        Aman saat ragu
+      </h3>
       <p>{safetyCopy.unsure}</p>
       <p>{safetyCopy.late}</p>
       <div className="form-actions">
