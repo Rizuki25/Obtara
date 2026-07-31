@@ -1,0 +1,88 @@
+# Paket Usability Test OBTARA
+
+Status: **siap untuk dry run internal; belum tervalidasi dengan peserta nyata**  
+Versi prototype: Tahap 1 — dashboard Hari Ini dengan data simulasi
+
+## Tujuan
+
+Paket ini membantu tim menilai apakah pengguna obat dan caregiver dapat:
+
+- Menemukan jadwal yang membutuhkan tindakan.
+- Mengenali pemilik, waktu, nama, dosis, lokasi, dan status obat.
+- Memahami perbedaan Dikonfirmasi, Ditunda, Dilewati, Tidak Yakin, dan Belum Dikonfirmasi.
+- Menyelesaikan tindakan dosis tanpa membuat catatan ganda.
+- Memahami bahwa foto pada prototype adalah demo, bukan identifikasi obat.
+
+Pengujian ini menilai **antarmuka**, bukan pengetahuan medis peserta dan bukan kepatuhan pengobatan mereka.
+
+## Target peserta
+
+Rekrut secara bertahap:
+
+- 3–5 pengguna obat rutin.
+- 3–5 caregiver keluarga.
+- Sedapat mungkin mencakup peserta lanjut usia, pengalaman teknologi rendah, kebutuhan zoom/teks besar, atau pengguna keyboard.
+
+Jangan merekrut peserta untuk memasukkan nama obat, diagnosis, jadwal, atau data kesehatan nyata ke prototype.
+
+## Isi paket
+
+1. [Panduan moderator](moderator-guide.md)
+2. [Informasi peserta dan persetujuan](participant-information-and-consent.md)
+3. [Skenario tugas](task-scenarios.md)
+4. [Lembar observasi](observation-sheet.md)
+5. [Kuesioner setelah tes](post-test-questionnaire.md)
+6. [Template hasil dan severity](results-template.md)
+7. [Checklist review internal](internal-review-checklist.md)
+
+## Persiapan sesi
+
+- Jalankan prototype melalui `npm run dev`.
+- Reset halaman sebelum peserta berikutnya karena data tersimpan sementara di browser.
+- Gunakan perangkat peserta bila memungkinkan; jangan meminta login atau data pribadi.
+- Siapkan stopwatch, lembar observasi, dan participant ID pseudonim, misalnya `U-01` atau `C-01`.
+- Jika merekam, isi penanggung jawab, lokasi penyimpanan, akses, dan tanggal penghapusan pada dokumen persetujuan.
+- Pastikan indikator “Mode prototype · Data simulasi” terlihat.
+
+## Durasi
+
+- Pembukaan dan persetujuan: 5 menit.
+- Tugas dan think-aloud: 20–25 menit.
+- Kuesioner dan penutupan: 5–10 menit.
+- Total: 30–40 menit.
+
+## Skor tugas
+
+- **2 — Berhasil mandiri:** selesai tanpa petunjuk moderator.
+- **1 — Berhasil dengan bantuan:** selesai setelah petunjuk netral.
+- **0 — Gagal/berhenti:** tidak selesai, salah status, atau moderator menghentikan karena keselamatan.
+
+## Target kelulusan awal
+
+- Minimal 80% tugas inti berhasil mandiri.
+- Jadwal yang perlu tindakan ditemukan dalam maksimal 10 detik.
+- Seluruh peserta dapat membedakan empat tindakan dosis.
+- Tidak ada peserta yang menyimpulkan “Belum Dikonfirmasi” berarti pasti tidak diminum.
+- Tidak ada peserta yang menganggap foto demo sebagai verifikasi identitas obat.
+- Tidak ada peserta yang berniat mengambil dosis tambahan setelah status ragu/terlambat.
+
+## Safety blocker
+
+Temuan berikut menghentikan keputusan menuju backend sampai diperbaiki dan diuji ulang:
+
+- Salah memahami status hingga berpotensi mengambil dosis ganda.
+- Menganggap foto demo dapat mengidentifikasi obat.
+- Menganggap “Belum Dikonfirmasi” sebagai kepastian konsumsi/tidak konsumsi.
+- Tidak menemukan atau tidak memahami opsi “Tidak Yakin”.
+
+## Definition of done validasi
+
+Tahap validasi baru boleh ditandai selesai ketika:
+
+- Sesi target peserta telah dilakukan.
+- Semua lembar observasi lengkap dan dipseudonimkan.
+- Temuan dideduplikasi serta diberi severity.
+- P0/P1 diperbaiki dan diuji ulang.
+- Keputusan produk serta perubahan PRD/workflow dicatat.
+
+Pembuatan paket ini sendiri **bukan** bukti bahwa prototype sudah tervalidasi.

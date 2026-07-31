@@ -89,6 +89,62 @@ Hasil terakhir:
 - [ ] PWA install flow dan manifest production-ready.
 - [ ] Pengujian dengan calon pengguna nyata.
 
+## Redesign dashboard berdasarkan referensi visual
+
+**Status:** Selesai dan terverifikasi pada 31 Juli 2026
+
+- [x] Capability bar untuk status PWA, Web Push, kamera, dan auto-sync.
+- [x] Header desktop dengan brand, family selector, alert caregiver, dan utility controls.
+- [x] Sidebar desktop tujuh menu serta kartu Prinsip Keselamatan.
+- [x] Hero dashboard dengan heading, CTA, tiga metric cards, dan circular progress.
+- [x] Filter Semua Jadwal, Perlu Tindakan, dan Selesai.
+- [x] Medication schedule diubah menjadi row cards satu kolom seperti referensi.
+- [x] Time/profile/status pills, metadata dosis, lokasi, dan tindakan inline.
+- [x] Dialog detail diubah menjadi modal foto dua kolom dengan panel informasi dan warning.
+- [x] Tampilan mobile tetap responsive dengan bottom navigation dan modal bottom sheet.
+- [x] Lima foto demo disimpan lokal; UI dan alt text menegaskan bahwa foto hanya contoh, bukan identifikasi obat.
+- [x] Seluruh aksi dosis, safety copy, idempotency guard, dan focus return tetap dipertahankan.
+
+Hasil verifikasi redesign:
+
+- ESLint: lulus.
+- Vitest: 3 file, 14 test lulus.
+- TypeScript/Vite production build: lulus.
+- Playwright desktop dan mobile: 2 flow relevan lulus, tanpa console error.
+- Screenshot desktop dashboard, desktop modal, dan mobile modal diperiksa secara visual.
+
+## Tahap 2 — Persiapan usability test
+
+**Status:** Instrumen dan prototype siap untuk sesi; validasi peserta nyata belum dilakukan
+
+- [x] Disclosure persisten “Mode prototype · Data simulasi”.
+- [x] Web Push, kamera, dan sync dilabeli sebagai simulasi.
+- [x] Family selector, Alert Caregiver, tema, ukuran teks, dan Tambah Obat dinonaktifkan serta diberi keterangan belum tersedia.
+- [x] Panduan moderator dan aturan think-aloud.
+- [x] Informasi peserta, persetujuan, dan opsi rekaman.
+- [x] Dua belas skenario tugas beserta safety criteria.
+- [x] Lembar observasi per peserta.
+- [x] Kuesioner setelah tes.
+- [x] Template hasil, severity P0–P3, keputusan, dan retest.
+- [x] Checklist heuristic, keyboard, zoom 200%, mobile, desktop, serta quality gate.
+- [x] Automated test untuk disclosure dan kontrol nonfungsional.
+- [x] Dry run teknis desktop/mobile melalui Playwright; tidak ada console error.
+- [ ] Dry run moderator-manusia menggunakan seluruh dokumen.
+- [ ] Sesi dengan 3–5 pengguna obat.
+- [ ] Sesi dengan 3–5 caregiver.
+- [ ] Analisis dan deduplikasi temuan peserta.
+- [ ] Perbaikan serta retest seluruh P0/P1.
+- [ ] Keputusan final apakah alur siap dihubungkan ke backend.
+
+Paket tersedia di `docs/usability-test/`. Pembuatan paket dan automated test bukan bukti bahwa UX sudah tervalidasi.
+
+Hasil quality gate terbaru:
+
+- ESLint: lulus.
+- Vitest: 4 file, 16 test lulus.
+- TypeScript/Vite build: lulus.
+- Playwright: 2 flow relevan desktop/mobile lulus; 2 kombinasi viewport dilewati secara sengaja.
+
 ## Tahap berikutnya yang direkomendasikan
 
-Lakukan usability review terhadap prototype ini—terutama kemudahan mengenali obat, memahami perbedaan empat tindakan, dan menemukan safety copy—sebelum memulai backend atau memperluas route aplikasi.
+Lakukan dry run moderator-manusia menggunakan seluruh paket, lalu rekrut peserta. Backend tetap ditunda sampai temuan safety dan alur inti dianalisis serta P0/P1 selesai diretest.

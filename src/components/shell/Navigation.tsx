@@ -1,23 +1,27 @@
 import {
   Archive,
-  CircleUserRound,
-  Clock3,
+  Boxes,
+  CalendarDays,
+  FileText,
   HeartHandshake,
-  History,
+  Settings,
+  ShieldAlert,
 } from 'lucide-react'
 
 const navigation = [
-  { label: 'Hari Ini', Icon: Clock3, active: true },
-  { label: 'Kabinet', Icon: Archive },
-  { label: 'Riwayat', Icon: History },
-  { label: 'Care Circle', Icon: HeartHandshake },
-  { label: 'Profil', Icon: CircleUserRound },
+  { label: 'Hari Ini', shortLabel: 'Hari Ini', Icon: CalendarDays, active: true },
+  { label: 'Kabinet Obat', shortLabel: 'Kabinet', Icon: Archive },
+  { label: 'Stok & Refill', shortLabel: 'Stok', Icon: Boxes },
+  { label: 'Caregiver', shortLabel: 'Caregiver', Icon: ShieldAlert, count: 1 },
+  { label: 'Riwayat & Laporan', shortLabel: 'Riwayat', Icon: FileText },
+  { label: 'Care Circle', shortLabel: 'Care Circle', Icon: HeartHandshake },
+  { label: 'Pengaturan', shortLabel: 'Pengaturan', Icon: Settings },
 ]
 
 export function Navigation({ className = '' }: { className?: string }) {
   return (
     <nav className={className} aria-label="Navigasi utama">
-      {navigation.map(({ label, Icon, active }) => (
+      {navigation.map(({ label, shortLabel, Icon, active, count }) => (
         <button
           type="button"
           className="nav-item"
@@ -27,7 +31,9 @@ export function Navigation({ className = '' }: { className?: string }) {
           key={label}
         >
           <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
-          <span>{label}</span>
+          <span className="nav-label-full">{label}</span>
+          <span className="nav-label-short">{shortLabel}</span>
+          {count && <span className="nav-count" aria-label={`${count} alert`}>{count}</span>}
         </button>
       ))}
     </nav>

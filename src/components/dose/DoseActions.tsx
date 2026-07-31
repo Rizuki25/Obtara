@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { BellPlus, Check, CircleHelp, Forward } from 'lucide-react'
+import {
+  BellPlus,
+  CheckCircle2,
+  CircleHelp,
+  CircleX,
+  ShieldCheck,
+} from 'lucide-react'
 import { safetyCopy } from '../../copy/safety'
 import type { DoseView, SkipReason } from '../../domain/types'
 import { useDoses } from '../../state/doseContext'
@@ -17,13 +23,28 @@ const actionTimeFormatter = new Intl.DateTimeFormat('id-ID', {
 
 interface DoseActionsProps {
   dose: DoseView
+  variant?: 'dialog' | 'row'
 }
 
-export function DoseActions({ dose }: DoseActionsProps) {
+export function DoseActions({ dose, variant = 'dialog' }: DoseActionsProps) {
   const { dispatch } = useDoses()
   const [panel, setPanel] = useState<'none' | 'snooze' | 'skip' | 'unsure'>('none')
+  const isRow = variant === 'row'
 
   if (isFinalStatus(dose.status)) {
+    if (isRow) {
+      return (
+        <div className="row-final-state" role="status">
+          <ShieldCheck size={18} aria-hidden="true" />
+          <span>
+            {dose.status === 'confirmed'
+              ? `Stok otomatis berkurang 1 unit (${dose.medication.stock} tersisa)`
+              : `Status tercatat: ${getStatusLabel(dose.status)}`}
+          </span>
+        </div>
+      )
+    }
+
     return (
       <section className="final-panel" aria-labelledby="final-status-title">
         <h3 id="final-status-title">Sudah tercatat: {getStatusLabel(dose.status)}</h3>
@@ -43,33 +64,57 @@ export function DoseActions({ dose }: DoseActionsProps) {
   }
 
   return (
-    <section className="action-panel" aria-labelledby="dose-action-title">
-      <div className="action-heading">
-        <h3 id="dose-action-title">Apa yang ingin Anda catat?</h3>
-        <p>{safetyCopy.confirmation}</p>
+    <section
+      className={`action-panel${isRow ? ' action-panel-row' : ''}`}
+      aria-label={`Tindakan untuk ${dose.medication.name}`}
+    >
+      {!isRow && (
+        <div className="action-heading">
+          <h3>Apa yang ingin Anda catat?</h3>
+          <p>{safetyCopy.confirmation}</p>
+        </div>
+      )}
+
+      <div className={isRow ? 'row-action-buttons' : undefined}>
+        <Button
+          variant="primary"
+          full={!isRow}
+          onClick={() => dispatch({ type: 'confirm', id: dose.id })}
+        >
+          <CheckCircle2 size={18} aria-hidden="true" />
+          Dikonfirmasi (Sudah Minum)
+        </Button>
+
+        <Button
+          variant={isRow ? 'utility' : 'secondary'}
+          full={!isRow}
+          aria-expanded={panel === 'snooze'}
+          onClick={() => setPanel(panel === 'snooze' ? 'none' : 'snooze')}
+        >
+          <BellPlus size={17} aria-hidden="true" />
+          Tunda
+        </Button>
+
+        <Button
+          aria-expanded={panel === 'skip'}
+          onClick={() => setPanel(panel === 'skip' ? 'none' : 'skip')}
+        >
+          <CircleX size={17} aria-hidden="true" />
+          Lewati
+        </Button>
+
+        <Button
+          className="button-unsure"
+          aria-expanded={panel === 'unsure'}
+          onClick={() => setPanel(panel === 'unsure' ? 'none' : 'unsure')}
+        >
+          <CircleHelp size={17} aria-hidden="true" />
+          Tidak Yakin
+        </Button>
       </div>
 
-      <Button
-        variant="primary"
-        full
-        onClick={() => dispatch({ type: 'confirm', id: dose.id })}
-      >
-        <Check size={20} aria-hidden="true" />
-        Sudah digunakan
-      </Button>
-
-      <Button
-        variant="secondary"
-        full
-        aria-expanded={panel === 'snooze'}
-        onClick={() => setPanel(panel === 'snooze' ? 'none' : 'snooze')}
-      >
-        <BellPlus size={20} aria-hidden="true" />
-        Ingatkan lagi
-      </Button>
-
       {panel === 'snooze' && (
-        <section className="inline-panel" aria-label="Pilihan waktu pengingat">
+        <section className="inline-panel row-action-expansion" aria-label="Pilihan waktu pengingat">
           <h4>Ingatkan dalam</h4>
           <div className="snooze-options">
             {[10, 30, 60].map((minutes) => (
@@ -87,32 +132,19 @@ export function DoseActions({ dose }: DoseActionsProps) {
         </section>
       )}
 
-      <div className="secondary-actions">
-        <Button
-          aria-expanded={panel === 'skip'}
-          onClick={() => setPanel(panel === 'skip' ? 'none' : 'skip')}
-        >
-          <Forward size={20} aria-hidden="true" />
-          Lewati dosis
-        </Button>
-        <Button
-          aria-expanded={panel === 'unsure'}
-          onClick={() => setPanel(panel === 'unsure' ? 'none' : 'unsure')}
-        >
-          <CircleHelp size={20} aria-hidden="true" />
-          Saya tidak yakin
-        </Button>
-      </div>
-
       {panel === 'skip' && (
-        <SkipReasonForm onCancel={() => setPanel('none')} onSubmit={skip} />
+        <div className="row-action-expansion">
+          <SkipReasonForm onCancel={() => setPanel('none')} onSubmit={skip} />
+        </div>
       )}
 
       {panel === 'unsure' && (
-        <SafetyNotice
-          onCancel={() => setPanel('none')}
-          onConfirm={() => dispatch({ type: 'markUnsure', id: dose.id })}
-        />
+        <div className="row-action-expansion">
+          <SafetyNotice
+            onCancel={() => setPanel('none')}
+            onConfirm={() => dispatch({ type: 'markUnsure', id: dose.id })}
+          />
+        </div>
       )}
     </section>
   )

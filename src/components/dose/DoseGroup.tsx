@@ -10,8 +10,8 @@ export function DoseGroup({ group, onOpen }: DoseGroupProps) {
   return (
     <section className="dose-group" aria-labelledby={`group-${group.key}`}>
       <div className="group-heading">
-        <h2 id={`group-${group.key}`}>{group.label}</h2>
-        <span>{group.doses.length} jadwal</span>
+        <h2 id={`group-${group.key}`}>{group.label} <span>({group.range})</span></h2>
+        <span>({group.doses.length} dosis)</span>
       </div>
       <div className="dose-list">
         {group.doses.map((dose) => (

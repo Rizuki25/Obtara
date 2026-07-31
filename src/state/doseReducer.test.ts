@@ -5,6 +5,8 @@ import { createDoseState, doseReducer } from './doseReducer'
 const occurrence: DoseOccurrence = {
   id: 'dose-1',
   medicationId: 'med-1',
+  profileName: 'Pengguna Uji',
+  profileTint: 'sky',
   scheduledAt: '2026-07-31T08:00:00.000Z',
   status: 'due',
 }

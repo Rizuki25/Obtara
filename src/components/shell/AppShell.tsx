@@ -1,49 +1,46 @@
 import type { ReactNode } from 'react'
-import { mockProfile } from '../../data/mockData'
+import { AppHeader, Brand } from './AppHeader'
+import { CapabilityBar } from './CapabilityBar'
 import { Navigation } from './Navigation'
-
-function Brand() {
-  return (
-    <div className="brand" aria-label="OBTARA">
-      <span className="brand-mark" aria-hidden="true">O</span>
-      <span>OBTARA</span>
-    </div>
-  )
-}
 
 export function AppShell({ children }: { children: ReactNode }) {
   return (
-    <div className="app-shell">
+    <div className="application-frame">
       <a className="skip-link" href="#main-content">Langsung ke konten</a>
+      <CapabilityBar />
+      <AppHeader />
 
-      <header className="mobile-header">
-        <Brand />
-        <div className="profile-chip" aria-label={`Profil aktif: ${mockProfile.name}`}>
-          <span className="profile-avatar" aria-hidden="true">IS</span>
-          <span>{mockProfile.name}</span>
-        </div>
-      </header>
+      <div className="app-shell">
+        <aside className="sidebar" aria-label="Sidebar aplikasi">
+          <p className="sidebar-label">MENU UTAMA</p>
+          <Navigation className="sidebar-nav" />
+          <section className="safety-card" aria-labelledby="safety-principle-title">
+            <h2 id="safety-principle-title">Prinsip Keselamatan</h2>
+            <p>
+              Status “Belum Dikonfirmasi” berbeda dengan “pasti tidak diminum”.
+              Verifikasi selalu melalui komunikasi langsung jika ragu.
+            </p>
+          </section>
+        </aside>
 
-      <aside className="sidebar" aria-label="Sidebar aplikasi">
-        <Brand />
-        <div className="sidebar-profile">
-          <span className="profile-avatar" aria-hidden="true">IS</span>
-          <div>
-            <strong>{mockProfile.name}</strong>
-            <span>Profil pengguna obat</span>
-          </div>
-        </div>
-        <Navigation className="sidebar-nav" />
-        <p className="sidebar-note">
-          Prototype tahap pertama menggunakan data simulasi. Tidak ada data kesehatan yang dikirim.
-        </p>
-      </aside>
+        <header className="mobile-header">
+          <Brand />
+        </header>
 
-      <main className="app-main" id="main-content" tabIndex={-1}>
-        {children}
-      </main>
+        <main className="app-main" id="main-content" tabIndex={-1}>
+          <p className="prototype-disclosure">
+            Prototype pengujian · Semua nama, jadwal, foto, status, dan angka pada layar adalah data simulasi.
+          </p>
+          {children}
+        </main>
 
-      <Navigation className="bottom-nav" />
+        <Navigation className="bottom-nav" />
+      </div>
+
+      <footer className="site-footer">
+        <p><strong>OBTARA Web Platform</strong><span>·</span>Obat tertata, keluarga terjaga.</p>
+        <p>Home medication safety and family care platform.</p>
+      </footer>
     </div>
   )
 }
