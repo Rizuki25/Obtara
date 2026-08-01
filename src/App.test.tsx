@@ -36,16 +36,21 @@ describe('alur personal-first', () => {
     )
     await user.click(screen.getByRole('button', { name: 'Lanjut tambah obat' }))
 
-    expect(window.location.pathname).toBe('/medications/new')
+    expect(window.location.pathname).toBe('/today')
     expect(
-      screen.getByRole('heading', { name: 'Tambah obat saya' }),
+      screen.getByRole('heading', { name: 'Tambah Obat Rutin Baru' }),
     ).toBeInTheDocument()
-    expect(screen.getAllByText('Naya (Saya)').length).toBeGreaterThan(0)
+    const addDialog = screen.getByRole('dialog', {
+      name: 'Tambah Obat Rutin Baru',
+    })
+    expect(within(addDialog).getByText('Naya (Saya)')).toBeInTheDocument()
 
-    await user.click(screen.getByRole('button', { name: 'Isi data contoh' }))
     await user.click(
-      screen.getByRole('button', {
-        name: 'Simpan obat & lihat Hari Ini',
+      within(addDialog).getByRole('button', { name: 'Isi data contoh' }),
+    )
+    await user.click(
+      within(addDialog).getByRole('button', {
+        name: 'Simpan Obat ke Kabinet',
       }),
     )
 
@@ -65,9 +70,9 @@ describe('alur personal-first', () => {
     expect(stored.medications).toHaveLength(1)
 
     await user.click(screen.getByRole('button', { name: 'Tambah Obat' }))
-    expect(window.location.pathname).toBe('/medications/new')
+    expect(window.location.pathname).toBe('/today')
     expect(
-      screen.getByRole('heading', { name: 'Tambah obat saya' }),
+      screen.getByRole('dialog', { name: 'Tambah Obat Rutin Baru' }),
     ).toBeInTheDocument()
   })
 

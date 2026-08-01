@@ -33,29 +33,46 @@ test('onboarding pribadi menyimpan obat pertama dan dapat di-reset', async ({
     .check()
   await page.getByRole('button', { name: 'Lanjut tambah obat' }).click()
 
-  await expect(page).toHaveURL(/\/medications\/new$/)
+  await expect(page).toHaveURL(/\/today$/)
+  const addDialog = page.getByRole('dialog', {
+    name: 'Tambah Obat Rutin Baru',
+  })
   await expect(
-    page.getByRole('heading', { name: 'Tambah obat saya' }),
+    addDialog.getByRole('heading', { name: 'Tambah Obat Rutin Baru' }),
   ).toBeVisible()
   await expect(
-    page.locator('.locked-profile-field').getByText('Naya (Saya)'),
+    addDialog.locator('.popup-locked-owner').getByText('Naya (Saya)'),
   ).toBeVisible()
-  await expect(page.getByText(/Gunakan data simulasi/i)).toBeVisible()
+  await expect(addDialog.getByText(/Gunakan data simulasi/i)).toBeVisible()
 
-  await page.getByRole('button', { name: 'Isi data contoh' }).click()
-  await expect(page.getByLabel('Nama obat *')).toHaveValue('Vitamin Contoh')
-  await expect(page.getByLabel('Stok awal *')).toHaveValue('10')
+  await addDialog.getByRole('button', { name: 'Isi data contoh' }).click()
+  await expect(
+    addDialog.getByLabel('Nama Obat (Generik/Bahan Aktif) *'),
+  ).toHaveValue('Vitamin Contoh')
+  await expect(addDialog.getByLabel('Stok Awal Fisik Saat Ini *')).toHaveValue(
+    '30',
+  )
   await page.screenshot({
     path: isMobile
       ? 'artifacts/obtara-add-medication-mobile.png'
       : 'artifacts/obtara-add-medication-desktop.png',
-    fullPage: true,
+    fullPage: false,
+  })
+  await addDialog.locator('.add-medication-dialog-body').evaluate((element) => {
+    element.scrollTop = element.scrollHeight
+  })
+  await page.screenshot({
+    path: isMobile
+      ? 'artifacts/obtara-add-medication-mobile-bottom.png'
+      : 'artifacts/obtara-add-medication-desktop-bottom.png',
+    fullPage: false,
   })
 
-  await page
-    .getByRole('button', { name: 'Simpan obat & lihat Hari Ini' })
+  await addDialog
+    .getByRole('button', { name: 'Simpan Obat ke Kabinet' })
     .click()
   await expect(page).toHaveURL(/\/today$/)
+  await expect(addDialog).toBeHidden()
   await expect(
     page.getByRole('button', { name: 'Vitamin Contoh', exact: true }),
   ).toBeVisible()

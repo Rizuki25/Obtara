@@ -537,13 +537,15 @@ dibagikan, melihat alert sesuai izin, dan menerima ringkasan melalui kanal yang 
 
 - `/login`
 - `/onboarding`
-- `/today`
+- `/today` — termasuk popup Tambah Obat agar pengguna tidak meninggalkan konteks jadwal.
 - `/cabinet`
-- `/medications/new`
 - `/medications/:id`
 - `/stock`
 - `/history`
 - `/settings`
+
+Deep link lama `/medications/new` diarahkan ke `/today` lalu membuka popup Tambah Obat;
+form tidak lagi menjadi halaman mandiri.
 
 ### 11.2 Route dukungan keluarga opsional
 

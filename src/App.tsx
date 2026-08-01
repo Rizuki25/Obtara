@@ -1,16 +1,21 @@
 import { useCallback, useEffect, useState } from 'react'
+import { AddMedicationDialog } from './components/medication/AddMedicationDialog'
 import { AppShell } from './components/shell/AppShell'
-import { AddMedicationPage } from './pages/AddMedicationPage'
 import { OnboardingPage } from './pages/OnboardingPage'
 import { TodayPage } from './pages/TodayPage'
 import { useDoses } from './state/doseContext'
 
-const knownRoutes = new Set(['/onboarding', '/medications/new', '/today'])
+const knownRoutes = new Set(['/onboarding', '/today'])
 
 export function App() {
   const { profile, onboardingComplete, completeOnboarding, resetPrototype } =
     useDoses()
   const [path, setPath] = useState(() => window.location.pathname)
+  const [addMedicationOpen, setAddMedicationOpen] = useState(
+    () => window.location.pathname === '/medications/new',
+  )
+  const [addMedicationTrigger, setAddMedicationTrigger] =
+    useState<HTMLButtonElement | null>(null)
 
   const navigate = useCallback((nextPath: string, replace = false) => {
     if (replace) window.history.replaceState(null, '', nextPath)
@@ -42,7 +47,8 @@ export function App() {
       <OnboardingPage
         onComplete={(name, timezone) => {
           completeOnboarding(name, timezone)
-          navigate('/medications/new')
+          navigate('/today')
+          setAddMedicationOpen(true)
         }}
       />
     )
@@ -55,16 +61,6 @@ export function App() {
     if (confirmed) resetPrototype()
   }
 
-  const content =
-    effectivePath === '/medications/new' ? (
-      <AddMedicationPage
-        onCancel={() => navigate('/today')}
-        onSaved={() => navigate('/today')}
-      />
-    ) : (
-      <TodayPage onAddMedication={() => navigate('/medications/new')} />
-    )
-
   return (
     <AppShell
       profileName={profile.name}
@@ -72,7 +68,18 @@ export function App() {
       onNavigate={navigate}
       onReset={handleReset}
     >
-      {content}
+      <TodayPage
+        onAddMedication={(trigger) => {
+          setAddMedicationTrigger(trigger)
+          setAddMedicationOpen(true)
+        }}
+      />
+      <AddMedicationDialog
+        open={addMedicationOpen}
+        trigger={addMedicationTrigger}
+        onClose={() => setAddMedicationOpen(false)}
+        onSaved={() => setAddMedicationOpen(false)}
+      />
     </AppShell>
   )
 }

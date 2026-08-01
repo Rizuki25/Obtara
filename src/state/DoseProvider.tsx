@@ -40,6 +40,11 @@ function scheduleToday(time: string) {
   return scheduledAt
 }
 
+function inferStrength(amountPerDose: string) {
+  const parenthetical = amountPerDose.match(/\(([^)]+)\)/)?.[1]
+  return parenthetical?.trim() || amountPerDose.trim()
+}
+
 export function DoseProvider({ children }: { children: ReactNode }) {
   const [personalData, setPersonalData] = useState(readPersonalData)
   const startingOccurrences = personalData.useDemoData
@@ -97,7 +102,7 @@ export function DoseProvider({ children }: { children: ReactNode }) {
         id: medicationId,
         name: input.name.trim(),
         brand: input.brand.trim() || 'Tidak dicantumkan',
-        strength: input.strength.trim(),
+        strength: input.strength.trim() || inferStrength(input.amountPerDose),
         form: input.form,
         amountPerDose: input.amountPerDose.trim(),
         instructions: input.instructions,
@@ -106,7 +111,9 @@ export function DoseProvider({ children }: { children: ReactNode }) {
         visualLabel: makeVisualLabel(input.name),
         tint: 'teal',
         stock: input.stock,
-        images: [],
+        stockUnit: input.stockUnit.trim(),
+        refillThreshold: input.refillThreshold,
+        images: input.image ? [input.image] : [],
       }
       const occurrence = {
         id: occurrenceId,

@@ -29,6 +29,18 @@ test.describe('desktop', () => {
       fullPage: true,
     })
 
+    const addMedicationTrigger = page.getByRole('button', {
+      name: 'Tambah Obat',
+    })
+    await addMedicationTrigger.click()
+    const addMedicationDialog = page.getByRole('dialog', {
+      name: 'Tambah Obat Rutin Baru',
+    })
+    await expect(addMedicationDialog).toBeVisible()
+    await addMedicationDialog.getByRole('button', { name: 'Batal' }).click()
+    await expect(addMedicationDialog).toBeHidden()
+    await expect(addMedicationTrigger).toBeFocused()
+
     const metforminRow = page
       .getByRole('button', { name: 'Metformin HCl' })
       .first()

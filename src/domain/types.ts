@@ -40,6 +40,8 @@ export interface Medication {
   visualLabel: string
   tint: MedicationTint
   stock: number
+  stockUnit?: string
+  refillThreshold?: number
   images: MedicationImage[]
 }
 
@@ -73,7 +75,10 @@ export interface NewMedicationInput {
   location: string
   note: string
   stock: number
+  stockUnit: string
+  refillThreshold: number
   scheduleTime: string
+  image: MedicationImage | null
 }
 
 export interface DoseView extends DoseOccurrence {

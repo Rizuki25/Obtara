@@ -214,7 +214,7 @@ flowchart TD
 
 ### Alur utama
 
-1. Pengguna membuka `/medications/new`.
+1. Pengguna menekan “Tambah Obat” dari `/today`; popup formulir terbuka tanpa mengganti halaman.
 2. Profil pemilik otomatis “Saya”; pemilih profil tidak muncul pada mode pribadi.
 3. Masukkan nama, kekuatan, bentuk, dan jumlah penggunaan.
 4. Pilih “Upload foto” atau “Ambil dengan kamera”.
@@ -223,12 +223,18 @@ flowchart TD
 7. Frontend mengompresi foto dan menghapus EXIF yang tidak diperlukan.
 8. Backend mengunggah media ke storage privat.
 9. Pengguna mengatur lokasi kabinet, jadwal, stok, dan ambang refill.
-10. Pengguna meninjau ringkasan.
+10. Pengguna meninjau ringkasan di dalam popup.
 11. Backend menyimpan obat dan membentuk kejadian dosis masa depan.
+12. Popup menutup dan `/today` menampilkan jadwal baru; tombol Batal, Tutup, atau Escape tidak menyimpan perubahan.
+
+Pada prototype lokal saat ini, foto memakai preset demo, upload/kamera tetap nonaktif, dan
+hasil form disimpan ke `localStorage`. Deep link lama `/medications/new` diarahkan ke
+`/today` lalu membuka popup yang sama.
 
 ```mermaid
 flowchart TD
-    A["Buka tambah obat"] --> B["Isi identitas obat"]
+    A["Tekan Tambah Obat"] --> A2["Buka popup di atas Hari Ini"]
+    A2 --> B["Isi identitas obat"]
     B --> C{"Sumber foto"}
     C -- "Upload file" --> D["Pilih file"]
     C -- "Kamera" --> E["Minta izin camera"]
@@ -243,6 +249,7 @@ flowchart TD
     K --> L{"Review label selesai?"}
     L -- "Belum" --> B
     L -- "Sudah" --> M["Simpan dan aktifkan"]
+    M --> N["Tutup popup dan perbarui Hari Ini"]
 ```
 
 ### Validasi web

@@ -19,6 +19,9 @@ export function DoseDetailDialog({ dose, onClose }: DoseDetailDialogProps) {
 
   if (!dose) return null
   const { medication } = dose
+  const doseSummary = medication.amountPerDose.includes(medication.strength)
+    ? medication.amountPerDose
+    : `${medication.strength} (${medication.amountPerDose})`
 
   return (
     <dialog
@@ -82,8 +85,7 @@ export function DoseDetailDialog({ dose, onClose }: DoseDetailDialogProps) {
               />
               <p>
                 <strong>Dosis &amp; Aturan Minum:</strong>
-                {medication.strength} ({medication.amountPerDose}) (
-                {medication.instructions.toLowerCase()})
+                {doseSummary} ({medication.instructions.toLowerCase()})
               </p>
             </div>
             <div>

@@ -14,7 +14,8 @@ Build/commit: __________
 - [ ] Tema dan ukuran teks dinonaktifkan; Tambah Obat membuka formulir yang berfungsi.
 - [ ] Kontrol nonaktif memiliki penjelasan “Belum tersedia di prototype”.
 - [ ] Browser tanpa state membuka onboarding pribadi sebelum dashboard.
-- [ ] Onboarding meminta persetujuan safety dan mengarahkan ke Tambah Obat.
+- [ ] Onboarding meminta persetujuan safety lalu membuka popup Tambah Obat di atas Hari Ini.
+- [ ] Tambah Obat, Tunda, Lewati, Tidak Yakin, dan detail obat tidak membuka halaman form terpisah.
 - [ ] Tombol “Isi data contoh” mengisi formulir tanpa data kesehatan nyata.
 - [ ] Obat tersimpan setelah reload dan “Mulai ulang prototype” memulihkan onboarding.
 - [ ] Foto/modal menyatakan foto demo bukan identifikasi obat.

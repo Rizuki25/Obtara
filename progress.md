@@ -204,15 +204,16 @@ Hasil quality gate terbaru:
 - [x] Kunjungan pertama diarahkan ke `/onboarding` dan menjelaskan bahwa penggunaan pribadi tidak memerlukan keluarga atau caregiver.
 - [x] Pengguna membuat satu profil “Saya” dengan nama panggilan dan zona waktu.
 - [x] Persetujuan safety wajib sebelum melanjutkan; instrumen meminta data contoh dan melarang data kesehatan nyata.
-- [x] Setelah onboarding, pengguna diarahkan ke `/medications/new` dengan pemilik otomatis profil “Saya”.
-- [x] Form mencakup identitas obat, satu jadwal harian, petunjuk, lokasi, stok awal, dan catatan opsional.
+- [x] Setelah onboarding, halaman Hari Ini tampil dan popup Tambah Obat otomatis terbuka dengan pemilik profil “Saya”.
+- [x] Tombol Tambah Obat membuka modal scrollable tanpa meninggalkan `/today`; Batal, Tutup, dan Escape menutup tanpa menyimpan.
+- [x] Form mencakup identitas obat, satu jadwal harian, petunjuk, lokasi, stok awal, satuan stok, ambang refill, dan catatan opsional.
 - [x] Tombol “Isi data contoh” mempercepat simulasi tanpa meminta data nyata.
 - [x] Obat dan occurrence baru disimpan pada `localStorage` terversi, tampil di Hari Ini, dan tetap tersedia setelah reload.
 - [x] Baseline demo tidak bercampur dengan data yang dibuat melalui onboarding baru.
-- [x] Foto/kamera ditandai transparan sebagai tahap berikutnya dan memakai placeholder visual sementara.
+- [x] Pengguna dapat memilih foto preset demo; upload berkas dan kamera ditandai transparan sebagai tahap berikutnya.
 - [x] “Mulai ulang prototype” menghapus data lokal setelah konfirmasi dan mengembalikan pengguna ke onboarding.
 - [x] Header memakai nama profil tersimpan; menu caregiver tetap tidak tersedia.
-- [x] Automated test mencakup onboarding, obat pertama, persistence, baseline demo, dan tindakan dosis lama.
+- [x] Automated test mencakup onboarding, popup obat pertama, focus return, persistence, baseline demo, dan tindakan dosis lama.
 
 Hasil quality gate tahap ini:
 
@@ -220,7 +221,7 @@ Hasil quality gate tahap ini:
 - Vitest: 5 file, 21 test lulus.
 - TypeScript/Vite production build: lulus.
 - Playwright: 5 flow relevan lulus; 3 kombinasi viewport dilewati secara sengaja.
-- Screenshot onboarding dan formulir Tambah Obat pada desktop/mobile diperiksa secara visual.
+- Screenshot onboarding serta bagian atas/bawah popup Tambah Obat pada desktop/mobile diperiksa secara visual.
 
 ## Tahap berikutnya yang direkomendasikan
 

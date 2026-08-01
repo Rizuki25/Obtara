@@ -25,6 +25,9 @@ interface DoseCardProps {
 export function DoseCard({ dose, onOpen }: DoseCardProps) {
   const { medication } = dose
   const time = timeFormatter.format(new Date(dose.scheduledAt))
+  const doseSummary = medication.amountPerDose.includes(medication.strength)
+    ? medication.amountPerDose
+    : `${medication.strength} (${medication.amountPerDose})`
 
   return (
     <article className="dose-card" data-status={dose.status}>
@@ -53,9 +56,7 @@ export function DoseCard({ dose, onOpen }: DoseCardProps) {
           {medication.name}
         </button>
         <div className="dose-specification">
-          <strong>
-            {medication.strength} ({medication.amountPerDose})
-          </strong>
+          <strong>{doseSummary}</strong>
           <span aria-hidden="true">·</span>
           <span className="instruction-tag">{medication.instructions}</span>
         </div>

@@ -5,7 +5,7 @@ interface TodaySummaryProps {
   delayed: number
   resolved: number
   total: number
-  onAddMedication: () => void
+  onAddMedication: (trigger: HTMLButtonElement) => void
 }
 
 const dateFormatter = new Intl.DateTimeFormat('id-ID', {
@@ -42,7 +42,7 @@ export function TodaySummary({
         <button
           className="add-medication-button"
           type="button"
-          onClick={onAddMedication}
+          onClick={(event) => onAddMedication(event.currentTarget)}
         >
           <Plus size={18} aria-hidden="true" />
           Tambah Obat

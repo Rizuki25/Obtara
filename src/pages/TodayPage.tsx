@@ -11,7 +11,7 @@ import { Toast } from '../components/ui/Toast'
 export function TodayPage({
   onAddMedication,
 }: {
-  onAddMedication: () => void
+  onAddMedication: (trigger: HTMLButtonElement) => void
 }) {
   const { doses, state, dispatch } = useDoses()
   const [selectedId, setSelectedId] = useState<string | null>(null)
