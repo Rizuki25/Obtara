@@ -11,6 +11,8 @@ meminta peserta menebak.
 
 | Pernyataan                                                                                     |  1  |  2  |  3  |  4  |  5  | N/A |
 | ---------------------------------------------------------------------------------------------- | :-: | :-: | :-: | :-: | :-: | :-: |
+| Saya mudah menyiapkan profil untuk diri sendiri tanpa caregiver.                               |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
+| Popup Tambah Obat mudah dipahami, diisi, ditinjau, dan disimpan.                               |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Saya mudah menemukan jadwal yang perlu tindakan.                                               |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Nama, dosis, waktu, pemilik, dan lokasi obat mudah dipahami.                                   |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
 | Saya memahami perbedaan Dikonfirmasi, Tunda, Lewati, dan Tidak Yakin.                          |  ○  |  ○  |  ○  |  ○  |  ○  |  ○  |
@@ -23,19 +25,23 @@ meminta peserta menebak.
 
 ## Pertanyaan pemahaman
 
-1. Apa arti “Belum Dikonfirmasi” menurut Anda?
+1. Setelah menambahkan obat, menurut Anda data prototype tersimpan di mana dan siapa yang dapat melihatnya?
 
    ***
 
-2. Apa yang dibuktikan ketika tombol Dikonfirmasi dipilih?
+2. Apa arti “Belum Dikonfirmasi” menurut Anda?
 
    ***
 
-3. Apa yang akan Anda lakukan bila tidak yakin apakah dosis sudah digunakan?
+3. Apa yang dibuktikan ketika tombol Dikonfirmasi dipilih?
 
    ***
 
-4. Apakah foto demo cukup untuk memastikan identitas obat? Mengapa?
+4. Apa yang akan Anda lakukan bila tidak yakin apakah dosis sudah digunakan?
+
+   ***
+
+5. Apakah foto demo cukup untuk memastikan identitas obat? Mengapa?
 
    ***
 
@@ -58,6 +64,10 @@ meminta peserta menebak.
   ***
 
 - Apakah ada kekhawatiran privasi atau keselamatan?
+
+  ***
+
+- Bagaimana pengalaman membuka, menggulir, membatalkan, atau menyimpan popup Tambah Obat?
 
   ***
 

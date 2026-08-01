@@ -1,7 +1,7 @@
 # Review Kuesioner Setelah Rehearsal SIM-01
 
 > Arsip historis: review ini dibuat sebelum revisi personal-first. Gunakan instrumen
-> terbaru dan hasil SIM-02 untuk baseline prototype saat ini.
+> terbaru dan hasil SIM-03 untuk baseline prototype saat ini.
 
 > Tidak ada peserta manusia, sehingga seluruh rating dan jawaban pemahaman adalah `N/A`.
 > Dokumen ini mencatat apakah kuesioner dapat digunakan setelah urutan tugas.

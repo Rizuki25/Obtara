@@ -16,8 +16,8 @@
 - Perangkat dan browser: __________
 - Kebutuhan aksesibilitas: __________
 - Rekaman diizinkan: Ya / Tidak / Tidak diminta
-- Prototype sudah di-reset: Ya / Tidak
-- Baseline lima jadwal sesuai README: Ya / Tidak
+- First-run `/onboarding?mode=fresh` sudah dimuat: Ya / Tidak
+- Tautan baseline `/today?mode=demo` siap: Ya / Tidak
 - Waktu mulai: __________
 
 ## Skrip pembukaan
@@ -74,7 +74,7 @@ Jangan gunakan: “Tombolnya jelas, kan?” atau “Bukankah Anda seharusnya mem
 
 ## Pelaksanaan tugas
 
-Bacakan satu skenario dari [task-scenarios.md](task-scenarios.md) pada satu waktu. Jangan memperlihatkan kriteria sukses. Setelah tugas selesai:
+Bacakan satu skenario dari [task-scenarios.md](task-scenarios.md) pada satu waktu. Jangan memperlihatkan kriteria sukses atau instruksi transisi moderator. Setelah tugas selesai:
 
 - Catat skor 0/1/2.
 - Catat waktu.
@@ -88,18 +88,27 @@ berakhir setelah peserta menyelesaikan jawabannya.
 
 ## Urutan state dan reset
 
-Pada urutan T01–T12 terbaru, jangan reset di antara tugas kecuali terjadi gangguan teknis:
+Urutan T01–T14 memiliki dua bagian dan satu transisi moderator yang direncanakan:
 
-1. T05 memfinalkan Amlodipine 07.00 sebagai Dikonfirmasi.
-2. T06 menunda Metformin 19.00 selama 30 menit.
-3. T07 memfinalkan Salbutamol 12.00 sebagai Dilewati.
-4. T08 memfinalkan Metformin 13.00 sebagai Tidak Yakin.
-5. T09 menguji filter pada state hasil tindakan tersebut.
-6. T10 mengembalikan filter Semua Jadwal sebelum mencari pemilik pukul 13.00.
+1. Buka `/onboarding?mode=fresh` sebelum T01.
+2. T01 membuat profil samaran `Naya` dan otomatis membuka popup Tambah Obat.
+3. T02 menyimpan Vitamin Contoh dan memastikan popup menutup kembali ke Hari Ini.
+4. Catat reset terencana, lalu buka `/today?mode=demo` tanpa meminta peserta melakukannya.
+5. Verifikasi lima kartu baseline dan profil `Rizqie (Saya)` sebelum membacakan T03.
+6. T07 memfinalkan Amlodipine 07.00 sebagai Dikonfirmasi.
+7. T08 menunda Metformin 19.00 selama 30 menit.
+8. T09 memfinalkan Salbutamol 12.00 sebagai Dilewati.
+9. T10 memfinalkan Metformin 13.00 sebagai Tidak Yakin.
+10. T11 menguji filter pada state hasil tindakan tersebut.
+11. T12 mengembalikan filter Semua Jadwal sebelum mencari pemilik pukul 13.00.
 
-Reload penuh mengembalikan semua data ke baseline. Setelah reload, tunggu disclosure
-prototype dan lima kartu dosis terlihat sebelum melanjutkan. Catat tugas terakhir, alasan,
-dan durasi setiap reset pada lembar observasi.
+Reload biasa tidak mereset data karena onboarding dan obat tersimpan di browser. Gunakan
+`/onboarding?mode=fresh` untuk first-run atau `/today?mode=demo` untuk baseline lima jadwal.
+Catat setiap penggunaan URL mode, reset tidak terencana, alasan, dan durasinya pada lembar
+observasi.
+
+Saat T02, jangan mengatakan letak “Isi data contoh”, tombol tutup, atau tombol simpan.
+Moderator hanya boleh mengingatkan bahwa peserta dilarang memakai data kesehatan nyata.
 
 ## Kondisi penghentian keselamatan
 

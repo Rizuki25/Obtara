@@ -42,6 +42,8 @@ Penanggung jawab: __________
 | T10   |         |         |       |                      |              |                 |
 | T11   |         |         |       |                      |              |                 |
 | T12   |         |         |       |                      |              |                 |
+| T13   |         |         |       |                      |              |                 |
+| T14   |         |         |       |                      |              |                 |
 
 Rumus success rate mandiri:
 
@@ -73,6 +75,8 @@ jumlah peserta dengan skor 2 / jumlah peserta yang menjalankan tugas × 100%
 | Foto demo ≠ identifikasi obat            |                    |                 |           |
 | Tidak Yakin ≠ mengambil dosis tambahan   |                    |                 |           |
 | Mode pribadi ≠ wajib memakai caregiver   |                    |                 |           |
+| Data lokal ≠ sudah dikirim/dibagikan     |                    |                 |           |
+| Preset demo ≠ foto identifikasi obat     |                    |                 |           |
 
 ## Hasil kuesioner
 
@@ -80,6 +84,8 @@ Laporkan median/rentang, bukan hanya rata-rata, terutama bila peserta sedikit.
 
 | Pernyataan                      | Median | Rentang | Catatan |
 | ------------------------------- | -----: | ------- | ------- |
+| Kemudahan onboarding pribadi    |        |         |         |
+| Kemudahan popup Tambah Obat     |        |         |         |
 | Menemukan jadwal perlu tindakan |        |         |         |
 | Memahami empat tindakan         |        |         |         |
 | Memahami Belum Dikonfirmasi     |        |         |         |

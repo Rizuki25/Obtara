@@ -4,21 +4,22 @@ Gunakan satu salinan per peserta. Jangan tulis nama atau data kesehatan nyata.
 
 ## Metadata sesi
 
-| Atribut                 | Isi                                        |
-| ----------------------- | ------------------------------------------ |
-| Participant ID          |                                            |
-| Peran umum              | Pengguna obat untuk diri sendiri / Lainnya |
-| Versi/build prototype   |                                            |
-| Perangkat/browser       |                                            |
-| Input                   | Touch / Mouse / Keyboard / Campuran        |
-| Zoom/ukuran teks        |                                            |
-| Rekaman                 | Tidak / Layar / Audio / Keduanya           |
-| Moderator               |                                            |
-| Tanggal                 |                                            |
-| Waktu mulai / selesai   |                                            |
-| Durasi total            |                                            |
-| Consent lengkap         | Ya / Tidak / N/A dry run teknis            |
-| Baseline sudah di-reset | Ya / Tidak                                 |
+| Atribut               | Isi                                        |
+| --------------------- | ------------------------------------------ |
+| Participant ID        |                                            |
+| Peran umum            | Pengguna obat untuk diri sendiri / Lainnya |
+| Versi/build prototype |                                            |
+| Perangkat/browser     |                                            |
+| Input                 | Touch / Mouse / Keyboard / Campuran        |
+| Zoom/ukuran teks      |                                            |
+| Rekaman               | Tidak / Layar / Audio / Keduanya           |
+| Moderator             |                                            |
+| Tanggal               |                                            |
+| Waktu mulai / selesai |                                            |
+| Durasi total          |                                            |
+| Consent lengkap       | Ya / Tidak / N/A dry run teknis            |
+| First-run fresh siap  | Ya / Tidak                                 |
+| Baseline demo siap    | Ya / Tidak                                 |
 
 ## Skala
 
@@ -45,6 +46,8 @@ Gunakan satu salinan per peserta. Jangan tulis nama atau data kesehatan nyata.
 | T10 |       |          |             |               |                      |                 |
 | T11 |       |          |             |               |                      |                 |
 | T12 |       |          |             |               |                      |                 |
+| T13 |       |          |             |               |                      |                 |
+| T14 |       |          |             |               |                      |                 |
 
 ## Pemeriksaan safety
 
@@ -57,6 +60,8 @@ Beri tanda dan jelaskan bila terjadi:
 - [ ] Tidak menemukan atau tidak memahami Tidak Yakin.
 - [ ] Membagikan data kesehatan nyata.
 - [ ] Mengira caregiver wajib agar OBTARA dapat digunakan.
+- [ ] Mengira data popup sudah dikirim ke server atau dibagikan.
+- [ ] Menganggap upload foto/kamera live sudah berfungsi.
 
 Detail dan respons moderator:
 
@@ -69,7 +74,7 @@ Detail dan respons moderator:
 |                       |                      |        |                              |
 
 - Jumlah reload/reset: ____
-- State awal sesuai baseline: Ya / Tidak
+- First-run dan baseline demo sesuai: Ya / Tidak
 - State akhir dapat di-reset dalam ≤30 detik: Ya / Tidak
 
 ## Observasi aksesibilitas
@@ -83,10 +88,10 @@ Detail dan respons moderator:
 
 ## Ringkasan peserta
 
-- Total skor: ____ / 24
-- Tugas mandiri: ____ / 12
-- Tugas dibantu: ____ / 12
-- Tugas gagal/berhenti: ____ / 12
+- Total skor: ____ / 28
+- Tugas mandiri: ____ / 14
+- Tugas dibantu: ____ / 14
+- Tugas gagal/berhenti: ____ / 14
 - Temuan paling serius: __________________________________________
 - Rekomendasi moderator: _________________________________________
 
@@ -97,7 +102,9 @@ Detail dan respons moderator:
 - Ada tugas yang merusak state tugas berikutnya: Ya / Tidak. Detail: __________
 - Data demo disalahartikan sebagai data nyata: Ya / Tidak. Detail: __________
 - Mode pribadi disalahartikan sebagai dashboard keluarga: Ya / Tidak. Detail: __________
-- Popup Tunda, Lewati, dan Tidak Yakin semuanya dapat diuji: Ya / Tidak
+- Popup Tambah Obat, Tunda, Lewati, dan Tidak Yakin semuanya dapat diuji: Ya / Tidak
+- Transisi first-run ke baseline demo mudah dilakukan: Ya / Tidak. Durasi: __________
+- Peserta memakai data contoh tanpa data kesehatan nyata: Ya / Tidak
 - Skor 0/1/2 mudah diterapkan: Ya / Tidak. Detail: __________
 - Lembar dapat diisi sambil memoderasi: Ya / Tidak. Detail: __________
 - Durasi total berada pada 30–40 menit: Ya / Tidak

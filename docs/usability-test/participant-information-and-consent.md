@@ -17,10 +17,14 @@ diagnosis, dan bukan bukti bahwa obat telah digunakan.
 - Semua nama, obat, foto, jadwal, status, dan angka adalah simulasi.
 - Foto adalah contoh visual dan tidak boleh digunakan untuk mengidentifikasi obat.
 - Jangan masukkan atau menyebutkan diagnosis, nama obat pribadi, nomor telepon, alamat, atau informasi kesehatan nyata.
+- Saat onboarding, gunakan nama samaran dan obat latihan yang diberikan dalam skenario.
+- Data latihan disimpan hanya di browser prototype selama sesi dan dihapus melalui reset moderator.
 
 ## Kegiatan peserta
 
-Peserta akan diminta melakukan beberapa tugas pada prototype, menceritakan proses berpikir, dan menjawab pertanyaan singkat. Durasi sekitar 30–40 menit.
+Peserta akan diminta menyiapkan profil samaran, menambahkan obat latihan melalui popup,
+menjalankan beberapa tugas jadwal, menceritakan proses berpikir, dan menjawab pertanyaan
+singkat. Durasi ditargetkan sekitar 30–40 menit.
 
 ## Partisipasi sukarela
 

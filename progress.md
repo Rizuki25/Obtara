@@ -144,14 +144,14 @@ Hasil verifikasi redesign:
 - [x] Profil aktif “Saya” terlihat; menu caregiver tidak tampil; tema dan ukuran teks dinonaktifkan, sedangkan Tambah Obat kini membuka alur yang berfungsi.
 - [x] Panduan moderator dan aturan think-aloud.
 - [x] Informasi peserta, persetujuan, dan opsi rekaman.
-- [x] Dua belas skenario tugas beserta safety criteria.
+- [x] Empat belas skenario tugas beserta safety criteria, termasuk onboarding dan popup Tambah Obat.
 - [x] Lembar observasi per peserta.
 - [x] Kuesioner setelah tes.
 - [x] Template hasil, severity P0–P3, keputusan, dan retest.
 - [x] Checklist heuristic, keyboard, zoom 200%, mobile, desktop, serta quality gate.
 - [x] Automated test untuk disclosure dan kontrol nonfungsional.
 - [x] Dry run teknis desktop/mobile melalui Playwright; tidak ada console error.
-- [x] Rehearsal teknis T01–T12 berurutan, termasuk transisi state dan reset baseline.
+- [x] Rehearsal teknis T01–T14 berurutan, termasuk transisi first-run ke baseline demo.
 - [ ] Dry run moderator-manusia menggunakan seluruh dokumen.
 - [ ] Sesi dengan 3–5 pengguna obat.
 - [ ] Studi caregiver terpisah setelah modul dukungan keluarga tersedia.
@@ -175,26 +175,29 @@ Paket tersedia di `docs/usability-test/`. Pembuatan paket dan automated test buk
 **Status:** Rehearsal teknis selesai; sesi dengan moderator dan peserta simulasi manusia belum dilakukan
 
 - [x] Prototype dijalankan pada server Vite lokal.
-- [x] Seluruh T01–T12 dipetakan ke kontrol dan state prototype aktual.
-- [x] T06 dipindahkan ke Metformin pukul 19.00 agar tidak memakai Salbutamol yang sudah berstatus Ditunda dan tidak memengaruhi T07.
-- [x] T08 ditetapkan pada Metformin pukul 13.00; T10 kini mengembalikan filter Semua Jadwal agar target selalu terlihat.
-- [x] T05 menambahkan pemeriksaan pencegahan status final kedua.
+- [x] T01 menguji onboarding pribadi dan T02 menguji popup Tambah Obat menggunakan data contoh.
+- [x] URL `/onboarding?mode=fresh` dan `/today?mode=demo` menyediakan reset tanpa DevTools.
+- [x] Satu transisi moderator terencana setelah T02 memisahkan first-run dari lima jadwal demo.
+- [x] T08 memakai Metformin pukul 19.00 agar tidak memakai Salbutamol yang sudah berstatus Ditunda dan tidak memengaruhi T09.
+- [x] T10 memakai Metformin pukul 13.00; T12 mengembalikan filter Semua Jadwal agar target selalu terlihat.
+- [x] T07 menambahkan pemeriksaan pencegahan status final kedua.
 - [x] Rubrik bantuan terhadap skor 0/1/2 diperjelas.
 - [x] Lembar observasi menampung baseline, consent, durasi, reset, intervensi teknis, dan evaluasi instrumen.
 - [x] Kuesioner menyediakan `N/A` dan tidak lagi meminta peserta menilai koreksi yang belum tersedia.
 - [x] Template laporan dry run terpisah dari hasil peserta nyata.
-- [x] Artefak historis `SIM-01` dan baseline personal-first `SIM-02` disimpan tanpa skor, waktu, atau kutipan peserta palsu.
-- [x] Smoke test Playwright khusus memastikan 12 skenario dapat dijalankan berurutan dan baseline pulih setelah reload.
+- [x] Artefak historis `SIM-01`, `SIM-02`, dan rehearsal terbaru `SIM-03` disimpan tanpa skor, waktu, atau kutipan peserta palsu.
+- [x] Smoke test Playwright memastikan 14 skenario, popup, dan transisi baseline dapat dijalankan berurutan.
+- [x] Lembar pelaksanaan `DRY-01` manusia disiapkan dengan status belum dilaksanakan.
 
-Temuan dan bukti tersedia di `docs/usability-test/dry-runs/`. SIM-02 bukan bukti usability
+Temuan dan bukti tersedia di `docs/usability-test/dry-runs/`. SIM-03 bukan bukti usability
 atau pengganti peserta internal yang tidak mengenal implementasi.
 
 Hasil quality gate terbaru:
 
 - ESLint: lulus.
-- Vitest: 4 file, 18 test lulus.
+- Vitest: 5 file, 21 test lulus.
 - TypeScript/Vite build: lulus.
-- Playwright: 3 flow relevan lulus, termasuk rehearsal T01–T12; 3 kombinasi viewport dilewati secara sengaja.
+- Playwright: 5 flow relevan lulus, termasuk rehearsal T01–T14; 3 kombinasi viewport dilewati secara sengaja.
 - Screenshot dashboard personal-first desktop/mobile, popup Tunda, Lewati, Tidak Yakin, dan bottom sheet mobile diperiksa secara visual.
 
 ## Tahap 3 — Onboarding pribadi dan Tambah Obat
@@ -225,8 +228,9 @@ Hasil quality gate tahap ini:
 
 ## Tahap berikutnya yang direkomendasikan
 
-Sesuaikan skenario dry run agar mencakup onboarding dan penambahan obat pertama, lalu lakukan
-`DRY-01` dengan moderator serta peserta simulasi manusia yang tidak mengenal implementasi.
-Pastikan durasi 30–40 menit, reset data lokal, pencatatan, scoring, serta pemahaman safety
-lolos. Dukungan keluarga, backend, dan rekrutmen studi utama tetap ditunda sampai dry run ini
-stabil.
+Jalankan `DRY-01` menggunakan `docs/usability-test/dry-runs/DRY-01-session-sheet.md` dengan
+satu peserta internal manusia yang tidak mengenal implementasi. Isi observation sheet,
+kuesioner, dan laporan berdasarkan kejadian sebenarnya; pastikan durasi 30–40 menit, reset,
+scoring, popup, serta guardrail safety dapat dimoderasi bersama. Rekrutmen pengguna nyata,
+backend, dan dukungan keluarga tetap ditunda sampai hasil DRY-01 ditinjau dan semua P0/P1
+diperbaiki atau dinyatakan tidak ada.

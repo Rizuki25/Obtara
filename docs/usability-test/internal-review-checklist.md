@@ -86,8 +86,9 @@ Build/commit: __________
 - [ ] Consent, observation sheet, questionnaire, dan laporan dry run memiliki salinan terpisah.
 - [ ] Waktu mulai, selesai, dan durasi total tercatat.
 - [ ] Semua reset/intervensi teknis tercatat.
-- [ ] T01–T12 dapat dijalankan berurutan tanpa state yang tidak disengaja.
-- [ ] Popup Tunda, Lewati, dan Tidak Yakin semuanya teruji.
+- [ ] T01–T14 dapat dijalankan dengan satu transisi baseline yang direncanakan.
+- [ ] `/onboarding?mode=fresh` dan `/today?mode=demo` bekerja tanpa DevTools.
+- [ ] Popup Tambah Obat, Tunda, Lewati, dan Tidak Yakin semuanya teruji.
 - [ ] Moderator dapat mengisi lembar observasi sambil membacakan skenario.
 - [ ] Rubrik skor 0/1/2 dapat diterapkan tanpa perdebatan.
 - [ ] Rehearsal teknis otomatis lulus; hasilnya tidak dilaporkan sebagai peserta manusia.

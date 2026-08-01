@@ -1,5 +1,4 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
-import { useDemoBaseline } from './prototype-state'
 
 function doseRow(page: Page, medicationName: string, occurrence = 0): Locator {
   return page
@@ -14,7 +13,7 @@ test.describe('rehearsal paket usability', () => {
     'Urutan instrumen direhearsalkan di desktop',
   )
 
-  test('T01–T12 dapat dijalankan berurutan dan di-reset dengan reload', async ({
+  test('T01–T14 dapat dijalankan dengan transisi baseline terkontrol', async ({
     page,
   }) => {
     const errors: string[] = []
@@ -22,10 +21,41 @@ test.describe('rehearsal paket usability', () => {
       if (message.type() === 'error') errors.push(message.text())
     })
 
-    await useDemoBaseline(page)
-    await page.goto('/today')
+    // T01: first-run pribadi menggunakan alias dan consent data simulasi.
+    await page.goto('/onboarding?mode=fresh')
+    await expect(
+      page.getByRole('heading', { name: 'Atur OBTARA untuk saya' }),
+    ).toBeVisible()
+    await page.getByLabel('Nama panggilan').fill('Naya')
+    await page
+      .getByRole('checkbox', {
+        name: /bukan pengganti instruksi tenaga kesehatan/i,
+      })
+      .check()
+    await page.getByRole('button', { name: 'Lanjut tambah obat' }).click()
 
-    // T01–T02: peserta dapat menemukan status yang perlu tindakan dan batas maknanya.
+    // T02: popup Tambah Obat memakai data contoh dan menghasilkan satu jadwal.
+    const addMedication = page.getByRole('dialog', {
+      name: 'Tambah Obat Rutin Baru',
+    })
+    await expect(addMedication).toBeVisible()
+    await addMedication.getByRole('button', { name: 'Isi data contoh' }).click()
+    await expect(
+      addMedication.getByLabel('Ambang Peringatan Refill *'),
+    ).toHaveValue('10')
+    await addMedication
+      .getByRole('button', { name: 'Simpan Obat ke Kabinet' })
+      .click()
+    await expect(addMedication).toBeHidden()
+    await expect(
+      page.getByRole('button', { name: 'Vitamin Contoh', exact: true }),
+    ).toBeVisible()
+
+    // Transisi moderator: muat baseline lima jadwal sebelum tugas dashboard.
+    await page.goto('/today?mode=demo')
+    await expect(page.locator('.dose-card')).toHaveCount(5)
+
+    // T03–T04: peserta dapat menemukan status yang perlu tindakan dan batas maknanya.
     await expect(page.getByText('Jatuh Tempo Sekarang')).toBeVisible()
     await expect(
       page.getByText(
@@ -33,7 +63,7 @@ test.describe('rehearsal paket usability', () => {
       ),
     ).toBeVisible()
 
-    // T03–T04: detail Amlodipine, label demo, dan lokasi fisik tersedia bersama.
+    // T05–T06: detail Amlodipine, label demo, dan lokasi fisik tersedia bersama.
     await page
       .getByRole('button', { name: 'Amlodipine Besylate', exact: true })
       .click()
@@ -45,7 +75,7 @@ test.describe('rehearsal paket usability', () => {
     ).toBeVisible()
     await detail.getByRole('button', { name: 'Tutup detail dosis' }).click()
 
-    // T05: status final tercatat satu kali dan semua tindakan final kedua hilang.
+    // T07: status final tercatat satu kali dan semua tindakan final kedua hilang.
     const amlodipine = doseRow(page, 'Amlodipine Besylate')
     await amlodipine
       .getByRole('button', { name: 'Dikonfirmasi (Sudah Digunakan)' })
@@ -57,14 +87,14 @@ test.describe('rehearsal paket usability', () => {
       }),
     ).toHaveCount(0)
 
-    // T06: jadwal Metformin pukul 19.00 ditunda secara independen dari T07.
+    // T08: jadwal Metformin pukul 19.00 ditunda secara independen dari T09.
     const metforminNight = doseRow(page, 'Metformin HCl', 1)
     await metforminNight.getByRole('button', { name: 'Tunda' }).click()
     const snooze = page.getByRole('dialog', { name: 'Ingatkan lagi' })
     await snooze.getByRole('button', { name: /30 menit/i }).click()
     await expect(metforminNight.getByText('Ditunda +30m')).toBeVisible()
 
-    // T07: Salbutamol dapat dilewati tanpa reset setelah T06.
+    // T09: Salbutamol dapat dilewati tanpa reset setelah T08.
     const salbutamol = doseRow(page, 'Salbutamol Inhaler')
     await salbutamol.getByRole('button', { name: 'Lewati' }).click()
     const skip = page.getByRole('dialog', { name: 'Lewati dosis' })
@@ -74,7 +104,7 @@ test.describe('rehearsal paket usability', () => {
       salbutamol.getByText('Status tercatat: Dilewati'),
     ).toBeVisible()
 
-    // T08: jadwal Metformin pukul 13.00 menjadi Tidak Yakin dengan safety copy.
+    // T10: jadwal Metformin pukul 13.00 menjadi Tidak Yakin dengan safety copy.
     const metforminNoon = doseRow(page, 'Metformin HCl', 0)
     await metforminNoon.getByRole('button', { name: 'Tidak Yakin' }).click()
     const unsure = page.getByRole('dialog', {
@@ -90,7 +120,7 @@ test.describe('rehearsal paket usability', () => {
       metforminNoon.getByText('Status tercatat: Tidak yakin'),
     ).toBeVisible()
 
-    // T09–T10: kedua filter bekerja, lalu jadwal 13.00 tetap dapat diidentifikasi.
+    // T11–T12: kedua filter bekerja, lalu jadwal 13.00 tetap dapat diidentifikasi.
     await page.getByRole('button', { name: 'Perlu Tindakan' }).click()
     await expect(page.locator('.dose-card')).toHaveCount(1)
     await page.getByRole('button', { name: 'Status Final' }).click()
@@ -104,7 +134,7 @@ test.describe('rehearsal paket usability', () => {
         .getByText('Rizqie (Saya)'),
     ).toBeVisible()
 
-    // T11–T12: tindakan dan disclosure simulasi tersedia pada baseline setelah reset.
+    // T13–T14: tindakan dan disclosure simulasi tersedia pada baseline setelah reload.
     await page.reload()
     const baselineMetformin = doseRow(page, 'Metformin HCl', 0)
     for (const name of [

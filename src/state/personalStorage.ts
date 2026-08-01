@@ -23,6 +23,32 @@ export function createDefaultPersonalData(): PersonalPrototypeData {
   }
 }
 
+export function createDemoPersonalData(): PersonalPrototypeData {
+  return {
+    version: 1,
+    onboardingComplete: true,
+    useDemoData: true,
+    profile: { ...mockProfile },
+    medications: [],
+    occurrences: [],
+  }
+}
+
+export function preparePrototypeSessionFromUrl() {
+  if (typeof window === 'undefined') return
+
+  const url = new URL(window.location.href)
+  const mode = url.searchParams.get('mode')
+  if (mode === 'fresh') {
+    clearPersonalData()
+    window.history.replaceState(null, '', '/onboarding')
+  }
+  if (mode === 'demo') {
+    writePersonalData(createDemoPersonalData())
+    window.history.replaceState(null, '', '/today')
+  }
+}
+
 export function readPersonalData(): PersonalPrototypeData {
   if (typeof window === 'undefined') return createDefaultPersonalData()
 

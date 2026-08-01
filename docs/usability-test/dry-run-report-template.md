@@ -26,7 +26,7 @@ Versi/build: __________
 | --------------------- | ---------- |
 | Waktu mulai / selesai |            |
 | Durasi total          |            |
-| Tugas selesai         | ____ / 12  |
+| Tugas selesai         | ____ / 14  |
 | Jumlah reset          |            |
 | Gangguan teknis       |            |
 | Safety stop           | Ya / Tidak |
@@ -38,10 +38,11 @@ Versi/build: __________
 | Instruksi moderator dapat dibacakan tanpa penjelasan tambahan? |            |                    |
 | Tugas tidak membocorkan lokasi kontrol?                        |            |                    |
 | Urutan tugas mempertahankan state yang dibutuhkan?             |            |                    |
-| Reload mengembalikan baseline dengan cepat?                    |            |                    |
+| URL mode fresh/demo mengembalikan baseline dalam ≤30 detik?    |            |                    |
 | Disclosure data simulasi dipahami?                             |            |                    |
 | Mode pribadi dan caregiver opsional dipahami?                  |            |                    |
-| Popup Tunda, Lewati, dan Tidak Yakin dapat diuji?              |            |                    |
+| Popup Tambah Obat, Tunda, Lewati, dan Tidak Yakin dapat diuji? |            |                    |
+| Onboarding dan Tambah Obat tidak memicu data kesehatan nyata?  |            |                    |
 | Skor 0/1/2 mudah diterapkan?                                   |            |                    |
 | Lembar observasi dapat diisi sambil memoderasi?                |            |                    |
 | Durasi total berada pada 30–40 menit?                          |            |                    |
@@ -55,7 +56,8 @@ Versi/build: __________
 
 ## Keputusan
 
-- Siap merekrut `U-*` dan `C-*`: Ya / Tidak
+- Paket siap menuju studi `U-*` setelah keputusan terpisah: Ya / Tidak
+- Studi `C-*` tetap ditunda sampai modul caregiver tersedia: Dikonfirmasi / Perlu klarifikasi
 - Alasan: ________________________________________________________
 - Perubahan wajib sebelum rekrutmen: ______________________________
 - Perlu dry run ulang: Ya / Tidak

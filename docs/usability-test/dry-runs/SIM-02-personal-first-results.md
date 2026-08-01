@@ -1,5 +1,8 @@
 # Hasil Rehearsal Teknis SIM-02 — Personal-First
 
+> Arsip historis: baseline ini dibuat sebelum onboarding dan popup Tambah Obat masuk ke
+> skenario. Gunakan SIM-03 dan instrumen terbaru untuk rehearsal teknis saat ini.
+
 Status: **Selesai untuk bukti teknis; pemahaman manusia belum diuji**  
 Jenis sesi: Desk-check, visual review, dan Playwright smoke test  
 Tanggal: 31 Juli 2026  
