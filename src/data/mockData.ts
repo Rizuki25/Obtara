@@ -10,6 +10,7 @@ export const mockProfile: Profile = {
   id: 'profile-rizqie',
   name: 'Rizqie (Saya)',
   shortName: 'Rizqie',
+  timezone: 'Asia/Jakarta',
 }
 
 const images = {

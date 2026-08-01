@@ -8,7 +8,11 @@ import { DoseGroup } from '../components/dose/DoseGroup'
 import { TodaySummary } from '../components/dose/TodaySummary'
 import { Toast } from '../components/ui/Toast'
 
-export function TodayPage() {
+export function TodayPage({
+  onAddMedication,
+}: {
+  onAddMedication: () => void
+}) {
   const { doses, state, dispatch } = useDoses()
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [filter, setFilter] = useState<DoseFilter>('all')
@@ -36,7 +40,7 @@ export function TodayPage() {
 
   return (
     <>
-      <TodaySummary {...summary} />
+      <TodaySummary {...summary} onAddMedication={onAddMedication} />
       <DoseFilters active={filter} counts={counts} onChange={setFilter} />
 
       {groups.length > 0 ? (

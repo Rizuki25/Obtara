@@ -11,8 +11,12 @@ Build/commit: __________
 - [ ] Header menampilkan satu profil aktif “Saya” dan label mode pribadi.
 - [ ] Navigasi default hanya memuat Hari Ini, Obat Saya, Stok, Riwayat, dan Pengaturan.
 - [ ] Menu atau alert caregiver tidak tampil pada mode pribadi.
-- [ ] Tema, ukuran teks, dan Tambah Obat dinonaktifkan.
+- [ ] Tema dan ukuran teks dinonaktifkan; Tambah Obat membuka formulir yang berfungsi.
 - [ ] Kontrol nonaktif memiliki penjelasan “Belum tersedia di prototype”.
+- [ ] Browser tanpa state membuka onboarding pribadi sebelum dashboard.
+- [ ] Onboarding meminta persetujuan safety dan mengarahkan ke Tambah Obat.
+- [ ] Tombol “Isi data contoh” mengisi formulir tanpa data kesehatan nyata.
+- [ ] Obat tersimpan setelah reload dan “Mulai ulang prototype” memulihkan onboarding.
 - [ ] Foto/modal menyatakan foto demo bukan identifikasi obat.
 - [ ] Tidak ada data kesehatan nyata di mock data, URL, log, atau screenshot.
 

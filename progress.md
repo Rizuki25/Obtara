@@ -141,7 +141,7 @@ Hasil verifikasi redesign:
 
 - [x] Disclosure persisten “Mode prototype · Data simulasi”.
 - [x] Web Push, kamera, dan sync dilabeli sebagai simulasi.
-- [x] Profil aktif “Saya” terlihat; menu caregiver tidak tampil; tema, ukuran teks, dan Tambah Obat dinonaktifkan serta diberi keterangan belum tersedia.
+- [x] Profil aktif “Saya” terlihat; menu caregiver tidak tampil; tema dan ukuran teks dinonaktifkan, sedangkan Tambah Obat kini membuka alur yang berfungsi.
 - [x] Panduan moderator dan aturan think-aloud.
 - [x] Informasi peserta, persetujuan, dan opsi rekaman.
 - [x] Dua belas skenario tugas beserta safety criteria.
@@ -197,9 +197,35 @@ Hasil quality gate terbaru:
 - Playwright: 3 flow relevan lulus, termasuk rehearsal T01–T12; 3 kombinasi viewport dilewati secara sengaja.
 - Screenshot dashboard personal-first desktop/mobile, popup Tunda, Lewati, Tidak Yakin, dan bottom sheet mobile diperiksa secara visual.
 
+## Tahap 3 — Onboarding pribadi dan Tambah Obat
+
+**Status:** Selesai dan terverifikasi pada 1 Agustus 2026
+
+- [x] Kunjungan pertama diarahkan ke `/onboarding` dan menjelaskan bahwa penggunaan pribadi tidak memerlukan keluarga atau caregiver.
+- [x] Pengguna membuat satu profil “Saya” dengan nama panggilan dan zona waktu.
+- [x] Persetujuan safety wajib sebelum melanjutkan; instrumen meminta data contoh dan melarang data kesehatan nyata.
+- [x] Setelah onboarding, pengguna diarahkan ke `/medications/new` dengan pemilik otomatis profil “Saya”.
+- [x] Form mencakup identitas obat, satu jadwal harian, petunjuk, lokasi, stok awal, dan catatan opsional.
+- [x] Tombol “Isi data contoh” mempercepat simulasi tanpa meminta data nyata.
+- [x] Obat dan occurrence baru disimpan pada `localStorage` terversi, tampil di Hari Ini, dan tetap tersedia setelah reload.
+- [x] Baseline demo tidak bercampur dengan data yang dibuat melalui onboarding baru.
+- [x] Foto/kamera ditandai transparan sebagai tahap berikutnya dan memakai placeholder visual sementara.
+- [x] “Mulai ulang prototype” menghapus data lokal setelah konfirmasi dan mengembalikan pengguna ke onboarding.
+- [x] Header memakai nama profil tersimpan; menu caregiver tetap tidak tersedia.
+- [x] Automated test mencakup onboarding, obat pertama, persistence, baseline demo, dan tindakan dosis lama.
+
+Hasil quality gate tahap ini:
+
+- ESLint: lulus.
+- Vitest: 5 file, 21 test lulus.
+- TypeScript/Vite production build: lulus.
+- Playwright: 5 flow relevan lulus; 3 kombinasi viewport dilewati secara sengaja.
+- Screenshot onboarding dan formulir Tambah Obat pada desktop/mobile diperiksa secara visual.
+
 ## Tahap berikutnya yang direkomendasikan
 
-Tahap implementasi berikutnya adalah prototype onboarding pribadi dan formulir Tambah Obat
-dengan state lokal, lalu hubungkan hasilnya ke Hari Ini. Dukungan keluarga tetap ditunda.
-Sebelum backend atau rekrutmen studi utama, lakukan `DRY-01` moderator-manusia dan pastikan
-durasi 30–40 menit, pencatatan, scoring, serta pemahaman safety lolos.
+Sesuaikan skenario dry run agar mencakup onboarding dan penambahan obat pertama, lalu lakukan
+`DRY-01` dengan moderator serta peserta simulasi manusia yang tidak mengenal implementasi.
+Pastikan durasi 30–40 menit, reset data lokal, pencatatan, scoring, serta pemahaman safety
+lolos. Dukungan keluarga, backend, dan rekrutmen studi utama tetap ditunda sampai dry run ini
+stabil.

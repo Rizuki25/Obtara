@@ -5,6 +5,7 @@ interface TodaySummaryProps {
   delayed: number
   resolved: number
   total: number
+  onAddMedication: () => void
 }
 
 const dateFormatter = new Intl.DateTimeFormat('id-ID', {
@@ -19,6 +20,7 @@ export function TodaySummary({
   delayed,
   resolved,
   total,
+  onAddMedication,
 }: TodaySummaryProps) {
   const progress = total === 0 ? 0 : Math.round((resolved / total) * 100)
 
@@ -40,12 +42,10 @@ export function TodaySummary({
         <button
           className="add-medication-button"
           type="button"
-          disabled
-          title="Belum tersedia di prototype"
+          onClick={onAddMedication}
         >
           <Plus size={18} aria-hidden="true" />
           Tambah Obat
-          <span className="demo-button-label">Demo</span>
         </button>
       </div>
 

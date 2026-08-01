@@ -7,7 +7,7 @@ import { TodayPage } from './TodayPage'
 function renderPage() {
   return render(
     <DoseProvider>
-      <TodayPage />
+      <TodayPage onAddMedication={() => undefined} />
     </DoseProvider>,
   )
 }
@@ -20,7 +20,7 @@ describe('TodayPage', () => {
     expect(
       screen.getByRole('heading', { name: 'Jadwal Obat Saya' }),
     ).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: /Tambah Obat/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /Tambah Obat/i })).toBeEnabled()
     expect(screen.getAllByText('Rizqie (Saya)')).toHaveLength(5)
     expect(screen.queryByText('Ibu Sumarni')).not.toBeInTheDocument()
     expect(screen.queryByText('Ayah Budi')).not.toBeInTheDocument()

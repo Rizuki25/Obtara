@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { useDemoBaseline } from './prototype-state'
 
 test.describe('desktop', () => {
   test.skip(({ isMobile }) => Boolean(isMobile), 'Khusus viewport desktop')
@@ -11,6 +12,7 @@ test.describe('desktop', () => {
       if (message.type() === 'error') errors.push(message.text())
     })
 
+    await useDemoBaseline(page)
     await page.goto('/')
     await expect(page).toHaveURL(/\/today$/)
     await expect(
@@ -90,6 +92,7 @@ test.describe('mobile', () => {
       if (message.type() === 'error') errors.push(message.text())
     })
 
+    await useDemoBaseline(page)
     await page.goto('/today')
     await expect(page.locator('.bottom-nav')).toBeVisible()
     await expect(page.getByText('Mode prototype · Data simulasi')).toBeVisible()

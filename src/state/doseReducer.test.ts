@@ -16,6 +16,24 @@ function initialState() {
 }
 
 describe('doseReducer', () => {
+  it('menambahkan occurrence baru dan dapat mengganti baseline', () => {
+    const added = doseReducer(initialState(), {
+      type: 'addOccurrence',
+      occurrence: {
+        ...occurrence,
+        id: 'dose-2',
+      },
+    })
+    const replaced = doseReducer(added, {
+      type: 'replaceOccurrences',
+      occurrences: [{ ...occurrence, id: 'dose-3' }],
+    })
+
+    expect(Object.keys(added.occurrences)).toEqual(['dose-1', 'dose-2'])
+    expect(added.announcement).toMatch(/berhasil ditambahkan/i)
+    expect(Object.keys(replaced.occurrences)).toEqual(['dose-3'])
+  })
+
   it('mengonfirmasi dosis dan menyimpan waktu tindakan', () => {
     const state = doseReducer(initialState(), {
       type: 'confirm',

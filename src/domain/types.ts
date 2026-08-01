@@ -60,6 +60,20 @@ export interface Profile {
   id: string
   name: string
   shortName: string
+  timezone: string
+}
+
+export interface NewMedicationInput {
+  name: string
+  brand: string
+  strength: string
+  form: string
+  amountPerDose: string
+  instructions: string
+  location: string
+  note: string
+  stock: number
+  scheduleTime: string
 }
 
 export interface DoseView extends DoseOccurrence {

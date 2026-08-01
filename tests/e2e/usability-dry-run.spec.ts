@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test'
+import { useDemoBaseline } from './prototype-state'
 
 function doseRow(page: Page, medicationName: string, occurrence = 0): Locator {
   return page
@@ -21,6 +22,7 @@ test.describe('rehearsal paket usability', () => {
       if (message.type() === 'error') errors.push(message.text())
     })
 
+    await useDemoBaseline(page)
     await page.goto('/today')
 
     // T01–T02: peserta dapat menemukan status yang perlu tindakan dan batas maknanya.
@@ -120,7 +122,7 @@ test.describe('rehearsal paket usability', () => {
     await expect(page.getByText('Kamera (simulasi)')).toBeVisible()
     await expect(
       page.getByRole('button', { name: /Tambah Obat/i }),
-    ).toBeDisabled()
+    ).toBeEnabled()
     await expect(
       page.getByLabel(/Profil aktif: Rizqie, mode pribadi/i),
     ).toBeVisible()

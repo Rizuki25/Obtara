@@ -19,19 +19,23 @@ export function Brand() {
   )
 }
 
-export function AppHeader() {
+export function AppHeader({
+  profileName = 'Rizqie (Saya)',
+}: {
+  profileName?: string
+}) {
   return (
     <header className="app-header">
       <Brand />
       <div className="header-actions">
         <div
           className="active-profile"
-          aria-label="Profil aktif: Rizqie, mode pribadi"
+          aria-label={`Profil aktif: ${profileName.replace(' (Saya)', '')}, mode pribadi`}
         >
           <UserRound size={18} aria-hidden="true" />
           <span>
             <small>Profil aktif</small>
-            <strong>Rizqie (Saya)</strong>
+            <strong>{profileName}</strong>
           </span>
           <span className="personal-mode-pill">Pribadi</span>
         </div>

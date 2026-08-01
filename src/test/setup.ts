@@ -1,4 +1,9 @@
 import '@testing-library/jest-dom/vitest'
+import { afterEach } from 'vitest'
+
+afterEach(() => {
+  window.localStorage.clear()
+})
 
 if (!HTMLDialogElement.prototype.showModal) {
   HTMLDialogElement.prototype.showModal = function showModal() {

@@ -11,6 +11,8 @@ export interface DoseState {
 }
 
 export type DoseAction =
+  | { type: 'addOccurrence'; occurrence: DoseOccurrence }
+  | { type: 'replaceOccurrences'; occurrences: DoseOccurrence[] }
   | { type: 'confirm'; id: string; at?: string }
   | { type: 'snooze'; id: string; minutes: number; at?: string }
   | {
@@ -67,6 +69,16 @@ export function createDoseState(occurrences: DoseOccurrence[]): DoseState {
 
 export function doseReducer(state: DoseState, action: DoseAction): DoseState {
   switch (action.type) {
+    case 'addOccurrence':
+      return {
+        occurrences: {
+          ...state.occurrences,
+          [action.occurrence.id]: action.occurrence,
+        },
+        announcement: 'Obat dan jadwal baru berhasil ditambahkan.',
+      }
+    case 'replaceOccurrences':
+      return createDoseState(action.occurrences)
     case 'confirm':
       return updateOccurrence(
         state,
